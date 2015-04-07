@@ -1,18 +1,21 @@
 package mod.steamnsteel.client.renderer.model;
 
 import mod.steamnsteel.block.machine.PipeBlock;
+import mod.steamnsteel.client.renderer.ModelManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
+import java.util.HashMap;
+
 public class PipeAlternateModel extends SteamNSteelModel
 {
-    private static final ResourceLocation MODEL = getResourceLocation(getModelPath(PipeBlock.NAME + "-alt"));
-    private final IModelCustom model;
+    private static final ResourceLocation MODEL = ModelManager.getModelResourceLocation(PipeBlock.NAME + "-alt");
 
     public PipeAlternateModel()
     {
-        model = AdvancedModelLoader.loadModel(MODEL);
+        super(MODEL);
+        reload();
     }
 
     public void renderAll()
@@ -24,4 +27,8 @@ public class PipeAlternateModel extends SteamNSteelModel
         model.renderPart("PipeCrnrNWAlt");
     }
 
+    @Override
+    protected HashMap<String, ResourceLocation> getGroupObjectTextures() {
+        return null;
+    }
 }

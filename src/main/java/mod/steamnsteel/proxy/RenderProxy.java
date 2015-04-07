@@ -28,4 +28,8 @@ public class RenderProxy
     {
         return 0;
     }
+
+    public void registerEventHandlers() {
+
+    }
 }

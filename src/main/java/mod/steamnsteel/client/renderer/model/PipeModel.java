@@ -1,18 +1,21 @@
 package mod.steamnsteel.client.renderer.model;
 
 import mod.steamnsteel.block.machine.PipeBlock;
+import mod.steamnsteel.client.renderer.ModelManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
+import java.util.HashMap;
+
 public class PipeModel extends SteamNSteelModel
 {
-    private static final ResourceLocation MODEL = getResourceLocation(getModelPath(PipeBlock.NAME));
-    private final IModelCustom model;
+    private static final ResourceLocation MODEL = ModelManager.getModelResourceLocation(PipeBlock.NAME);
 
     public PipeModel()
     {
-        model = AdvancedModelLoader.loadModel(MODEL);
+        super(MODEL);
+        reload();
     }
 
     public void renderAll()
@@ -49,5 +52,10 @@ public class PipeModel extends SteamNSteelModel
 
     public void renderJunctionBox() {
         model.renderPart("Box002");
+    }
+
+    @Override
+    protected HashMap<String, ResourceLocation> getGroupObjectTextures() {
+        return null;
     }
 }

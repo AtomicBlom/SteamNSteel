@@ -24,6 +24,7 @@ import mod.steamnsteel.block.machine.PipeRedstoneValveBlock;
 import mod.steamnsteel.block.machine.PipeValveBlock;
 import mod.steamnsteel.client.fx.SteamParticle;
 import mod.steamnsteel.block.resource.structure.RemnantRuinPillarBlock;
+import mod.steamnsteel.client.renderer.ModelManager;
 import mod.steamnsteel.client.renderer.block.SteamNSteelPaneRenderer;
 import mod.steamnsteel.client.renderer.entity.SteamNSteelLivingRender;
 import mod.steamnsteel.client.renderer.item.*;
@@ -43,6 +44,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.common.MinecraftForge;
 
 @SuppressWarnings({"MethodMayBeStatic", "WeakerAccess"})
 public class ClientRenderProxy extends RenderProxy
@@ -53,7 +55,6 @@ public class ClientRenderProxy extends RenderProxy
         registerEntityRenderers();
         registerItemRenderers();
         registerTESRs();
-        registerEventHandlers();
     }
 
     @Override
@@ -131,8 +132,10 @@ public class ClientRenderProxy extends RenderProxy
         }); //We have to give it a render otherwise it renders a white box
     }
 
-    private void registerEventHandlers() {
+    @Override
+    public void registerEventHandlers() {
         //FIXME: The Block Parts are not currently working.
         //MinecraftForge.EVENT_BUS.register(BlockHighlightEventListener.getInstance());
+        MinecraftForge.EVENT_BUS.register(ModelManager.INSTANCE);
     }
 }

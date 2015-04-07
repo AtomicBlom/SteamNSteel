@@ -19,23 +19,31 @@ package mod.steamnsteel.client.renderer.model;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mod.steamnsteel.block.machine.CupolaBlock;
+import mod.steamnsteel.client.renderer.ModelManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
+import java.util.HashMap;
+
 @SideOnly(Side.CLIENT)
 public class CupolaModel extends SteamNSteelModel
 {
-    private static final ResourceLocation MODEL = getResourceLocation(getModelPath(CupolaBlock.NAME));
-    private final IModelCustom model;
+    private static final ResourceLocation MODEL = ModelManager.getModelResourceLocation(CupolaBlock.NAME);
 
     public CupolaModel()
     {
-        model = AdvancedModelLoader.loadModel(MODEL);
+        super(MODEL);
+        reload();
     }
 
     public void render()
     {
         model.renderAll();
+    }
+
+    @Override
+    protected HashMap<String, ResourceLocation> getGroupObjectTextures() {
+        return null;
     }
 }

@@ -2,6 +2,7 @@ package mod.steamnsteel.client.renderer.model;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import mod.steamnsteel.client.renderer.ModelManager;
 import mod.steamnsteel.entity.SteamSpiderEntity;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -21,7 +22,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class SteamSpiderModel extends ModelBase
 {
-    private static final ResourceLocation MODEL = SteamNSteelModel.getResourceLocation(SteamNSteelModel.getModelPath(SteamSpiderEntity.NAME));
+    private static final ResourceLocation MODEL = ModelManager.getModelResourceLocation(SteamSpiderEntity.NAME);
     private static final Vec3 rightLegsRotVec = Vec3.createVectorHelper(0.15, -1.25, 0);
     private static final Vec3 leftLegsRotVec = Vec3.createVectorHelper(-0.15, -1.25, 0);
     private final WavefrontObject model;

@@ -82,6 +82,8 @@ public class TheMod
         ServerEventHandler serverEventHandler = new ServerEventHandler();
         FMLCommonHandler.instance().bus().register(serverEventHandler);
         MinecraftForge.EVENT_BUS.register(serverEventHandler);
+
+        Proxies.render.registerEventHandlers();
         ModBlockParts.init();
     }
 

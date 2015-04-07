@@ -1,18 +1,21 @@
 package mod.steamnsteel.client.renderer.model;
 
 import mod.steamnsteel.block.machine.PipeValveBlock;
+import mod.steamnsteel.client.renderer.ModelManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
+import java.util.HashMap;
+
 public class PipeValveModel extends SteamNSteelModel
 {
-    private static final ResourceLocation MODEL = getResourceLocation(getModelPath(PipeValveBlock.NAME));
-    private final IModelCustom model;
+    private static final ResourceLocation MODEL = ModelManager.getModelResourceLocation(PipeValveBlock.NAME);
 
     public PipeValveModel()
     {
-        model = AdvancedModelLoader.loadModel(MODEL);
+        super(MODEL);
+        reload();
     }
 
     public void renderAll()
@@ -34,5 +37,10 @@ public class PipeValveModel extends SteamNSteelModel
     }
     public void renderOpeningB() {
         model.renderPart("VPOpening2");
+    }
+
+    @Override
+    protected HashMap<String, ResourceLocation> getGroupObjectTextures() {
+        return null;
     }
 }
