@@ -26,10 +26,7 @@ import net.minecraft.client.resources.IResource;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.obj.Face;
-import net.minecraftforge.client.model.obj.GroupObject;
-import net.minecraftforge.client.model.obj.TextureCoordinate;
-import net.minecraftforge.client.model.obj.WavefrontObject;
+import net.minecraftforge.client.model.obj.*;
 import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Resource;
@@ -60,7 +57,36 @@ abstract class SteamNSteelModel
     {
         GL11.glEnable(GL11.GL_BLEND);
         OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
-        model.renderAll();
+        //model.renderAll();
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawing(GL11.GL_TRIANGLES);
+        for (GroupObject groupObject : model.groupObjects) {
+            if (groupObject.name.equals("SSSpiderFactoryBody")) continue;
+            for (Face face : groupObject.faces) {
+                if (face.faceNormal == null)
+                {
+                    face.faceNormal = face.calculateFaceNormal();
+                }
+
+                tessellator.setNormal(face.faceNormal.x, face.faceNormal.y, face.faceNormal.z);
+
+                for (int i = 0; i < face.vertices.length; ++i)
+                {
+                    Vertex vertex = face.vertices[i];
+                    if ((face.textureCoordinates != null) && (face.textureCoordinates.length > 0))
+                    {
+                        TextureCoordinate textureCoordinate = face.textureCoordinates[i];
+                        tessellator.addVertexWithUV(vertex.x, vertex.y, vertex.z, textureCoordinate.u, textureCoordinate.v);
+                    }
+                    else
+                    {
+                        tessellator.addVertex(vertex.x, vertex.y, vertex.z);
+                    }
+                }
+            }
+        }
+        tessellator.draw();
+
         GL11.glDisable(GL11.GL_BLEND);
     }
 
@@ -74,7 +100,7 @@ abstract class SteamNSteelModel
     public void registerTextures(TextureMap map) {
         HashMap<String, ResourceLocation> groupObjectTextures = getGroupObjectTextures();
         if (groupObjectTextures == null) return;
-        registeredIcons = new HashMap<ResourceLocation, IIcon>();
+        registeredIcons = new HashMap<>();
 
         for (Map.Entry<String, ResourceLocation> groupObjectTexture : groupObjectTextures.entrySet()) {
             ResourceLocation resource = groupObjectTexture.getValue();

@@ -20,6 +20,7 @@ import com.google.common.base.Objects;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import mod.steamnsteel.client.renderer.ModelManager;
 import mod.steamnsteel.client.renderer.model.SpiderFactoryModel;
 import mod.steamnsteel.client.renderer.tileentity.CupolaTESR;
 import mod.steamnsteel.client.renderer.tileentity.SpiderFactoryTESR;
@@ -38,11 +39,8 @@ public class SpiderFactoryItemRenderer implements IItemRenderer
 
     private static final ImmutableTriple<Float, Float, Float> SCALE = ImmutableTriple.of(0.64f, 0.64f, 0.64f);
 
-    private final SpiderFactoryModel model;
-
     public SpiderFactoryItemRenderer()
     {
-        model = new SpiderFactoryModel();
     }
 
     @Override
@@ -88,16 +86,8 @@ public class SpiderFactoryItemRenderer implements IItemRenderer
         GL11.glRotatef(yRotation, 0f, 1f, 0f);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(SpiderFactoryTESR.TEXTURE);
 
-        model.render();
+        ModelManager.INSTANCE.spiderFactoryModel.render();
 
         GL11.glPopMatrix();
-    }
-
-    @Override
-    public String toString()
-    {
-        return Objects.toStringHelper(this)
-                .add("model", model)
-                .toString();
     }
 }

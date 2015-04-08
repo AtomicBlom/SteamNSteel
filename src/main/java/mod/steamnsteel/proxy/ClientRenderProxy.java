@@ -30,6 +30,7 @@ import mod.steamnsteel.client.renderer.entity.SteamNSteelLivingRender;
 import mod.steamnsteel.client.renderer.item.*;
 import mod.steamnsteel.client.renderer.model.SteamSpiderModel;
 import mod.steamnsteel.client.renderer.tileentity.*;
+import mod.steamnsteel.entity.SpiderFactoryEntity;
 import mod.steamnsteel.entity.SteamProjectileEntity;
 import mod.steamnsteel.entity.SteamSpiderEntity;
 import mod.steamnsteel.library.ModBlock;
@@ -119,17 +120,18 @@ public class ClientRenderProxy extends RenderProxy
     private void registerEntityRenderers()
     {
         RenderingRegistry.registerEntityRenderingHandler(SteamSpiderEntity.class, new SteamNSteelLivingRender(new SteamSpiderModel(), SteamSpiderEntity.NAME, 0.4F));
-        RenderingRegistry.registerEntityRenderingHandler(SteamProjectileEntity.class, new Render()
-        {
+        Render nullRenderer = new Render() {
             @Override
-            public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) { }
+            public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
+            }
 
             @Override
-            protected ResourceLocation getEntityTexture(Entity p_110775_1_)
-            {
+            protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
                 return null;
             }
-        }); //We have to give it a render otherwise it renders a white box
+        };
+        RenderingRegistry.registerEntityRenderingHandler(SteamProjectileEntity.class, nullRenderer); //We have to give it a render otherwise it renders a white box
+        RenderingRegistry.registerEntityRenderingHandler(SpiderFactoryEntity.class, nullRenderer);
     }
 
     @Override
