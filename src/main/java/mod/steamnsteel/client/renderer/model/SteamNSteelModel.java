@@ -77,10 +77,11 @@ abstract class SteamNSteelModel
         registeredIcons = new HashMap<ResourceLocation, IIcon>();
 
         for (Map.Entry<String, ResourceLocation> groupObjectTexture : groupObjectTextures.entrySet()) {
-            if (!registeredIcons.containsKey(groupObjectTexture.getValue())) {
+            ResourceLocation resource = groupObjectTexture.getValue();
+            if (!registeredIcons.containsKey(resource)) {
                 registeredIcons.put(
-                        groupObjectTexture.getValue(),
-                        map.registerIcon(groupObjectTexture.getValue().getResourcePath())
+                        resource,
+                        map.registerIcon(resource.getResourceDomain() + ":" + resource.getResourcePath())
                 );
             }
         }

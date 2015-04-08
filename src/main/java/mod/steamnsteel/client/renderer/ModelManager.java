@@ -50,7 +50,7 @@ public class ModelManager {
 
     public static ResourceLocation getTextureResourceLocation(String name)
     {
-        ResourceLocation resourceLocation = new ResourceLocation(TheMod.MOD_ID.toLowerCase(), getTexturePath(name));
+        ResourceLocation resourceLocation = new ResourceLocation(TheMod.MOD_ID, getTexturePath(name));
         return resourceLocation;
     }
 
