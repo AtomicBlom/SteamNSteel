@@ -24,6 +24,7 @@ import mod.steamnsteel.client.renderer.ModelManager;
 import mod.steamnsteel.client.renderer.model.SpiderFactoryModel;
 import mod.steamnsteel.client.renderer.tileentity.CupolaTESR;
 import mod.steamnsteel.client.renderer.tileentity.SpiderFactoryTESR;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
@@ -82,9 +83,13 @@ public class SpiderFactoryItemRenderer implements IItemRenderer
 
         GL11.glScalef(SCALE.left, SCALE.middle, SCALE.right);
         GL11.glTranslatef(offset.left, offset.middle, offset.right);
-        GL11.glRotatef(180f, 1f, 0f, 0f);
-        GL11.glRotatef(yRotation, 0f, 1f, 0f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(SpiderFactoryTESR.TEXTURE);
+        GL11.glRotatef(180-yRotation, 0f, 1f, 0f);
+
+        int textureId = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);
+        int glTextureId = Minecraft.getMinecraft().getTextureMapBlocks().getGlTextureId();
+        if (textureId != glTextureId) {
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, glTextureId);
+        }
 
         ModelManager.INSTANCE.spiderFactoryModel.render();
 

@@ -57,11 +57,10 @@ abstract class SteamNSteelModel
     {
         GL11.glEnable(GL11.GL_BLEND);
         OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
-        //model.renderAll();
+
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawing(GL11.GL_TRIANGLES);
         for (GroupObject groupObject : model.groupObjects) {
-            if (groupObject.name.equals("SSSpiderFactoryBody")) continue;
             for (Face face : groupObject.faces) {
                 if (face.faceNormal == null)
                 {
@@ -77,11 +76,13 @@ abstract class SteamNSteelModel
                     {
                         TextureCoordinate textureCoordinate = face.textureCoordinates[i];
                         tessellator.addVertexWithUV(vertex.x, vertex.y, vertex.z, textureCoordinate.u, textureCoordinate.v);
+
                     }
                     else
                     {
                         tessellator.addVertex(vertex.x, vertex.y, vertex.z);
                     }
+
                 }
             }
         }
@@ -131,10 +132,14 @@ abstract class SteamNSteelModel
             float minV = icon.getMinV();
             float sizeV = icon.getMaxV() - minV;
 
+            int j = 0;
             for (Face face : groupObject.faces) {
-                for (TextureCoordinate textureCoordinate : face.textureCoordinates) {
-                    textureCoordinate.u = minU + sizeU * textureCoordinate.u;
-                    textureCoordinate.v = minV + sizeV * textureCoordinate.v;
+                for (int i = 0; i < face.vertices.length; ++i) {
+                    TextureCoordinate textureCoordinate = face.textureCoordinates[i];
+                    face.textureCoordinates[i] = new TextureCoordinate(
+                            minU + sizeU * textureCoordinate.u,
+                            minV + sizeV * textureCoordinate.v
+                    );
                 }
             }
         }

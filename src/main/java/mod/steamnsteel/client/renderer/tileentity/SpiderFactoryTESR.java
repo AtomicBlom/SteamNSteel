@@ -22,20 +22,22 @@ public class SpiderFactoryTESR extends SteamNSteelTESR
         SpiderFactoryTE factoryTE = (SpiderFactoryTE) te;
         if (factoryTE.isSlave()) return;
 
-        int metadata = te.getWorldObj().getBlockMetadata(factoryTE.xCoord, factoryTE.yCoord, factoryTE.zCoord);
+        int orientation = te.getWorldObj().getBlockMetadata(factoryTE.xCoord, factoryTE.yCoord, factoryTE.zCoord);
         int textureId = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);
         int glTextureId = Minecraft.getMinecraft().getTextureMapBlocks().getGlTextureId();
         if (textureId != glTextureId) {
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, glTextureId);
         }
+        //bindTexture(TEXTURE);
 
         GL11.glPushMatrix();
         GL11.glColor4f(1F, 1F, 1F, 1F);
         GL11.glTranslated(x1, y1, z1);
         GL11.glTranslated(0.5, 0, 0.5);
-        GL11.glRotatef(metadata * 90f, 0f, 1f, 0f);
+        GL11.glRotatef(orientation * 90f, 0f, 1f, 0f);
         GL11.glTranslated(0, 0, .700);
-        GL11.glRotatef(180F, 1F, 0F, 0F);
+        GL11.glRotatef(180, 0f, 1f, 0f);
+        //GL11.glRotatef(180F, 1F, 0F, 0F);
 
         ModelManager.INSTANCE.spiderFactoryModel.render();
         GL11.glPopMatrix();
