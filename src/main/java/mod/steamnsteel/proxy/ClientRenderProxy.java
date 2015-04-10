@@ -18,6 +18,7 @@ package mod.steamnsteel.proxy;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mod.steamnsteel.block.machine.PipeBlock;
 import mod.steamnsteel.block.machine.PipeJunctionBlock;
 import mod.steamnsteel.block.machine.PipeRedstoneValveBlock;
@@ -25,6 +26,7 @@ import mod.steamnsteel.block.machine.PipeValveBlock;
 import mod.steamnsteel.client.fx.SteamParticle;
 import mod.steamnsteel.block.resource.structure.RemnantRuinPillarBlock;
 import mod.steamnsteel.client.renderer.ModelManager;
+import mod.steamnsteel.client.renderer.block.SpiderFactoryRenderer;
 import mod.steamnsteel.client.renderer.block.SteamNSteelPaneRenderer;
 import mod.steamnsteel.client.renderer.entity.SteamNSteelLivingRender;
 import mod.steamnsteel.client.renderer.item.*;
@@ -45,6 +47,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.client.event.RenderWorldEvent;
 import net.minecraftforge.common.MinecraftForge;
 
 @SuppressWarnings({"MethodMayBeStatic", "WeakerAccess"})
@@ -106,6 +109,7 @@ public class ClientRenderProxy extends RenderProxy
         RemnantRuinPillarBlock.setRenderType(RenderingRegistry.getNextAvailableRenderId());
 
         RenderingRegistry.registerBlockHandler(SteamNSteelPaneRenderer.INSTANCE);
+        RenderingRegistry.registerBlockHandler(SpiderFactoryRenderer.INSTANCE);
 
         ClientRegistry.bindTileEntitySpecialRenderer(CupolaTE.class, new CupolaTESR());
         ClientRegistry.bindTileEntitySpecialRenderer(PipeTE.class, new PipeTESR());
@@ -114,7 +118,7 @@ public class ClientRenderProxy extends RenderProxy
         ClientRegistry.bindTileEntitySpecialRenderer(PipeJunctionTE.class, new PipeJunctionTESR());
         ClientRegistry.bindTileEntitySpecialRenderer(RemnantRuinChestTE.class, new PlotoniumChestTESR());
         ClientRegistry.bindTileEntitySpecialRenderer(RemnantRuinPillarTE.class, new RemnantRuinPillarTESR());
-        ClientRegistry.bindTileEntitySpecialRenderer(SpiderFactoryTE.class, new SpiderFactoryTESR());
+        //ClientRegistry.bindTileEntitySpecialRenderer(SpiderFactoryTE.class, new SpiderFactoryTESR());
     }
 
     private void registerEntityRenderers()
@@ -139,5 +143,17 @@ public class ClientRenderProxy extends RenderProxy
         //FIXME: The Block Parts are not currently working.
         //MinecraftForge.EVENT_BUS.register(BlockHighlightEventListener.getInstance());
         MinecraftForge.EVENT_BUS.register(ModelManager.INSTANCE);
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    private int renderPass = 0;
+    @SubscribeEvent
+    public void onPreRenderWorld(RenderWorldEvent.Pre event) {
+        this.renderPass = event.pass;
+    }
+
+    @Override
+    public int getCurrentRenderPass() {
+        return renderPass;
     }
 }

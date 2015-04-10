@@ -32,4 +32,8 @@ public class RenderProxy
     public void registerEventHandlers() {
 
     }
+
+    public int getCurrentRenderPass() {
+        return -1; //We're not on the client.
+    }
 }

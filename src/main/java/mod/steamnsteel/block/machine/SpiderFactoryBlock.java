@@ -2,6 +2,7 @@ package mod.steamnsteel.block.machine;
 
 import cpw.mods.fml.common.Mod;
 import mod.steamnsteel.block.SteamNSteelBlock;
+import mod.steamnsteel.client.renderer.block.SpiderFactoryRenderer;
 import mod.steamnsteel.entity.SpiderFactoryEntity;
 import mod.steamnsteel.entity.SteamSpiderEntity;
 import mod.steamnsteel.factory.Factory;
@@ -45,7 +46,7 @@ public class SpiderFactoryBlock extends SteamNSteelBlock implements ITileEntityP
     @Override
     public int getRenderType()
     {
-        return -1;
+        return SpiderFactoryRenderer.INSTANCE.getRenderId();
     }
 
     @Override
@@ -81,6 +82,16 @@ public class SpiderFactoryBlock extends SteamNSteelBlock implements ITileEntityP
 
     @Override
     public boolean canCollideCheck(int p_149678_1_, boolean p_149678_2_) {
-        return false;
+        return true;
+    }
+
+    @Override
+    public boolean canRenderInPass(int pass) {
+        return true;
+    }
+
+    @Override
+    public int getRenderBlockPass() {
+        return 1;
     }
 }

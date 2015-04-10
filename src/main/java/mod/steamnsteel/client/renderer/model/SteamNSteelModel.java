@@ -16,21 +16,18 @@
 
 package mod.steamnsteel.client.renderer.model;
 
-import mod.steamnsteel.TheMod;
 import mod.steamnsteel.utility.log.Logger;
-import net.minecraft.client.Minecraft;
+import mod.steamnsteel.utility.math.Matrix4;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.resources.IResource;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.obj.*;
 import org.lwjgl.opengl.GL11;
 
-import javax.annotation.Resource;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,7 +48,10 @@ abstract class SteamNSteelModel
     public void reload() {
         Logger.info("Loading Model from %s", resourceLocation);
         model = (WavefrontObject) AdvancedModelLoader.loadModel(resourceLocation);
+        preparePasses();
     }
+
+    protected void preparePasses() {}
 
     public void render()
     {
@@ -91,10 +91,47 @@ abstract class SteamNSteelModel
         GL11.glDisable(GL11.GL_BLEND);
     }
 
-    public void tessellate(Tessellator tessellator) {
+    public void tessellate(Tessellator tessellator, Matrix4 m, int pass) {
+        if (pass == 1) {
+            tessellate(tessellator, m, model.groupObjects);
+        }
+    }
+
+    public void tessellate(Tessellator tessellator, Matrix4 m, ArrayList<GroupObject> groupObjects) {
         GL11.glEnable(GL11.GL_BLEND);
         OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
-        model.tessellateAll(tessellator);
+        Vertex vertexCopy = new Vertex(0,0,0);
+        for (GroupObject groupObject : groupObjects) {
+            for (Face face : groupObject.faces) {
+                if (face.faceNormal == null)
+                {
+                    face.faceNormal = face.calculateFaceNormal();
+                }
+
+                tessellator.setNormal(face.faceNormal.x, face.faceNormal.y, face.faceNormal.z);
+
+                for (int i = 0; i < face.vertices.length; ++i)
+                {
+                    Vertex vertex = face.vertices[i];
+                    vertexCopy.x = vertex.x;
+                    vertexCopy.y = vertex.y;
+                    vertexCopy.z = vertex.z;
+
+                    m.apply(vertexCopy);
+
+                    if ((face.textureCoordinates != null) && (face.textureCoordinates.length > 0))
+                    {
+                        TextureCoordinate textureCoordinate = face.textureCoordinates[i];
+                        tessellator.addVertexWithUV(vertexCopy.x, vertexCopy.y, vertexCopy.z, textureCoordinate.u, textureCoordinate.v);
+
+                    }
+                    else
+                    {
+                        tessellator.addVertex(vertexCopy.x, vertexCopy.y, vertexCopy.z);
+                    }
+                }
+            }
+        }
         GL11.glDisable(GL11.GL_BLEND);
     }
 
