@@ -69,13 +69,17 @@ public class SpiderFactoryRenderer implements ISimpleBlockRenderingHandler {
                 .translate(-0.5, 0, -0.5)
                 ;
 
-        Tessellator.instance.startDrawing(GL11.GL_TRIANGLES);
         int pass = Proxies.render.getCurrentRenderPass();
+        Tessellator.instance.startDrawing(GL11.GL_TRIANGLES);
+
         ModelManager.INSTANCE.spiderFactoryModel.tessellate(Tessellator.instance, m2, pass);
         GL11.glPopMatrix();
-        Tessellator.instance.draw();
-        Tessellator.instance.startDrawing(GL11.GL_QUADS);
-        return false;
+        if (pass == 0) {
+            Tessellator.instance.draw();
+            Tessellator.instance.startDrawing(GL11.GL_QUADS);
+        }
+
+        return true;
     }
 
     @Override

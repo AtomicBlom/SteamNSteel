@@ -82,7 +82,7 @@ public class SpiderFactoryBlock extends SteamNSteelBlock implements ITileEntityP
 
     @Override
     public boolean canCollideCheck(int p_149678_1_, boolean p_149678_2_) {
-        return true;
+        return false;
     }
 
     @Override
