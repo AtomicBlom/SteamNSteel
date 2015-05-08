@@ -1,0 +1,1208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+    <asset>
+        <contributor>
+            <author></author>
+            <authoring_tool>FBX COLLADA exporter</authoring_tool>
+            <comments></comments>
+        </contributor>
+        <created>2015-05-06T06:53:55Z</created>
+        <keywords></keywords>
+        <modified>2015-05-06T06:53:55Z</modified>
+        <revision></revision>
+        <subject></subject>
+        <title></title>
+        <unit meter="0.025400" name="centimeter"></unit>
+        <up_axis>Y_UP</up_axis>
+    </asset>
+    <library_images>
+        <image id="Map #0-image" name="Map #0">
+            <init_from>file://C:\Users\Rosethorns\Desktop\armtex.png</init_from>
+        </image>
+        <image id="_64CheckerE-image" name="_64CheckerE">
+            <init_from>file://C:\Users\Rosethorns\Desktop\player.png</init_from>
+        </image>
+    </library_images>
+    <library_materials>
+        <material id="Checker32" name="Checker32">
+            <instance_effect url="#Checker32-fx"/>
+        </material>
+        <material id="CheckerE64" name="CheckerE64">
+            <instance_effect url="#CheckerE64-fx"/>
+        </material>
+    </library_materials>
+    <library_effects>
+        <effect id="Checker32-fx" name="Checker32">
+            <profile_COMMON>
+                <technique sid="standard">
+                    <phong>
+                        <emission>
+                            <color sid="emission">0.000000 0.000000 0.000000 1.000000</color>
+                        </emission>
+                        <ambient>
+                            <color sid="ambient">0.588000 0.588000 0.588000 1.000000</color>
+                        </ambient>
+                        <diffuse>
+                            <texture texture="Map #0-image" texcoord="CHANNEL0">
+                                <extra>
+                                    <technique profile="MAYA">
+                                        <wrapU sid="wrapU0">TRUE</wrapU>
+                                        <wrapV sid="wrapV0">TRUE</wrapV>
+                                        <blend_mode>ADD</blend_mode>
+                                    </technique>
+                                </extra>
+                            </texture>
+                            <texture texture="Map #0-image" texcoord="CHANNEL0">
+                                <extra>
+                                    <technique profile="MAYA">
+                                        <wrapU sid="wrapU0">TRUE</wrapU>
+                                        <wrapV sid="wrapV0">TRUE</wrapV>
+                                        <blend_mode>ADD</blend_mode>
+                                    </technique>
+                                </extra>
+                            </texture>
+                            <texture texture="Map #0-image" texcoord="CHANNEL0">
+                                <extra>
+                                    <technique profile="MAYA">
+                                        <wrapU sid="wrapU0">TRUE</wrapU>
+                                        <wrapV sid="wrapV0">TRUE</wrapV>
+                                        <blend_mode>ADD</blend_mode>
+                                    </technique>
+                                </extra>
+                            </texture>
+                        </diffuse>
+                        <specular>
+                            <color sid="specular">0.000000 0.000000 0.000000 1.000000</color>
+                        </specular>
+                        <shininess>
+                            <float sid="shininess">2.000000</float>
+                        </shininess>
+                        <reflective>
+                            <color sid="reflective">0.000000 0.000000 0.000000 1.000000</color>
+                        </reflective>
+                        <reflectivity>
+                            <float sid="reflectivity">1.000000</float>
+                        </reflectivity>
+                        <transparent opaque="RGB_ZERO">
+                            <color sid="transparent">1.000000 1.000000 1.000000 1.000000</color>
+                        </transparent>
+                        <transparency>
+                            <float sid="transparency">0.000000</float>
+                        </transparency>
+                    </phong>
+                </technique>
+            </profile_COMMON>
+        </effect>
+        <effect id="CheckerE64-fx" name="CheckerE64">
+            <profile_COMMON>
+                <technique sid="standard">
+                    <phong>
+                        <emission>
+                            <color sid="emission">0.000000 0.000000 0.000000 1.000000</color>
+                        </emission>
+                        <ambient>
+                            <color sid="ambient">0.588000 0.588000 0.588000 1.000000</color>
+                        </ambient>
+                        <diffuse>
+                            <texture texture="_64CheckerE-image" texcoord="CHANNEL0">
+                                <extra>
+                                    <technique profile="MAYA">
+                                        <wrapU sid="wrapU0">TRUE</wrapU>
+                                        <wrapV sid="wrapV0">TRUE</wrapV>
+                                        <blend_mode>ADD</blend_mode>
+                                    </technique>
+                                </extra>
+                            </texture>
+                        </diffuse>
+                        <specular>
+                            <color sid="specular">0.000000 0.000000 0.000000 1.000000</color>
+                        </specular>
+                        <shininess>
+                            <float sid="shininess">2.000000</float>
+                        </shininess>
+                        <reflective>
+                            <color sid="reflective">0.000000 0.000000 0.000000 1.000000</color>
+                        </reflective>
+                        <reflectivity>
+                            <float sid="reflectivity">1.000000</float>
+                        </reflectivity>
+                        <transparent opaque="RGB_ZERO">
+                            <color sid="transparent">1.000000 1.000000 1.000000 1.000000</color>
+                        </transparent>
+                        <transparency>
+                            <float sid="transparency">0.000000</float>
+                        </transparency>
+                    </phong>
+                </technique>
+            </profile_COMMON>
+        </effect>
+    </library_effects>
+    <library_geometries>
+        <geometry id="WrenchBody-lib" name="WrenchBodyMesh">
+            <mesh>
+                <source id="WrenchBody-POSITION">
+                    <float_array id="WrenchBody-POSITION-array" count="72">
+                        -0.036609 -0.380419 0.000000
+                        0.040825 -0.380419 0.000000
+                        -0.058238 0.380419 -0.000000
+                        0.040825 0.380419 0.000000
+                        -0.036609 -0.380419 0.077939
+                        0.040825 -0.380419 0.077939
+                        -0.058238 0.380419 0.077939
+                        0.040825 0.380419 0.077939
+                        0.039839 0.274077 0.000000
+                        0.121490 0.274077 0.000000
+                        0.039839 0.380419 0.000000
+                        0.121490 0.380419 0.000000
+                        0.039839 0.274077 0.077939
+                        0.121490 0.274077 0.077939
+                        0.039839 0.380419 0.077939
+                        0.121490 0.380419 0.077939
+                        0.039839 0.164735 0.000000
+                        0.080862 0.164735 0.000000
+                        0.039839 0.208085 0.000000
+                        0.080862 0.208085 0.000000
+                        0.039839 0.164735 0.077939
+                        0.080862 0.164735 0.077939
+                        0.039839 0.208085 0.077939
+                        0.080862 0.208085 0.077939
+                    </float_array>
+                    <technique_common>
+                        <accessor source="#WrenchBody-POSITION-array" count="24" stride="3">
+                            <param name="X" type="float"/>
+                            <param name="Y" type="float"/>
+                            <param name="Z" type="float"/>
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="WrenchBody-Normal0">
+                    <float_array id="WrenchBody-Normal0-array" count="216">
+                        0.000000 -0.000000 -1.000000
+                        0.000000 -0.000000 -1.000000
+                        0.000000 -0.000000 -1.000000
+                        0.000000 -0.000000 -1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000001 -1.000000 0.000000
+                        0.000001 -1.000000 0.000000
+                        0.000001 -1.000000 0.000000
+                        0.000001 -1.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        0.000001 1.000000 0.000000
+                        0.000001 1.000000 0.000000
+                        0.000001 1.000000 0.000000
+                        0.000001 1.000000 0.000000
+                        -0.999596 -0.028417 0.000000
+                        -0.999596 -0.028417 0.000000
+                        -0.999596 -0.028417 0.000000
+                        -0.999596 -0.028417 0.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 -1.000000 0.000000
+                        0.000000 -1.000000 0.000000
+                        0.000000 -1.000000 0.000000
+                        0.000000 -1.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        0.000000 1.000000 0.000000
+                        0.000000 1.000000 0.000000
+                        0.000000 1.000000 0.000000
+                        0.000000 1.000000 0.000000
+                        -1.000000 0.000000 0.000000
+                        -1.000000 0.000000 0.000000
+                        -1.000000 0.000000 0.000000
+                        -1.000000 0.000000 0.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 -1.000000 0.000000
+                        0.000000 -1.000000 0.000000
+                        0.000000 -1.000000 0.000000
+                        0.000000 -1.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        0.000000 1.000000 0.000000
+                        0.000000 1.000000 0.000000
+                        0.000000 1.000000 0.000000
+                        0.000000 1.000000 0.000000
+                        -1.000000 0.000000 0.000000
+                        -1.000000 0.000000 0.000000
+                        -1.000000 0.000000 0.000000
+                        -1.000000 0.000000 0.000000
+                    </float_array>
+                    <technique_common>
+                        <accessor source="#WrenchBody-Normal0-array" count="72" stride="3">
+                            <param name="X" type="float"/>
+                            <param name="Y" type="float"/>
+                            <param name="Z" type="float"/>
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="WrenchBody-UV0">
+                    <float_array id="WrenchBody-UV0-array" count="144">
+                        0.968750 0.031250
+                        0.968750 0.125000
+                        0.031250 0.000000
+                        0.031250 0.125000
+                        0.968750 0.031250
+                        0.968750 0.125000
+                        0.031250 0.000000
+                        0.031250 0.125000
+                        0.750000 0.406250
+                        0.750000 0.500000
+                        0.875000 0.406250
+                        0.875000 0.500000
+                        0.875000 0.406250
+                        0.875000 0.500000
+                        0.750000 0.406250
+                        0.750000 0.500000
+                        0.406250 0.781250
+                        0.406250 0.843750
+                        0.468750 0.781250
+                        0.468750 0.843750
+                        0.468750 0.781250
+                        0.468750 0.843750
+                        0.406250 0.781250
+                        0.406250 0.843750
+                        0.968750 0.218750
+                        0.968750 0.312500
+                        0.875000 0.312500
+                        0.875000 0.218750
+                        0.968750 0.218750
+                        0.031250 0.218750
+                        0.031250 0.125000
+                        0.968750 0.125000
+                        0.750000 0.343750
+                        0.750000 0.218750
+                        0.875000 0.218750
+                        0.875000 0.343750
+                        0.031250 0.218750
+                        0.968750 0.218750
+                        0.968750 0.125000
+                        0.031250 0.125000
+                        0.875000 0.500000
+                        0.875000 0.593750
+                        0.781250 0.593750
+                        0.781250 0.500000
+                        0.656250 0.531250
+                        0.656250 0.406250
+                        0.750000 0.406250
+                        0.750000 0.531250
+                        0.781250 0.593750
+                        0.781250 0.500000
+                        0.875000 0.500000
+                        0.875000 0.593750
+                        0.750000 0.406250
+                        0.750000 0.531250
+                        0.656250 0.531250
+                        0.656250 0.406250
+                        0.531250 0.718750
+                        0.531250 0.781250
+                        0.406250 0.781250
+                        0.406250 0.718750
+                        0.406250 0.781250
+                        0.406250 0.718750
+                        0.531250 0.718750
+                        0.531250 0.781250
+                        0.406250 0.781250
+                        0.406250 0.718750
+                        0.531250 0.718750
+                        0.531250 0.781250
+                        0.531250 0.718750
+                        0.531250 0.781250
+                        0.406250 0.781250
+                        0.406250 0.718750
+                    </float_array>
+                    <technique_common>
+                        <accessor source="#WrenchBody-UV0-array" count="72" stride="2">
+                            <param name="S" type="float"/>
+                            <param name="T" type="float"/>
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="WrenchBody-VERTEX">
+                    <input semantic="POSITION" source="#WrenchBody-POSITION"/>
+                </vertices>
+                <polylist count="18" material="Checker32">
+                    <input semantic="VERTEX" offset="0" source="#WrenchBody-VERTEX"/>
+                    <input semantic="NORMAL" offset="1" source="#WrenchBody-Normal0"/>
+                    <input semantic="TEXCOORD" offset="2" set="0" source="#WrenchBody-UV0"/>
+                    <vcount>4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4</vcount>
+                    <p>0 0 0 2 1 2 3 2 3 1 3 1 4 4 4 5 5 5 7 6 7 6 7 6 0 8 24 1 9 25 5 10 26 4 11 27 1 12 28 3 13 29 7
+                        14 30 5 15 31 3 16 32 2 17 33 6 18 34 7 19 35 2 20 36 0 21 37 4 22 38 6 23 39 8 24 8 10 25 10 11
+                        26 11 9 27 9 12 28 12 13 29 13 15 30 15 14 31 14 8 32 40 9 33 41 13 34 42 12 35 43 9 36 44 11 37
+                        45 15 38 46 13 39 47 11 40 48 10 41 49 14 42 50 15 43 51 10 44 52 8 45 53 12 46 54 14 47 55 16
+                        48 16 18 49 18 19 50 19 17 51 17 20 52 20 21 53 21 23 54 23 22 55 22 16 56 56 17 57 57 21 58 58
+                        20 59 59 17 60 60 19 61 61 23 62 62 21 63 63 19 64 64 18 65 65 22 66 66 23 67 67 18 68 68 16 69
+                        69 20 70 70 22 71 71
+                    </p>
+                </polylist>
+            </mesh>
+        </geometry>
+        <geometry id="WrenchClaw-lib" name="WrenchClawMesh">
+            <mesh>
+                <source id="WrenchClaw-POSITION">
+                    <float_array id="WrenchClaw-POSITION-array" count="48">
+                        -0.020960 -0.101220 0.000000
+                        0.038970 -0.101220 0.000000
+                        -0.020960 0.391354 0.000000
+                        0.038970 0.391354 0.000000
+                        -0.020960 -0.101220 0.029691
+                        0.038970 -0.101220 0.029691
+                        -0.020960 0.391354 0.029691
+                        0.038970 0.391354 0.029691
+                        -0.020960 0.319290 0.000000
+                        0.038970 0.319290 0.000000
+                        0.038970 0.319290 0.029691
+                        -0.020960 0.319290 0.029691
+                        -0.137000 0.319290 0.029691
+                        -0.137000 0.355925 0.029691
+                        -0.137000 0.355925 0.000000
+                        -0.137000 0.319290 0.000000
+                    </float_array>
+                    <technique_common>
+                        <accessor source="#WrenchClaw-POSITION-array" count="16" stride="3">
+                            <param name="X" type="float"/>
+                            <param name="Y" type="float"/>
+                            <param name="Z" type="float"/>
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="WrenchClaw-Normal0">
+                    <float_array id="WrenchClaw-Normal0-array" count="168">
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 -1.000000 0.000000
+                        0.000000 -1.000000 0.000000
+                        0.000000 -1.000000 0.000000
+                        0.000000 -1.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        0.000000 1.000000 0.000000
+                        0.000000 1.000000 0.000000
+                        0.000000 1.000000 0.000000
+                        0.000000 1.000000 0.000000
+                        -1.000000 0.000000 0.000000
+                        -1.000000 0.000000 0.000000
+                        -1.000000 0.000000 0.000000
+                        -1.000000 0.000000 0.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        -1.000000 0.000000 0.000000
+                        -1.000000 0.000000 0.000000
+                        -1.000000 0.000000 0.000000
+                        -1.000000 0.000000 0.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        -0.292007 0.956416 0.000000
+                        -0.292007 0.956416 0.000000
+                        -0.292007 0.956416 0.000000
+                        -0.292007 0.956416 0.000000
+                        -0.000000 0.000000 -1.000000
+                        -0.000000 0.000000 -1.000000
+                        -0.000000 0.000000 -1.000000
+                        -0.000000 0.000000 -1.000000
+                        -0.000000 -1.000000 0.000000
+                        -0.000000 -1.000000 0.000000
+                        -0.000000 -1.000000 0.000000
+                        -0.000000 -1.000000 0.000000
+                    </float_array>
+                    <technique_common>
+                        <accessor source="#WrenchClaw-Normal0-array" count="56" stride="3">
+                            <param name="X" type="float"/>
+                            <param name="Y" type="float"/>
+                            <param name="Z" type="float"/>
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="WrenchClaw-UV0">
+                    <float_array id="WrenchClaw-UV0-array" count="96">
+                        0.031250 0.375000
+                        0.031250 0.468750
+                        0.968750 0.687500
+                        0.968750 0.750000
+                        0.031250 0.375000
+                        0.031250 0.468750
+                        1.000000 0.687500
+                        1.000000 0.750000
+                        0.468750 0.375000
+                        0.468750 0.468750
+                        0.468750 0.468750
+                        0.468750 0.375000
+                        0.968750 0.781250
+                        0.968750 0.750000
+                        1.000000 0.750000
+                        1.000000 0.781250
+                        0.968750 0.812500
+                        0.968750 0.906250
+                        0.937500 0.906250
+                        0.937500 0.812500
+                        0.968750 0.562500
+                        0.968750 0.093750
+                        1.000000 0.093750
+                        1.000000 0.562500
+                        0.562500 0.375000
+                        0.562500 0.468750
+                        0.562500 0.468750
+                        0.562500 0.375000
+                        0.968750 0.093750
+                        0.968750 0.000000
+                        1.000000 0.000000
+                        1.000000 0.093750
+                        0.968750 0.375000
+                        0.968750 0.812500
+                        0.937500 0.812500
+                        0.937500 0.375000
+                        0.562500 0.375000
+                        0.500000 0.218750
+                        0.468750 0.218750
+                        0.968750 0.562500
+                        1.000000 0.562500
+                        0.562500 0.375000
+                        0.468750 0.218750
+                        0.500000 0.218750
+                        1.000000 0.937500
+                        0.968750 0.937500
+                        0.968750 0.781250
+                        1.000000 0.781250
+                    </float_array>
+                    <technique_common>
+                        <accessor source="#WrenchClaw-UV0-array" count="48" stride="2">
+                            <param name="S" type="float"/>
+                            <param name="T" type="float"/>
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="WrenchClaw-VERTEX">
+                    <input semantic="POSITION" source="#WrenchClaw-POSITION"/>
+                </vertices>
+                <polylist count="14" material="Checker32">
+                    <input semantic="VERTEX" offset="0" source="#WrenchClaw-VERTEX"/>
+                    <input semantic="NORMAL" offset="1" source="#WrenchClaw-Normal0"/>
+                    <input semantic="TEXCOORD" offset="2" set="0" source="#WrenchClaw-UV0"/>
+                    <vcount>4 4 4 4 4 4 4 4 4 4 4 4 4 4</vcount>
+                    <p>0 0 0 8 1 8 9 2 9 1 3 1 4 4 4 5 5 5 10 6 10 11 7 11 0 8 16 1 9 17 5 10 18 4 11 19 1 12 20 9 13 21
+                        10 14 22 5 15 23 3 16 3 2 17 2 6 18 6 7 19 7 14 20 14 15 21 15 12 22 12 13 23 13 8 24 8 2 25 24
+                        3 26 25 9 27 9 10 28 10 7 29 26 6 30 27 11 31 11 9 32 28 3 33 29 7 34 30 10 35 31 8 36 32 0 37
+                        33 4 38 34 11 39 35 11 40 11 6 41 36 13 42 37 12 43 38 6 44 6 2 45 2 14 46 39 13 47 40 2 48 41 8
+                        49 8 15 50 42 14 51 43 8 52 44 11 53 45 12 54 46 15 55 47
+                    </p>
+                </polylist>
+            </mesh>
+        </geometry>
+        <geometry id="WrenchNut-lib" name="WrenchNutMesh">
+            <mesh>
+                <source id="WrenchNut-POSITION">
+                    <float_array id="WrenchNut-POSITION-array" count="24">
+                        -0.040021 -0.030836 0.003746
+                        0.032688 -0.030836 0.003746
+                        -0.040021 0.030836 0.003746
+                        0.032688 0.030836 0.003746
+                        -0.040021 -0.030836 0.072950
+                        0.032688 -0.030836 0.072950
+                        -0.040021 0.030836 0.072950
+                        0.032688 0.030836 0.072950
+                    </float_array>
+                    <technique_common>
+                        <accessor source="#WrenchNut-POSITION-array" count="8" stride="3">
+                            <param name="X" type="float"/>
+                            <param name="Y" type="float"/>
+                            <param name="Z" type="float"/>
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="WrenchNut-Normal0">
+                    <float_array id="WrenchNut-Normal0-array" count="72">
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 -1.000000 0.000000
+                        0.000000 -1.000000 0.000000
+                        0.000000 -1.000000 0.000000
+                        0.000000 -1.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        0.000000 1.000000 -0.000000
+                        0.000000 1.000000 -0.000000
+                        0.000000 1.000000 -0.000000
+                        0.000000 1.000000 -0.000000
+                        -1.000000 0.000000 0.000000
+                        -1.000000 0.000000 0.000000
+                        -1.000000 0.000000 0.000000
+                        -1.000000 0.000000 0.000000
+                    </float_array>
+                    <technique_common>
+                        <accessor source="#WrenchNut-Normal0-array" count="24" stride="3">
+                            <param name="X" type="float"/>
+                            <param name="Y" type="float"/>
+                            <param name="Z" type="float"/>
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="WrenchNut-UV0">
+                    <float_array id="WrenchNut-UV0-array" count="48">
+                        0.656250 0.781250
+                        0.656250 0.875000
+                        0.750000 0.781250
+                        0.750000 0.875000
+                        0.750000 0.781250
+                        0.750000 0.875000
+                        0.656250 0.781250
+                        0.656250 0.875000
+                        0.843750 0.781250
+                        0.843750 0.875000
+                        0.750000 0.875000
+                        0.750000 0.781250
+                        0.718750 0.968750
+                        0.718750 0.875000
+                        0.843750 0.875000
+                        0.843750 0.968750
+                        0.750000 0.875000
+                        0.750000 0.781250
+                        0.843750 0.781250
+                        0.843750 0.875000
+                        0.843750 0.875000
+                        0.843750 0.968750
+                        0.718750 0.968750
+                        0.718750 0.875000
+                    </float_array>
+                    <technique_common>
+                        <accessor source="#WrenchNut-UV0-array" count="24" stride="2">
+                            <param name="S" type="float"/>
+                            <param name="T" type="float"/>
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="WrenchNut-VERTEX">
+                    <input semantic="POSITION" source="#WrenchNut-POSITION"/>
+                </vertices>
+                <polylist count="6" material="Checker32">
+                    <input semantic="VERTEX" offset="0" source="#WrenchNut-VERTEX"/>
+                    <input semantic="NORMAL" offset="1" source="#WrenchNut-Normal0"/>
+                    <input semantic="TEXCOORD" offset="2" set="0" source="#WrenchNut-UV0"/>
+                    <vcount>4 4 4 4 4 4</vcount>
+                    <p>0 0 0 2 1 2 3 2 3 1 3 1 4 4 4 5 5 5 7 6 7 6 7 6 0 8 8 1 9 9 5 10 10 4 11 11 1 12 12 3 13 13 7 14
+                        14 5 15 15 3 16 16 2 17 17 6 18 18 7 19 19 2 20 20 0 21 21 4 22 22 6 23 23
+                    </p>
+                </polylist>
+            </mesh>
+        </geometry>
+        <geometry id="SteveArm-lib" name="SteveArmMesh">
+            <mesh>
+                <source id="SteveArm-POSITION">
+                    <float_array id="SteveArm-POSITION-array" count="24">
+                        -0.500000 0.125000 0.750000
+                        -0.500000 -0.125000 0.750000
+                        -0.250000 -0.125000 0.750000
+                        -0.250000 0.125000 0.750000
+                        -0.500000 0.125000 -0.000000
+                        -0.500000 -0.125000 -0.000000
+                        -0.250000 -0.125000 -0.000000
+                        -0.250000 0.125000 -0.000000
+                    </float_array>
+                    <technique_common>
+                        <accessor source="#SteveArm-POSITION-array" count="8" stride="3">
+                            <param name="X" type="float"/>
+                            <param name="Y" type="float"/>
+                            <param name="Z" type="float"/>
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="SteveArm-Normal0">
+                    <float_array id="SteveArm-Normal0-array" count="72">
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 1.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 -1.000000
+                        0.000000 0.000000 -1.000000
+                        -1.000000 -0.000000 -0.000000
+                        -1.000000 -0.000000 -0.000000
+                        -1.000000 -0.000000 -0.000000
+                        -1.000000 -0.000000 -0.000000
+                        0.000000 -1.000000 0.000000
+                        0.000000 -1.000000 0.000000
+                        0.000000 -1.000000 0.000000
+                        0.000000 -1.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        1.000000 0.000000 0.000000
+                        -0.000000 1.000000 -0.000000
+                        -0.000000 1.000000 -0.000000
+                        -0.000000 1.000000 -0.000000
+                        -0.000000 1.000000 -0.000000
+                    </float_array>
+                    <technique_common>
+                        <accessor source="#SteveArm-Normal0-array" count="24" stride="3">
+                            <param name="X" type="float"/>
+                            <param name="Y" type="float"/>
+                            <param name="Z" type="float"/>
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="SteveArm-UV0">
+                    <float_array id="SteveArm-UV0-array" count="48">
+                        0.812500 0.375000
+                        0.812500 0.500000
+                        0.750000 0.500000
+                        0.750000 0.375000
+                        0.687500 0.375000
+                        0.687500 0.500000
+                        0.750000 0.500000
+                        0.750000 0.375000
+                        0.687500 0.375000
+                        0.625000 0.375000
+                        0.625000 -0.000000
+                        0.687500 0.000000
+                        0.875000 0.375000
+                        0.812500 0.375000
+                        0.812500 0.000000
+                        0.875000 -0.000000
+                        0.812500 0.375000
+                        0.750000 0.375000
+                        0.750000 0.000000
+                        0.812500 0.000000
+                        0.687500 0.000000
+                        0.750000 0.000000
+                        0.750000 0.375000
+                        0.687500 0.375000
+                    </float_array>
+                    <technique_common>
+                        <accessor source="#SteveArm-UV0-array" count="24" stride="2">
+                            <param name="S" type="float"/>
+                            <param name="T" type="float"/>
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="SteveArm-VERTEX">
+                    <input semantic="POSITION" source="#SteveArm-POSITION"/>
+                </vertices>
+                <polylist count="6" material="CheckerE64">
+                    <input semantic="VERTEX" offset="0" source="#SteveArm-VERTEX"/>
+                    <input semantic="NORMAL" offset="1" source="#SteveArm-Normal0"/>
+                    <input semantic="TEXCOORD" offset="2" set="0" source="#SteveArm-UV0"/>
+                    <vcount>4 4 4 4 4 4</vcount>
+                    <p>1 0 1 2 1 2 3 2 3 0 3 0 7 4 7 6 5 6 5 6 5 4 7 4 4 8 8 5 9 9 1 10 10 0 11 11 5 12 12 6 13 13 2 14
+                        14 1 15 15 6 16 16 7 17 17 3 18 18 2 19 19 0 20 20 3 21 21 7 22 22 4 23 23
+                    </p>
+                </polylist>
+            </mesh>
+        </geometry>
+    </library_geometries>
+    <library_animations>
+        <animation id="WrenchBody-anim" name="WrenchBody"></animation>
+        <animation>
+            <source id="WrenchBody-translate.X-input">
+                <float_array id="WrenchBody-translate.X-input-array" count="7">0.000000 0.333333 0.666667 0.833333
+                    1.000000 1.166667 1.500000
+                </float_array>
+                <technique_common>
+                    <accessor source="#WrenchBody-translate.X-input-array" count="7" stride="1">
+                        <param type="float"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <source id="WrenchBody-translate.X-output">
+                <float_array id="WrenchBody-translate.X-output-array" count="7">0.124995 -0.082098 -0.201473 -0.201473
+                    -0.141786 -0.082098 0.124995
+                </float_array>
+                <technique_common>
+                    <accessor source="#WrenchBody-translate.X-output-array" count="7" stride="1">
+                        <param type="float"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <source id="WrenchBody-translate.X-interpolation">
+                <Name_array id="WrenchBody-translate.X-interpolation-array" count="7">LINEAR LINEAR LINEAR LINEAR LINEAR
+                    LINEAR LINEAR
+                </Name_array>
+                <technique_common>
+                    <accessor source="#WrenchBody-translate.X-interpolation-array" count="7" stride="1">
+                        <param type="name"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <sampler id="WrenchBody-translate.X">
+                <input semantic="INPUT" source="#WrenchBody-translate.X-input"></input>
+                <input semantic="OUTPUT" source="#WrenchBody-translate.X-output"></input>
+                <input semantic="INTERPOLATION" source="#WrenchBody-translate.X-interpolation"></input>
+            </sampler>
+            <channel source="#WrenchBody-translate.X" target="WrenchBody/translate.X"></channel>
+        </animation>
+        <animation>
+            <source id="WrenchBody-translate.Y-input">
+                <float_array id="WrenchBody-translate.Y-input-array" count="7">0.000000 0.333333 0.666667 0.833333
+                    1.000000 1.166667 1.500000
+                </float_array>
+                <technique_common>
+                    <accessor source="#WrenchBody-translate.Y-input-array" count="7" stride="1">
+                        <param type="float"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <source id="WrenchBody-translate.Y-output">
+                <float_array id="WrenchBody-translate.Y-output-array" count="7">0.083853 0.706774 0.545587 0.545587
+                    0.626181 0.706774 0.083853
+                </float_array>
+                <technique_common>
+                    <accessor source="#WrenchBody-translate.Y-output-array" count="7" stride="1">
+                        <param type="float"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <source id="WrenchBody-translate.Y-interpolation">
+                <Name_array id="WrenchBody-translate.Y-interpolation-array" count="7">LINEAR LINEAR LINEAR LINEAR LINEAR
+                    LINEAR LINEAR
+                </Name_array>
+                <technique_common>
+                    <accessor source="#WrenchBody-translate.Y-interpolation-array" count="7" stride="1">
+                        <param type="name"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <sampler id="WrenchBody-translate.Y">
+                <input semantic="INPUT" source="#WrenchBody-translate.Y-input"></input>
+                <input semantic="OUTPUT" source="#WrenchBody-translate.Y-output"></input>
+                <input semantic="INTERPOLATION" source="#WrenchBody-translate.Y-interpolation"></input>
+            </sampler>
+            <channel source="#WrenchBody-translate.Y" target="WrenchBody/translate.Y"></channel>
+        </animation>
+        <animation>
+            <source id="WrenchBody-translate.Z-input">
+                <float_array id="WrenchBody-translate.Z-input-array" count="7">0.000000 0.333333 0.666667 0.833333
+                    1.000000 1.166667 1.500000
+                </float_array>
+                <technique_common>
+                    <accessor source="#WrenchBody-translate.Z-input-array" count="7" stride="1">
+                        <param type="float"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <source id="WrenchBody-translate.Z-output">
+                <float_array id="WrenchBody-translate.Z-output-array" count="7">0.329529 0.188261 0.188261 0.288048
+                    0.294350 0.188261 0.329529
+                </float_array>
+                <technique_common>
+                    <accessor source="#WrenchBody-translate.Z-output-array" count="7" stride="1">
+                        <param type="float"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <source id="WrenchBody-translate.Z-interpolation">
+                <Name_array id="WrenchBody-translate.Z-interpolation-array" count="7">LINEAR LINEAR LINEAR LINEAR LINEAR
+                    LINEAR LINEAR
+                </Name_array>
+                <technique_common>
+                    <accessor source="#WrenchBody-translate.Z-interpolation-array" count="7" stride="1">
+                        <param type="name"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <sampler id="WrenchBody-translate.Z">
+                <input semantic="INPUT" source="#WrenchBody-translate.Z-input"></input>
+                <input semantic="OUTPUT" source="#WrenchBody-translate.Z-output"></input>
+                <input semantic="INTERPOLATION" source="#WrenchBody-translate.Z-interpolation"></input>
+            </sampler>
+            <channel source="#WrenchBody-translate.Z" target="WrenchBody/translate.Z"></channel>
+        </animation>
+        <animation>
+            <source id="WrenchBody-rotateX.ANGLE-input">
+                <float_array id="WrenchBody-rotateX.ANGLE-input-array" count="5">0.000000 0.333333 0.666667 1.166667
+                    1.500000
+                </float_array>
+                <technique_common>
+                    <accessor source="#WrenchBody-rotateX.ANGLE-input-array" count="5" stride="1">
+                        <param type="float"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <source id="WrenchBody-rotateX.ANGLE-output">
+                <float_array id="WrenchBody-rotateX.ANGLE-output-array" count="5">-180.000000 -180.000000 -115.000008
+                    -180.000000 -180.000000
+                </float_array>
+                <technique_common>
+                    <accessor source="#WrenchBody-rotateX.ANGLE-output-array" count="5" stride="1">
+                        <param type="float"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <source id="WrenchBody-rotateX.ANGLE-interpolation">
+                <Name_array id="WrenchBody-rotateX.ANGLE-interpolation-array" count="5">LINEAR LINEAR LINEAR LINEAR
+                    LINEAR
+                </Name_array>
+                <technique_common>
+                    <accessor source="#WrenchBody-rotateX.ANGLE-interpolation-array" count="5" stride="1">
+                        <param type="name"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <sampler id="WrenchBody-rotateX.ANGLE">
+                <input semantic="INPUT" source="#WrenchBody-rotateX.ANGLE-input"></input>
+                <input semantic="OUTPUT" source="#WrenchBody-rotateX.ANGLE-output"></input>
+                <input semantic="INTERPOLATION" source="#WrenchBody-rotateX.ANGLE-interpolation"></input>
+            </sampler>
+            <channel source="#WrenchBody-rotateX.ANGLE" target="WrenchBody/rotateX.ANGLE"></channel>
+        </animation>
+        <animation>
+            <source id="WrenchBody-rotateY.ANGLE-input">
+                <float_array id="WrenchBody-rotateY.ANGLE-input-array" count="5">0.000000 0.333333 0.666667 1.166667
+                    1.500000
+                </float_array>
+                <technique_common>
+                    <accessor source="#WrenchBody-rotateY.ANGLE-input-array" count="5" stride="1">
+                        <param type="float"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <source id="WrenchBody-rotateY.ANGLE-output">
+                <float_array id="WrenchBody-rotateY.ANGLE-output-array" count="5">-180.000015 -180.000015 -180.000015
+                    -180.000015 -180.000015
+                </float_array>
+                <technique_common>
+                    <accessor source="#WrenchBody-rotateY.ANGLE-output-array" count="5" stride="1">
+                        <param type="float"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <source id="WrenchBody-rotateY.ANGLE-interpolation">
+                <Name_array id="WrenchBody-rotateY.ANGLE-interpolation-array" count="5">LINEAR LINEAR LINEAR LINEAR
+                    LINEAR
+                </Name_array>
+                <technique_common>
+                    <accessor source="#WrenchBody-rotateY.ANGLE-interpolation-array" count="5" stride="1">
+                        <param type="name"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <sampler id="WrenchBody-rotateY.ANGLE">
+                <input semantic="INPUT" source="#WrenchBody-rotateY.ANGLE-input"></input>
+                <input semantic="OUTPUT" source="#WrenchBody-rotateY.ANGLE-output"></input>
+                <input semantic="INTERPOLATION" source="#WrenchBody-rotateY.ANGLE-interpolation"></input>
+            </sampler>
+            <channel source="#WrenchBody-rotateY.ANGLE" target="WrenchBody/rotateY.ANGLE"></channel>
+        </animation>
+        <animation>
+            <source id="WrenchBody-rotateZ.ANGLE-input">
+                <float_array id="WrenchBody-rotateZ.ANGLE-input-array" count="5">0.000000 0.333333 0.666667 1.166667
+                    1.500000
+                </float_array>
+                <technique_common>
+                    <accessor source="#WrenchBody-rotateZ.ANGLE-input-array" count="5" stride="1">
+                        <param type="float"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <source id="WrenchBody-rotateZ.ANGLE-output">
+                <float_array id="WrenchBody-rotateZ.ANGLE-output-array" count="5">-180.000000 -99.999992 -99.999992
+                    -99.999992 -180.000000
+                </float_array>
+                <technique_common>
+                    <accessor source="#WrenchBody-rotateZ.ANGLE-output-array" count="5" stride="1">
+                        <param type="float"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <source id="WrenchBody-rotateZ.ANGLE-interpolation">
+                <Name_array id="WrenchBody-rotateZ.ANGLE-interpolation-array" count="5">LINEAR LINEAR LINEAR LINEAR
+                    LINEAR
+                </Name_array>
+                <technique_common>
+                    <accessor source="#WrenchBody-rotateZ.ANGLE-interpolation-array" count="5" stride="1">
+                        <param type="name"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <sampler id="WrenchBody-rotateZ.ANGLE">
+                <input semantic="INPUT" source="#WrenchBody-rotateZ.ANGLE-input"></input>
+                <input semantic="OUTPUT" source="#WrenchBody-rotateZ.ANGLE-output"></input>
+                <input semantic="INTERPOLATION" source="#WrenchBody-rotateZ.ANGLE-interpolation"></input>
+            </sampler>
+            <channel source="#WrenchBody-rotateZ.ANGLE" target="WrenchBody/rotateZ.ANGLE"></channel>
+        </animation>
+        <animation id="SteveArm-anim" name="SteveArm"></animation>
+        <animation>
+            <source id="SteveArm-rotateX.ANGLE-input">
+                <float_array id="SteveArm-rotateX.ANGLE-input-array" count="11">0.000000 0.166667 0.333333 0.500000
+                    0.666667 0.833333 1.000000 1.166667 1.333333 1.500000 1.533333
+                </float_array>
+                <technique_common>
+                    <accessor source="#SteveArm-rotateX.ANGLE-input-array" count="11" stride="1">
+                        <param type="float"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <source id="SteveArm-rotateX.ANGLE-output">
+                <float_array id="SteveArm-rotateX.ANGLE-output-array" count="11">0.000055 1.200232 -17.226538 -0.855495
+                    -0.961250 3.246927 19.449684 86.897858 18.672592 0.000055 0.000055
+                </float_array>
+                <technique_common>
+                    <accessor source="#SteveArm-rotateX.ANGLE-output-array" count="11" stride="1">
+                        <param type="float"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <source id="SteveArm-rotateX.ANGLE-interpolation">
+                <Name_array id="SteveArm-rotateX.ANGLE-interpolation-array" count="11">LINEAR LINEAR LINEAR LINEAR
+                    LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR
+                </Name_array>
+                <technique_common>
+                    <accessor source="#SteveArm-rotateX.ANGLE-interpolation-array" count="11" stride="1">
+                        <param type="name"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <sampler id="SteveArm-rotateX.ANGLE">
+                <input semantic="INPUT" source="#SteveArm-rotateX.ANGLE-input"></input>
+                <input semantic="OUTPUT" source="#SteveArm-rotateX.ANGLE-output"></input>
+                <input semantic="INTERPOLATION" source="#SteveArm-rotateX.ANGLE-interpolation"></input>
+            </sampler>
+            <channel source="#SteveArm-rotateX.ANGLE" target="SteveArm/rotateX.ANGLE"></channel>
+        </animation>
+        <animation>
+            <source id="SteveArm-rotateY.ANGLE-input">
+                <float_array id="SteveArm-rotateY.ANGLE-input-array" count="11">0.000000 0.166667 0.333333 0.500000
+                    0.666667 0.833333 1.000000 1.166667 1.333333 1.500000 1.533333
+                </float_array>
+                <technique_common>
+                    <accessor source="#SteveArm-rotateY.ANGLE-input-array" count="11" stride="1">
+                        <param type="float"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <source id="SteveArm-rotateY.ANGLE-output">
+                <float_array id="SteveArm-rotateY.ANGLE-output-array" count="11">0.000008 -41.051487 -87.480164
+                    -65.525391 -58.739464 -53.632504 -65.145279 -78.091660 -38.217232 0.000008 0.000008
+                </float_array>
+                <technique_common>
+                    <accessor source="#SteveArm-rotateY.ANGLE-output-array" count="11" stride="1">
+                        <param type="float"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <source id="SteveArm-rotateY.ANGLE-interpolation">
+                <Name_array id="SteveArm-rotateY.ANGLE-interpolation-array" count="11">LINEAR LINEAR LINEAR LINEAR
+                    LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR
+                </Name_array>
+                <technique_common>
+                    <accessor source="#SteveArm-rotateY.ANGLE-interpolation-array" count="11" stride="1">
+                        <param type="name"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <sampler id="SteveArm-rotateY.ANGLE">
+                <input semantic="INPUT" source="#SteveArm-rotateY.ANGLE-input"></input>
+                <input semantic="OUTPUT" source="#SteveArm-rotateY.ANGLE-output"></input>
+                <input semantic="INTERPOLATION" source="#SteveArm-rotateY.ANGLE-interpolation"></input>
+            </sampler>
+            <channel source="#SteveArm-rotateY.ANGLE" target="SteveArm/rotateY.ANGLE"></channel>
+        </animation>
+        <animation>
+            <source id="SteveArm-rotateZ.ANGLE-input">
+                <float_array id="SteveArm-rotateZ.ANGLE-input-array" count="11">0.000000 0.166667 0.333333 0.500000
+                    0.666667 0.833333 1.000000 1.166667 1.333333 1.500000 1.533333
+                </float_array>
+                <technique_common>
+                    <accessor source="#SteveArm-rotateZ.ANGLE-input-array" count="11" stride="1">
+                        <param type="float"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <source id="SteveArm-rotateZ.ANGLE-output">
+                <float_array id="SteveArm-rotateZ.ANGLE-output-array" count="11">-360.000000 -360.193787 -360.000000
+                    -380.607666 -400.437897 -399.335419 -402.289886 -461.986664 -384.733368 -360.000000 -360.000000
+                </float_array>
+                <technique_common>
+                    <accessor source="#SteveArm-rotateZ.ANGLE-output-array" count="11" stride="1">
+                        <param type="float"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <source id="SteveArm-rotateZ.ANGLE-interpolation">
+                <Name_array id="SteveArm-rotateZ.ANGLE-interpolation-array" count="11">LINEAR LINEAR LINEAR LINEAR
+                    LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR
+                </Name_array>
+                <technique_common>
+                    <accessor source="#SteveArm-rotateZ.ANGLE-interpolation-array" count="11" stride="1">
+                        <param type="name"></param>
+                    </accessor>
+                </technique_common>
+            </source>
+            <sampler id="SteveArm-rotateZ.ANGLE">
+                <input semantic="INPUT" source="#SteveArm-rotateZ.ANGLE-input"></input>
+                <input semantic="OUTPUT" source="#SteveArm-rotateZ.ANGLE-output"></input>
+                <input semantic="INTERPOLATION" source="#SteveArm-rotateZ.ANGLE-interpolation"></input>
+            </sampler>
+            <channel source="#SteveArm-rotateZ.ANGLE" target="SteveArm/rotateZ.ANGLE"></channel>
+        </animation>
+    </library_animations>
+    <library_lights>
+        <light id="SceneAmbient" name="SceneAmbient">
+            <technique_common>
+                <ambient>
+                    <color>0.498039 0.498039 0.498039</color>
+                </ambient>
+            </technique_common>
+        </light>
+    </library_lights>
+    <library_visual_scenes>
+        <visual_scene id="" name="">
+            <node name="WrenchBody" id="WrenchBody" sid="WrenchBody">
+                <translate sid="translate">0.124995 0.083853 0.329529</translate>
+                <rotate sid="jointOrientX">1 0 0 -90.000000</rotate>
+                <rotate sid="rotateZ">0 0 1 0.000009</rotate>
+                <rotate sid="rotateY">0 1 0 0.000019</rotate>
+                <rotate sid="rotateX">1 0 0 -0.000005</rotate>
+                <node id="WrenchBody-Pivot" name="WrenchBody-Pivot">
+                    <translate>0.045756 -0.323371 0.011766</translate>
+                    <rotate>0.000000 -1.000000 0.000000 90.000000</rotate>
+                    <scale>1.174150 1.174150 1.174150</scale>
+                    <instance_geometry url="#WrenchBody-lib">
+                        <bind_material>
+                            <technique_common>
+                                <instance_material symbol="Checker32" target="#Checker32"/>
+                            </technique_common>
+                        </bind_material>
+                    </instance_geometry>
+                </node>
+                <extra>
+                    <technique profile="FCOLLADA">
+                        <visibility>1.000000</visibility>
+                    </technique>
+                </extra>
+                <node name="WrenchClaw" id="WrenchClaw" sid="WrenchClaw">
+                    <translate sid="translate">-0.000634 0.040351 0.104008</translate>
+                    <rotate sid="rotateZ">0 0 1 0.000008</rotate>
+                    <rotate sid="rotateY">0 1 0 0.000002</rotate>
+                    <rotate sid="rotateX">1 0 0 0.000010</rotate>
+                    <node id="WrenchClaw-Pivot" name="WrenchClaw-Pivot">
+                        <translate>0.017431 -0.170330 -0.008704</translate>
+                        <rotate>0.000000 -1.000000 0.000000 90.000000</rotate>
+                        <scale>1.174150 1.174150 1.174150</scale>
+                        <instance_geometry url="#WrenchClaw-lib">
+                            <bind_material>
+                                <technique_common>
+                                    <instance_material symbol="Checker32" target="#Checker32"/>
+                                </technique_common>
+                            </bind_material>
+                        </instance_geometry>
+                    </node>
+                    <extra>
+                        <technique profile="FCOLLADA">
+                            <visibility>1.000000</visibility>
+                        </technique>
+                    </extra>
+                </node>
+                <node name="WrenchNut" id="WrenchNut" sid="WrenchNut">
+                    <translate sid="translate">0.000731 -0.040065 0.106978</translate>
+                    <rotate sid="rotateZ">0 0 1 0.000008</rotate>
+                    <rotate sid="rotateY">0 1 0 0.000002</rotate>
+                    <rotate sid="rotateX">1 0 0 0.000010</rotate>
+                    <node id="WrenchNut-Pivot" name="WrenchNut-Pivot">
+                        <translate>0.045026 0.000000 0.004305</translate>
+                        <rotate>0.000000 -1.000000 0.000000 90.000000</rotate>
+                        <scale>1.174150 1.174150 1.174150</scale>
+                        <instance_geometry url="#WrenchNut-lib">
+                            <bind_material>
+                                <technique_common>
+                                    <instance_material symbol="Checker32" target="#Checker32"/>
+                                </technique_common>
+                            </bind_material>
+                        </instance_geometry>
+                    </node>
+                    <extra>
+                        <technique profile="FCOLLADA">
+                            <visibility>1.000000</visibility>
+                        </technique>
+                    </extra>
+                </node>
+                <node name="SteveArm" id="SteveArm" sid="SteveArm">
+                    <translate sid="translate">0.000005 -0.479974 0.029751</translate>
+                    <rotate sid="rotateZ">0 0 1 -0.000013</rotate>
+                    <rotate sid="rotateY">0 1 0 0.000008</rotate>
+                    <rotate sid="rotateX">1 0 0 0.000055</rotate>
+                    <node id="SteveArm-Pivot" name="SteveArm-Pivot">
+                        <translate>-0.375000 0.000000 0.636397</translate>
+                        <rotate>-0.000000 -1.000000 0.000000 180.000000</rotate>
+                        <instance_geometry url="#SteveArm-lib">
+                            <bind_material>
+                                <technique_common>
+                                    <instance_material symbol="CheckerE64" target="#CheckerE64"/>
+                                </technique_common>
+                            </bind_material>
+                        </instance_geometry>
+                    </node>
+                    <extra>
+                        <technique profile="FCOLLADA">
+                            <visibility>1.000000</visibility>
+                        </technique>
+                    </extra>
+                </node>
+            </node>
+            <extra>
+                <technique profile="MAX3D">
+                    <frame_rate>30.000000</frame_rate>
+                </technique>
+                <technique profile="FCOLLADA">
+                    <start_time>0.000000</start_time>
+                    <end_time>1.500000</end_time>
+                </technique>
+            </extra>
+            <node>
+                <instance_light url="#SceneAmbient"></instance_light>
+            </node>
+        </visual_scene>
+    </library_visual_scenes>
+    <scene>
+        <instance_visual_scene url="#"></instance_visual_scene>
+    </scene>
+</COLLADA>
