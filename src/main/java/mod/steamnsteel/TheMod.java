@@ -16,13 +16,10 @@
 
 package mod.steamnsteel;
 
-import com.google.common.base.Optional;
 import mod.steamnsteel.api.CraftingManager;
 import mod.steamnsteel.api.SteamNSteelInitializedEvent;
-import mod.steamnsteel.api.crafting.IAlloyManager;
 import mod.steamnsteel.configuration.ConfigurationHandler;
 import mod.steamnsteel.crafting.Recipes;
-import mod.steamnsteel.crafting.alloy.AlloyManager;
 import mod.steamnsteel.gui.GuiHandler;
 import mod.steamnsteel.library.ModBlock;
 import mod.steamnsteel.library.ModBlockParts;
@@ -38,6 +35,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import mod.steamnsteel.plumbing.Impl.*;
+import mod.steamnsteel.plumbing.Jobs.*;
 
 @SuppressWarnings({"WeakerAccess", "MethodMayBeStatic"})
 @Mod(modid = TheMod.MOD_ID, name = TheMod.MOD_NAME, version = TheMod.MOD_VERSION, useMetadata = true, guiFactory = TheMod.MOD_GUI_FACTORY)
@@ -63,6 +62,12 @@ public class TheMod
     @SuppressWarnings({"StaticVariableOfConcreteClass", "StaticNonFinalField", "PublicField", "StaticVariableMayNotBeInitialized"})
     @Mod.Instance
     public static TheMod instance;
+
+    public static SteamTransportRegistry SteamTransportRegistry;
+
+    public static SteamTransportStateMachine SteamTransportStateMachine;
+
+    public static JobManager JobManager;
 
     @Mod.EventHandler
     public void onFMLPreInitialization(FMLPreInitializationEvent event)
