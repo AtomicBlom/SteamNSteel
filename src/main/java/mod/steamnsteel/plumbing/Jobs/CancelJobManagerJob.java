@@ -2,9 +2,6 @@ package mod.steamnsteel.plumbing.Jobs;
 
 import mod.steamnsteel.utility.SteamNSteelException;
 
-/**
- * Created by codew on 14/02/2016.
- */
 public class CancelJobManagerJob implements IJob
 {
     @Override

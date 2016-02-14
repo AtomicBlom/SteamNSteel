@@ -5,191 +5,191 @@ import net.minecraft.util.EnumFacing;
 
 public class SteamTransport implements ISteamTransport
     {
-        private final SteamTransportLocation _steamTransportLocation;
+        private final SteamTransportLocation steamTransportLocation;
 
 	    public SteamTransport(SteamTransportLocation steamTransportLocation)
         {
-            _steamTransportLocation = steamTransportLocation;
-            _maximumSteam = 1000;
-            _maximumWater = 800;
+            this.steamTransportLocation = steamTransportLocation;
+            maximumSteam = 1000;
+            maximumWater = 800;
         }
 
-        private double _waterStored = 0;
-        private double _steamStored = 0;
+        private double waterStored = 0;
+        private double steamStored = 0;
 
-        private double _temperature;
-	    private double _heatConductivity;
+        private double temperature;
+	    private double heatConductivity;
 
-        private double _maximumWater;
-        private double _maximumSteam;
+        private double maximumWater;
+        private double maximumSteam;
 
-        final ISteamTransport[] _adjacentTransports = new ISteamTransport[6];
-		final boolean[] _canConnect = new boolean[6];
+        final ISteamTransport[] adjacentTransports = new ISteamTransport[6];
+		final boolean[] canDirectionConnect = new boolean[6];
 
-        private boolean _debug;
+        private boolean debug;
 	    public boolean StructureChanged;
 
 	    public void addSteam(double unitsOfSteam)
         {
-            if (_steamStored + unitsOfSteam >= _maximumSteam)
+            if (steamStored + unitsOfSteam >= maximumSteam)
             {   
-                _steamStored = _maximumSteam;
+                steamStored = maximumSteam;
                 return;
             }
 
-            _steamStored += unitsOfSteam;
+            steamStored += unitsOfSteam;
         }
 
         public void addCondensate(double unitsOfWater)
         {
-            if (_waterStored + unitsOfWater >= _maximumWater)
+            if (waterStored + unitsOfWater >= maximumWater)
             {
-                _waterStored = _maximumWater;
+                waterStored = maximumWater;
                 return;
             }
 
-            _waterStored += unitsOfWater;
+            waterStored += unitsOfWater;
         }
 
         public double takeSteam(double desiredUnitsOfSteam)
         {
-	        if (_steamStored <= 0)
+	        if (steamStored <= 0)
 	        {
-		        _steamStored = 0;
+		        steamStored = 0;
 		        return 0;
 	        }
-            if (desiredUnitsOfSteam <= _steamStored)
+            if (desiredUnitsOfSteam <= steamStored)
             {
-                _steamStored -= desiredUnitsOfSteam;
+                steamStored -= desiredUnitsOfSteam;
                 return desiredUnitsOfSteam;
             }
 
-			double actualUnitsOfSteam = _steamStored;
-            _steamStored = 0;
+			double actualUnitsOfSteam = steamStored;
+            steamStored = 0;
             return actualUnitsOfSteam;
         }
 
         public double takeCondensate(double desiredUnitsOfWater)
         {
-	        if (_waterStored <= 0)
+	        if (waterStored <= 0)
 	        {
-		        _waterStored = 0;
+		        waterStored = 0;
 		        return 0;
 	        }
 
-            if (desiredUnitsOfWater <= _waterStored)
+            if (desiredUnitsOfWater <= waterStored)
             {
-                _waterStored -= desiredUnitsOfWater;
+                waterStored -= desiredUnitsOfWater;
                 return desiredUnitsOfWater;
             }
 
-			double actualUnitsOfSteam = _waterStored;
-            _waterStored = 0;
+			double actualUnitsOfSteam = waterStored;
+            waterStored = 0;
             return actualUnitsOfSteam;
         }
 
         public void setMaximumSteam(double maximumUnitsOfSteam)
         {
-            _maximumSteam = maximumUnitsOfSteam;
+            maximumSteam = maximumUnitsOfSteam;
         }
 
         public void setMaximumCondensate(double maximimUnitsOfWater)
         {
-            _maximumWater = maximimUnitsOfWater;
+            maximumWater = maximimUnitsOfWater;
         }
 
         public void toggleDebug()
         {
-            _debug = !_debug;
+            debug = !debug;
         }
 
         public boolean getShouldDebug()
         {
-            return _debug;
+            return debug;
         }
 
         public double getSteamStored()
         {
-            return _steamStored;
+            return steamStored;
         }
 
         public double getWaterStored()
         {
-            return _waterStored;
+            return waterStored;
         }
 
         public double getMaximumWater()
         {
-            return _maximumWater;
+            return maximumWater;
         }
 
         public double getMaximumSteam()
         {
-            return _maximumSteam;
+            return maximumSteam;
         }
 
         public double getTemperature()
         {
-            return _temperature;
+            return temperature;
         }
 
 		public void setTemperature(double temperature)
 		{
-			_temperature = temperature;
+			this.temperature = temperature;
 		}
 
 		public double getHeatConductivity()
 		{
-			return _heatConductivity;
+			return heatConductivity;
 		}
 		
         public void setCanConnect(EnumFacing direction, boolean canConnect)
         {
-            _canConnect[direction.ordinal()] = canConnect;
+            canDirectionConnect[direction.ordinal()] = canConnect;
         }
 
         public boolean canConnect(EnumFacing direction)
         {
-            return _canConnect[direction.ordinal()];
+            return canDirectionConnect[direction.ordinal()];
         }
 
         public void setAdjacentTransport(EnumFacing direction, ISteamTransport transport)
         {
             if (canConnect(direction))
 
-            _adjacentTransports[direction.ordinal()] = transport;
+            adjacentTransports[direction.ordinal()] = transport;
 	        StructureChanged = true;
         }
 
         public ISteamTransport getAdjacentTransport(EnumFacing direction)
         {
-            return _adjacentTransports[direction.ordinal()];
+            return adjacentTransports[direction.ordinal()];
         }
 
         public boolean canTransportAbove()
         {
-            return _adjacentTransports[EnumFacing.UP.ordinal()] != null;
+            return adjacentTransports[EnumFacing.UP.ordinal()] != null;
         }
 
         public boolean canTransportBelow()
         {
-            return _adjacentTransports[EnumFacing.DOWN.ordinal()] != null;
+            return adjacentTransports[EnumFacing.DOWN.ordinal()] != null;
         }
 
 		@Deprecated
         public boolean canTransportWest()
         {
-            return _adjacentTransports[EnumFacing.WEST.ordinal()] != null;
+            return adjacentTransports[EnumFacing.WEST.ordinal()] != null;
         }
 
 		@Deprecated
 		public boolean canTransportEast()
         {
-            return _adjacentTransports[EnumFacing.EAST.ordinal()] != null;
+            return adjacentTransports[EnumFacing.EAST.ordinal()] != null;
         }
 
         public SteamTransportLocation getTransportLocation()
         {
-            return _steamTransportLocation;
+            return steamTransportLocation;
         }
     }

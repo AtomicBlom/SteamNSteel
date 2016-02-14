@@ -16,8 +16,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class SteamTransportStateMachine implements INotifyTransportJobComplete
 	{
-		private int currentTick;
-
 		public SteamTransportStateMachine()
 		{
 			_steamNSteelConfiguration = new SteamNSteelConfiguration();
@@ -29,6 +27,7 @@ public class SteamTransportStateMachine implements INotifyTransportJobComplete
 		private SteamNSteelConfiguration _steamNSteelConfiguration;
 		private AtomicInteger expectedJobs;
 		private boolean expectingJobs;
+		private int currentTick;
 
 		public void onTick()
 		{
@@ -115,7 +114,7 @@ public class SteamTransportStateMachine implements INotifyTransportJobComplete
 					continue;
 				}
 
-				SteamTransport foundTransport = foundTransportJob._transport;
+				SteamTransport foundTransport = foundTransportJob.transport;
 				EnumFacing oppositeDirection = direction.getOpposite();
 				if (!foundTransport.canConnect(oppositeDirection)) continue;
 

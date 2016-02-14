@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import mod.steamnsteel.TheMod;
 import mod.steamnsteel.api.plumbing.ISteamTransport;
 import mod.steamnsteel.plumbing.Impl.*;
-import mod.steamnsteel.plumbing.Impl.SteamTransportTransientData.PreviousTransportState;
+import mod.steamnsteel.plumbing.Impl.PreviousTransportState;
 import mod.steamnsteel.plumbing.Jobs.IJob;
 import mod.steamnsteel.plumbing.SteamNSteelConfiguration;
 import mod.steamnsteel.utility.log.Logger;
@@ -16,35 +16,35 @@ import java.util.Stack;
 
 public class ProcessTransportJob implements IJob
 {
-    public final SteamTransport _transport;
-    private final INotifyTransportJobComplete _notificationRecipient;
-    private final List<SteamTransportTransientData> _eligibleTransportData = Lists.newArrayList();
-    private final SteamNSteelConfiguration _config;
-    private SteamTransportTransientData[] _horizontalAdjacentTransports;
-    private SteamTransportTransientData[] _allAdjacentTransports;
-    private SteamTransportTransientData _transportData;
-    private SteamTransportTransientData _transportAbove;
-    private SteamTransportTransientData _transportBelow;
+    public final SteamTransport transport;
+    private final INotifyTransportJobComplete notificationRecipient;
+    private final List<SteamTransportTransientData> eligibleTransportData = Lists.newArrayList();
+    private final SteamNSteelConfiguration config;
+    private SteamTransportTransientData[] horizontalAdjacentTransports;
+    private SteamTransportTransientData[] allAdjacentTransports;
+    private SteamTransportTransientData transportData;
+    private SteamTransportTransientData transportAbove;
+    private SteamTransportTransientData transportBelow;
 
     public ProcessTransportJob(SteamTransport transport, INotifyTransportJobComplete notificationRecipient, SteamNSteelConfiguration config)
     {
-        _transport = transport;
-        _notificationRecipient = notificationRecipient;
-        _config = config;
+        this.transport = transport;
+        this.notificationRecipient = notificationRecipient;
+        this.config = config;
     }
 
     public void execute()
     {
         try
         {
-            if (_transportData == null || _transport.StructureChanged)
+            if (transportData == null || transport.StructureChanged)
             {
                 updateLocalData();
 
-                _transport.StructureChanged = false;
+                transport.StructureChanged = false;
             }
 
-            _transportData.verifyTick();
+            transportData.verifyTick();
 
             transferSteam();
             calculateUnitHeat();
@@ -56,7 +56,7 @@ public class ProcessTransportJob implements IJob
             Logger.warning("error executing update job", e);
         }
 
-        _notificationRecipient.jobComplete();
+        notificationRecipient.jobComplete();
     }
 
     private void updateLocalData()
@@ -64,68 +64,68 @@ public class ProcessTransportJob implements IJob
         final SteamTransportStateMachine stateMachine = TheMod.SteamTransportStateMachine;
         final List<SteamTransportTransientData> adjacentTransports = Lists.newArrayList();
 
-        SteamTransport adjacentTransport = (SteamTransport) _transport.getAdjacentTransport(EnumFacing.NORTH);
+        SteamTransport adjacentTransport = (SteamTransport) transport.getAdjacentTransport(EnumFacing.NORTH);
         if (adjacentTransport != null)
         {
             adjacentTransports.add(stateMachine.getJobDataForTransport(adjacentTransport));
         }
-        adjacentTransport = (SteamTransport) _transport.getAdjacentTransport(EnumFacing.EAST);
+        adjacentTransport = (SteamTransport) transport.getAdjacentTransport(EnumFacing.EAST);
         if (adjacentTransport != null)
         {
             adjacentTransports.add(stateMachine.getJobDataForTransport(adjacentTransport));
         }
-        adjacentTransport = (SteamTransport) _transport.getAdjacentTransport(EnumFacing.SOUTH);
+        adjacentTransport = (SteamTransport) transport.getAdjacentTransport(EnumFacing.SOUTH);
         if (adjacentTransport != null)
         {
             adjacentTransports.add(stateMachine.getJobDataForTransport(adjacentTransport));
         }
-        adjacentTransport = (SteamTransport) _transport.getAdjacentTransport(EnumFacing.WEST);
+        adjacentTransport = (SteamTransport) transport.getAdjacentTransport(EnumFacing.WEST);
         if (adjacentTransport != null)
         {
             adjacentTransports.add(stateMachine.getJobDataForTransport(adjacentTransport));
         }
 
-        _horizontalAdjacentTransports = adjacentTransports.toArray(new SteamTransportTransientData[adjacentTransports.size()]);
+        horizontalAdjacentTransports = adjacentTransports.toArray(new SteamTransportTransientData[adjacentTransports.size()]);
 
-        adjacentTransport = (SteamTransport) _transport.getAdjacentTransport(EnumFacing.UP);
-        _transportAbove = adjacentTransport == null ? null : stateMachine.getJobDataForTransport(adjacentTransport);
-        if (_transportAbove != null)
+        adjacentTransport = (SteamTransport) transport.getAdjacentTransport(EnumFacing.UP);
+        transportAbove = adjacentTransport == null ? null : stateMachine.getJobDataForTransport(adjacentTransport);
+        if (transportAbove != null)
         {
-            adjacentTransports.add(_transportAbove);
+            adjacentTransports.add(transportAbove);
         }
-        adjacentTransport = (SteamTransport) _transport.getAdjacentTransport(EnumFacing.DOWN);
-        _transportBelow = adjacentTransport == null ? null : stateMachine.getJobDataForTransport(adjacentTransport);
-        if (_transportBelow != null)
+        adjacentTransport = (SteamTransport) transport.getAdjacentTransport(EnumFacing.DOWN);
+        transportBelow = adjacentTransport == null ? null : stateMachine.getJobDataForTransport(adjacentTransport);
+        if (transportBelow != null)
         {
-            adjacentTransports.add(_transportBelow);
+            adjacentTransports.add(transportBelow);
         }
 
-        _allAdjacentTransports = adjacentTransports.toArray(new SteamTransportTransientData[adjacentTransports.size()]);
-        _transportData = stateMachine.getJobDataForTransport(_transport);
+        allAdjacentTransports = adjacentTransports.toArray(new SteamTransportTransientData[adjacentTransports.size()]);
+        transportData = stateMachine.getJobDataForTransport(transport);
     }
 
     private void condenseSteam()
     {
-        final double usableSteam = _transportData.getPreviousState().getSteamStored();
+        final double usableSteam = transportData.getPreviousState().getSteamStored();
 
-        final double newCondensation = usableSteam * _config.CondensationRatePerTick * ((100 - _transportData.getPreviousState().getTemperature()) / 100);
-        final double takenCondensation = _transportData.takeSteam(newCondensation);
-        final double waterGained = takenCondensation * _config.SteamToWaterRatio;
-        _transportData.addCondensate(waterGained);
+        final double newCondensation = usableSteam * config.CondensationRatePerTick * ((100 - transportData.getPreviousState().getTemperature()) / 100);
+        final double takenCondensation = transportData.takeSteam(newCondensation);
+        final double waterGained = takenCondensation * config.SteamToWaterRatio;
+        transportData.addCondensate(waterGained);
     }
 
     private void calculateUnitHeat()
     {
-        final double unitTemperature = _transportData.getPreviousState().getTemperature();
-        final double tempDifference = _transportData.getPreviousState().getSteamDensity() - unitTemperature;
+        final double unitTemperature = transportData.getPreviousState().getTemperature();
+        final double tempDifference = transportData.getPreviousState().getSteamDensity() - unitTemperature;
 
-        final double temperature = unitTemperature + (_transport.getHeatConductivity() * (tempDifference / 100));
-        _transportData.setTemperature(temperature);
+        final double temperature = unitTemperature + (transport.getHeatConductivity() * (tempDifference / 100));
+        transportData.setTemperature(temperature);
     }
 
     private void transferSteam()
     {
-        final double usableSteam = _transportData.getPreviousState().getSteamStored();
+        final double usableSteam = transportData.getPreviousState().getSteamStored();
 
         if (usableSteam <= 0) return;
 
@@ -134,35 +134,35 @@ public class ProcessTransportJob implements IJob
 
     private void transferSteam(double usableSteam)
     {
-        _eligibleTransportData.clear();
+        eligibleTransportData.clear();
         double steamSpaceAvailable = 0;
 
-        for (final SteamTransportTransientData neighbourUnit : _allAdjacentTransports)
+        for (final SteamTransportTransientData neighbourUnit : allAdjacentTransports)
         {
             //Steam providers can always push?
             final double neighbourSteamStored = neighbourUnit.getPreviousState().getSteamStored();
             final double neighbourMaximumSteam = neighbourUnit.getPreviousState().getActualMaximumSteam();
             if (neighbourSteamStored < neighbourMaximumSteam && neighbourSteamStored < usableSteam)
             {
-                _eligibleTransportData.add(neighbourUnit);
+                eligibleTransportData.add(neighbourUnit);
                 steamSpaceAvailable += (neighbourMaximumSteam - neighbourSteamStored);
             }
         }
 
-        final double calculatedSteamDensity = _transportData.getPreviousState().getSteamDensity();
-        if (_transportBelow != null && calculatedSteamDensity >= _config.EQUILIBRIUM && _transportBelow.getPreviousState().getSteamStored() < _transportData.getPreviousState().getSteamStored())
+        final double calculatedSteamDensity = transportData.getPreviousState().getSteamDensity();
+        if (transportBelow != null && calculatedSteamDensity >= config.EQUILIBRIUM && transportBelow.getPreviousState().getSteamStored() < transportData.getPreviousState().getSteamStored())
         {
-            final double neighbourSteamStored = _transportBelow.getPreviousState().getSteamStored();
-            final double neighbourMaximumSteam = _transportBelow.getPreviousState().getActualMaximumSteam();
+            final double neighbourSteamStored = transportBelow.getPreviousState().getSteamStored();
+            final double neighbourMaximumSteam = transportBelow.getPreviousState().getActualMaximumSteam();
             if (neighbourSteamStored < neighbourMaximumSteam && neighbourSteamStored < usableSteam)
             {
-                _eligibleTransportData.add(_transportBelow);
+                eligibleTransportData.add(transportBelow);
                 steamSpaceAvailable += (neighbourMaximumSteam - neighbourSteamStored);
             }
         }
 
         double originalSteamStored = usableSteam;
-        for (SteamTransportTransientData neighbourTransport : _eligibleTransportData)
+        for (SteamTransportTransientData neighbourTransport : eligibleTransportData)
         {
             final double neighbourSteamStored = neighbourTransport.getPreviousState().getSteamStored();
             final double neighbourMaximumSteam = neighbourTransport.getPreviousState().getActualMaximumSteam();
@@ -176,9 +176,9 @@ public class ProcessTransportJob implements IJob
                 amountTransferred = neighbourMaximumSteam - neighbourSteamStored;
             }
 
-            amountTransferred = amountTransferred * _config.TransferRatio;
+            amountTransferred = amountTransferred * config.TransferRatio;
 
-            amountTransferred = _transportData.takeSteam(amountTransferred);
+            amountTransferred = transportData.takeSteam(amountTransferred);
 
             neighbourTransport.verifyTick();
             neighbourTransport.addSteam(amountTransferred);
@@ -187,7 +187,7 @@ public class ProcessTransportJob implements IJob
 
     private void transferWater()
     {
-        final double usableWater = _transportData.getPreviousState().getCondensationStored();
+        final double usableWater = transportData.getPreviousState().getCondensationStored();
 
         if (usableWater <= 0)
         {
@@ -195,12 +195,12 @@ public class ProcessTransportJob implements IJob
             return;
         }
         //First, work on any units above
-        if (_transportBelow != null)
+        if (transportBelow != null)
         {
             transferWaterBelow(usableWater);
         }
 
-        if (usableWater > 0 && _horizontalAdjacentTransports.length != 0)
+        if (usableWater > 0 && horizontalAdjacentTransports.length != 0)
         {
             transferWaterAcross(usableWater);
         }
@@ -210,16 +210,16 @@ public class ProcessTransportJob implements IJob
 
     private void transferWaterFromHigherPoint()
     {
-        /*if (_transportData.getDebug())
+        /*if (transportData.getDebug())
 		{
-		Console.WriteLine($"HERE! {_transport.getTransportLocation()}");
+		Console.WriteLine($"HERE! {transport.getTransportLocation()}");
 		}*/
 
-        if (_transportBelow == null || !(_transportData.getUsableSteam() < _transportData.getPreviousState().getActualMaximumSteam()))
+        if (transportBelow == null || !(transportData.getUsableSteam() < transportData.getPreviousState().getActualMaximumSteam()))
         {
             return;
         }
-        final PreviousTransportState previousTransportState = _transportBelow.getPreviousState();
+        final PreviousTransportState previousTransportState = transportBelow.getPreviousState();
         if (!(Math.abs(previousTransportState.getCondensationStored() - previousTransportState.getMaximumCondensation()) < 100))
         {
             return;
@@ -227,8 +227,8 @@ public class ProcessTransportJob implements IJob
 
         final Stack<SearchData> elementsToSearch = new Stack<>();
         final Set<SteamTransportLocation> visitedLocations = new HashSet<>();
-        visitedLocations.add(_transport.getTransportLocation());
-        elementsToSearch.push(new SearchData(_transportBelow.getTransport(), 1));
+        visitedLocations.add(transport.getTransportLocation());
+        elementsToSearch.push(new SearchData(transportBelow.getTransport(), 1));
         SearchData candidate = null;
         Boolean validScenario = true;
         while (validScenario && !elementsToSearch.isEmpty())
@@ -238,12 +238,12 @@ public class ProcessTransportJob implements IJob
             final SteamTransport transport = searchData.Transport;
             final int depth = searchData.Depth;
             final SteamTransportLocation steamTransportLocation = transport.getTransportLocation();
-            //Console.WriteLine($"Checking transport @ {steamTransportLocation} - {depth} - {_transport.getShouldDebug()}");
+            //Console.WriteLine($"Checking transport @ {steamTransportLocation} - {depth} - {transport.getShouldDebug()}");
             visitedLocations.add(steamTransportLocation);
 
             if (depth <= 0 && (candidate == null || depth < candidate.Depth))
             {
-                if (searchData.Depth < 0 || (searchData.Depth == 0 && searchData.Transport.getWaterStored() >= (_transport.getWaterStored() + 5)))
+                if (searchData.Depth < 0 || (searchData.Depth == 0 && searchData.Transport.getWaterStored() >= (this.transport.getWaterStored() + 5)))
                 {
                     candidate = searchData;
                 }
@@ -291,21 +291,21 @@ public class ProcessTransportJob implements IJob
             }
 
             final double actualCondensate = candidate.Transport.takeCondensate(condensate);
-            _transportData.addCondensate(actualCondensate);
+            transportData.addCondensate(actualCondensate);
         }
     }
 
     private void transferWaterAcross(double waterUsedAtStart)
     {
-        _eligibleTransportData.clear();
+        eligibleTransportData.clear();
 
-        if (_horizontalAdjacentTransports.length == 0)
+        if (horizontalAdjacentTransports.length == 0)
         {
             return;
         }
 
-        final int elementIndex = _transportData.getTickLastUpdated() % _horizontalAdjacentTransports.length;
-        final SteamTransportTransientData nextTransport = _horizontalAdjacentTransports[elementIndex];
+        final int elementIndex = transportData.getTickLastUpdated() % horizontalAdjacentTransports.length;
+        final SteamTransportTransientData nextTransport = horizontalAdjacentTransports[elementIndex];
 
         if (nextTransport == null)
         {
@@ -320,24 +320,24 @@ public class ProcessTransportJob implements IJob
             return;
         }
 
-        final double waterStored = _transportData.getPreviousState().getCondensationStored();
+        final double waterStored = transportData.getPreviousState().getCondensationStored();
         if (neighbourWaterStored >= waterStored)
         {
             return;
         }
 
-        final double desiredTransfer = (waterStored - neighbourWaterStored) / (_horizontalAdjacentTransports.length + 1);
-        for (SteamTransportTransientData steamTransportTransientData : _horizontalAdjacentTransports)
+        final double desiredTransfer = (waterStored - neighbourWaterStored) / (horizontalAdjacentTransports.length + 1);
+        for (SteamTransportTransientData steamTransportTransientData : horizontalAdjacentTransports)
         {
-            final double takeCondensate = _transportData.takeCondensate(desiredTransfer);
+            final double takeCondensate = transportData.takeCondensate(desiredTransfer);
             steamTransportTransientData.addCondensate(takeCondensate);
         }
     }
 
     private void transferWaterBelow(double usableWater)
     {
-        final double neighbourWaterStored = _transportBelow.getPreviousState().getCondensationStored();
-        final double neighbourMaximumWater = _transportBelow.getPreviousState().getMaximumCondensation();
+        final double neighbourWaterStored = transportBelow.getPreviousState().getCondensationStored();
+        final double neighbourMaximumWater = transportBelow.getPreviousState().getMaximumCondensation();
 
         if (!(neighbourWaterStored < neighbourMaximumWater)) return;
 
@@ -353,10 +353,10 @@ public class ProcessTransportJob implements IJob
             amountTransferred = usableWater;
         }
 
-        amountTransferred = _transportData.takeCondensate(amountTransferred);
+        amountTransferred = transportData.takeCondensate(amountTransferred);
 
-        _transportBelow.verifyTick();
-        _transportBelow.addCondensate(amountTransferred);
+        transportBelow.verifyTick();
+        transportBelow.addCondensate(amountTransferred);
     }
 
     private class SearchData
