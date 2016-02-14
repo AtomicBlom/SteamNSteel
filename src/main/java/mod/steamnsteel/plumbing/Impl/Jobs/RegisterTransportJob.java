@@ -1,4 +1,4 @@
-﻿package mod.steamnsteel.plumbing.Impl.Jobs;
+package mod.steamnsteel.plumbing.Impl.Jobs;
 
 import mod.steamnsteel.plumbing.Impl.SteamTransport;
 import mod.steamnsteel.plumbing.Impl.SteamTransportStateMachine;

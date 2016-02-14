@@ -1,4 +1,4 @@
-﻿package mod.steamnsteel.plumbing.Impl.Jobs;
+package mod.steamnsteel.plumbing.Impl.Jobs;
 
 import com.google.common.collect.Lists;
 import mod.steamnsteel.TheMod;

@@ -1,4 +1,4 @@
-﻿package mod.steamnsteel.plumbing.Impl;
+package mod.steamnsteel.plumbing.Impl;
 
 import com.google.common.collect.Maps;
 import mod.steamnsteel.TheMod;

@@ -1,4 +1,4 @@
-﻿package mod.steamnsteel.plumbing.Impl;
+package mod.steamnsteel.plumbing.Impl;
 
 public enum SteamMaths
 {

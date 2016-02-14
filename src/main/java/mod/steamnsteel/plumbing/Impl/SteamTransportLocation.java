@@ -1,4 +1,4 @@
-﻿package mod.steamnsteel.plumbing.Impl;
+package mod.steamnsteel.plumbing.Impl;
 
 import com.google.common.base.Objects;
 import net.minecraft.util.EnumFacing;

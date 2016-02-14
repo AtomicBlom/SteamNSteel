@@ -1,5 +1,6 @@
-﻿package mod.steamnsteel.plumbing.Jobs;
+package mod.steamnsteel.plumbing.Jobs;
 
+import mod.steamnsteel.utility.log.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,8 +57,14 @@ public class JobManager implements IJobManager
             _backgroundJobs.CompleteAdding();
             for (Thread thread : JobThreads)
             {
-                thread.join();
-            }
+				try
+				{
+					thread.join();
+				} catch (InterruptedException e)
+				{
+					Logger.warning("Unable to join Worker threads to main thread", e);
+				}
+			}
             JobThreads.clear();
         }
 
