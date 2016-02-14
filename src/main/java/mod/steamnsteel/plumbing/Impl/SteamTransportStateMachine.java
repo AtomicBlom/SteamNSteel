@@ -6,9 +6,13 @@ import mod.steamnsteel.api.plumbing.ISteamTransport;
 import mod.steamnsteel.plumbing.Impl.Jobs.ProcessTransportJob;
 import mod.steamnsteel.plumbing.Impl.Jobs.RegisterTransportJob;
 import mod.steamnsteel.plumbing.Impl.Jobs.UnregisterTransportJob;
+import mod.steamnsteel.plumbing.SteamNSteelConfiguration;
+import mod.steamnsteel.utility.SteamNSteelException;
 import net.minecraft.util.EnumFacing;
 import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SteamTransportStateMachine implements INotifyTransportJobComplete
 	{
@@ -19,9 +23,9 @@ public class SteamTransportStateMachine implements INotifyTransportJobComplete
 
 		private Map<SteamTransportLocation, ProcessTransportJob> IndividualTransportJobs = Maps.newHashMap();
 		private Map<ISteamTransport, SteamTransportTransientData> TransientData = Maps.newHashMap();
-		private Barrier barrier = new Barrier(2);
+		private CyclicBarrier barrier = new CyclicBarrier(2);
 		private SteamNSteelConfiguration _steamNSteelConfiguration;
-		private int expectedJobs;
+		private AtomicInteger expectedJobs;
 		private boolean expectingJobs;
 
 		public void onTick()
@@ -31,18 +35,19 @@ public class SteamTransportStateMachine implements INotifyTransportJobComplete
 
 		private void processTransports()
 		{
-			if (expectedJobs > 0)
+			if (expectedJobs.get() > 0)
 			{
 				throw new InvalidOperationException("Attempt to run a second tick with already outstanding jobs?");
 			}
 			final Collection<ProcessTransportJob> jobs = IndividualTransportJobs.values();
-			if (jobs.size() == 0)
+			if (jobs.isEmpty())
 			{
 				expectingJobs = false;
 				return;
 			}
 
-			expectedJobs = jobs.size();
+			//FIXME: This might not be safe. Might need compare and set and/or a synchronized block.
+			expectedJobs.set(jobs.size());
 			for(ProcessTransportJob job : jobs)
 			{
 				TheMod.JobManager.AddBackgroundJob(job);
@@ -56,7 +61,13 @@ public class SteamTransportStateMachine implements INotifyTransportJobComplete
 			if (expectingJobs)
 			{
 //				Console.WriteLine($"{TheMod.CurrentTick} Waiting postTick");
-				barrier.SignalAndWait();
+				try
+				{
+					barrier.await();
+				} catch (Exception e)
+				{
+					throw new SteamNSteelException(e);
+				}
 				//Console.WriteLine($"{TheMod.CurrentTick} finished postTick");
 			}
 		}
@@ -64,7 +75,13 @@ public class SteamTransportStateMachine implements INotifyTransportJobComplete
 		private void finished()
 		{
 			//Console.WriteLine($"{TheMod.CurrentTick} Waiting PostJobs");
-			barrier.SignalAndWait();
+			try
+			{
+				barrier.await();
+			} catch (Exception e)
+			{
+				throw new SteamNSteelException(e);
+			}
 			//Console.WriteLine($"{TheMod.CurrentTick} Released PostJobs");
 		}
 
@@ -90,7 +107,11 @@ public class SteamTransportStateMachine implements INotifyTransportJobComplete
 				SteamTransportLocation altSteamTransportLocation = steamTransportLocation.offset(direction);
 				
 				ProcessTransportJob foundTransportJob;
-                if (!IndividualTransportJobs.TryGetValue(altSteamTransportLocation, out foundTransportJob)) continue;
+				foundTransportJob = IndividualTransportJobs.get(altSteamTransportLocation);
+				if (foundTransportJob == null) {
+					continue;
+				}
+
 				SteamTransport foundTransport = foundTransportJob._transport;
 				EnumFacing oppositeDirection = direction.getOpposite();
 				if (!foundTransport.canConnect(oppositeDirection)) continue;
@@ -123,7 +144,7 @@ public class SteamTransportStateMachine implements INotifyTransportJobComplete
 
 		public void jobComplete()
 		{
-			if (Interlocked.Decrement(ref expectedJobs) == 0)
+			if (expectedJobs.decrementAndGet() == 0)
 			{
 				finished();
 			}

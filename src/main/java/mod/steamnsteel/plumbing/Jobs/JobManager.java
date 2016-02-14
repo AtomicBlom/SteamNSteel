@@ -1,15 +1,19 @@
 package mod.steamnsteel.plumbing.Jobs;
 
+import jline.internal.Log;
 import mod.steamnsteel.utility.log.Logger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class JobManager implements IJobManager
     {
         private final List<Thread> JobThreads = new ArrayList<Thread>();
         private boolean running = true;
-        private BlockingCollection<IJob> _backgroundJobs = new BlockingCollection<IJob>();
-		private ConcurrentQueue<IJob> _pretickJobs = new ConcurrentQueue<IJob>();
+        private LinkedBlockingQueue<IJob> _backgroundJobs = new LinkedBlockingQueue<IJob>();
+		private ConcurrentLinkedQueue<IJob> _pretickJobs = new ConcurrentLinkedQueue<IJob>();
 		
 	    public void AddBackgroundJob(IJob job)
 	    {
@@ -18,25 +22,18 @@ public class JobManager implements IJobManager
 
 	    public void AddPreTickJob(IJob job)
 	    {
-		    _pretickJobs.Enqueue(job);
+		    _pretickJobs.add(job);
 	    }
 
 	    public void DoPretickJobs()
 	    {
-		    while (!_pretickJobs.IsEmpty)
-		    {
-			    IJob job;
-			    if (_pretickJobs.TryDequeue(out job))
-			    {
-				    job.execute();
-			    }
-		    }
+            _pretickJobs.forEach(IJob::execute);
 	    }
 
         public void Start()
         {
             Stop();
-            _backgroundJobs = new BlockingCollection<IJob>();
+            _backgroundJobs = new LinkedBlockingQueue<IJob>();
             running = true;
 	        //int processorCount = Environment.ProcessorCount;
 	        int processorCount = 1;
@@ -54,8 +51,13 @@ public class JobManager implements IJobManager
         public void Stop()
         {
             running = false;
-            _backgroundJobs.CompleteAdding();
-            for (Thread thread : JobThreads)
+
+            for (int i = 0; i < JobThreads.size(); i++)
+            {
+                _backgroundJobs.add(new CancelJobManagerJob());
+            }
+
+            for (final Thread thread : JobThreads)
             {
 				try
 				{
@@ -72,10 +74,20 @@ public class JobManager implements IJobManager
         {
             while (running)
             {
-                for (IJob job : _backgroundJobs.GetConsumingEnumerable())
+                final IJob job;
+                try
                 {
+                    job = _backgroundJobs.take();
+                    if (job instanceof CancelJobManagerJob) {
+                        break;
+                    }
+
                     job.execute();
+                } catch (InterruptedException e)
+                {
+                    Log.warn("Error executing job %s", e);
                 }
+
             }
         }
     }
