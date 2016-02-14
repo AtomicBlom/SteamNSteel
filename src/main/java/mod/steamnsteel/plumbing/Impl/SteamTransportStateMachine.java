@@ -16,6 +16,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class SteamTransportStateMachine implements INotifyTransportJobComplete
 	{
+		private int currentTick;
+
 		public SteamTransportStateMachine()
 		{
 			_steamNSteelConfiguration = new SteamNSteelConfiguration();
@@ -30,6 +32,7 @@ public class SteamTransportStateMachine implements INotifyTransportJobComplete
 
 		public void onTick()
 		{
+			currentTick++;
 			processTransports();
 		}
 
@@ -37,7 +40,7 @@ public class SteamTransportStateMachine implements INotifyTransportJobComplete
 		{
 			if (expectedJobs.get() > 0)
 			{
-				throw new InvalidOperationException("Attempt to run a second tick with already outstanding jobs?");
+				throw new SteamNSteelException("Attempt to run a second tick with already outstanding jobs?");
 			}
 			final Collection<ProcessTransportJob> jobs = IndividualTransportJobs.values();
 			if (jobs.isEmpty())
@@ -60,7 +63,7 @@ public class SteamTransportStateMachine implements INotifyTransportJobComplete
 		{
 			if (expectingJobs)
 			{
-//				Console.WriteLine($"{TheMod.CurrentTick} Waiting postTick");
+//				Console.WriteLine($"{currentTick} Waiting postTick");
 				try
 				{
 					barrier.await();
@@ -148,6 +151,12 @@ public class SteamTransportStateMachine implements INotifyTransportJobComplete
 			{
 				finished();
 			}
+		}
+
+
+		public int getCurrentTick()
+		{
+			return currentTick;
 		}
 	}
 

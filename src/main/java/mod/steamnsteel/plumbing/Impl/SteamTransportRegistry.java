@@ -13,7 +13,7 @@ public class SteamTransportRegistry implements ISteamTransportRegistry
 
         public ISteamTransport registerSteamTransport(int x, int y, int z, World world, EnumFacing[] initialAllowedDirections)
         {
-			SteamTransportLocation steamTransportLocation = SteamTransportLocation.create(x, y, z, world);
+			SteamTransportLocation steamTransportLocation = SteamTransportLocation.create(x, y, z, world.provider.getDimensionId());
             SteamTransport result = _steamTransports.putIfAbsent(steamTransportLocation, new SteamTransport(steamTransportLocation));
 
 			boolean[] allowedDirections = new boolean[6];

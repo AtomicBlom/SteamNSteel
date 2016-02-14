@@ -15,7 +15,7 @@ public class SteamTransportTransientData
 		{
 			synchronized(lockObj)
 			{
-				if (tickLastUpdated != TheMod.CurrentTick)
+				if (tickLastUpdated != TheMod.SteamTransportStateMachine.getCurrentTick())
 				{
 					previousState.setSteamStored(transport.getSteamStored());
 					previousState.setCondensationStored(transport.getWaterStored());
@@ -29,7 +29,7 @@ public class SteamTransportTransientData
 					previousState.setSteamDensity(SteamMaths.calculateSteamDensity(previousState.getSteamStored(), previousState.getActualMaximumSteam()));
 					condensationAdded = 0;
 					steamAdded = 0;
-					tickLastUpdated = TheMod.CurrentTick;
+					tickLastUpdated = TheMod.SteamTransportStateMachine.getCurrentTick();
 				}
 			}
 		}

@@ -84,7 +84,8 @@ public class ProcessTransportJob implements IJob
         {
             adjacentTransports.add(stateMachine.getJobDataForTransport(adjacentTransport));
         }
-        _horizontalAdjacentTransports = adjacentTransports.ToArray();
+
+        _horizontalAdjacentTransports = adjacentTransports.toArray(new SteamTransportTransientData[adjacentTransports.size()]);
 
         adjacentTransport = (SteamTransport) _transport.getAdjacentTransport(EnumFacing.UP);
         _transportAbove = adjacentTransport == null ? null : stateMachine.getJobDataForTransport(adjacentTransport);
@@ -99,7 +100,7 @@ public class ProcessTransportJob implements IJob
             adjacentTransports.add(_transportBelow);
         }
 
-        _allAdjacentTransports = adjacentTransports.ToArray();
+        _allAdjacentTransports = adjacentTransports.toArray(new SteamTransportTransientData[adjacentTransports.size()]);
         _transportData = stateMachine.getJobDataForTransport(_transport);
     }
 
@@ -199,7 +200,7 @@ public class ProcessTransportJob implements IJob
             transferWaterBelow(usableWater);
         }
 
-        if (usableWater > 0 && _horizontalAdjacentTransports.Any())
+        if (usableWater > 0 && _horizontalAdjacentTransports.length != 0)
         {
             transferWaterAcross(usableWater);
         }
@@ -230,7 +231,7 @@ public class ProcessTransportJob implements IJob
         elementsToSearch.push(new SearchData(_transportBelow.getTransport(), 1));
         SearchData candidate = null;
         Boolean validScenario = true;
-        while (validScenario && elementsToSearch.Any())
+        while (validScenario && !elementsToSearch.isEmpty())
         {
             final SearchData searchData = elementsToSearch.pop();
 
