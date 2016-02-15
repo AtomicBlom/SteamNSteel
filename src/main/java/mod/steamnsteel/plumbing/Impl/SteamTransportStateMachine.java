@@ -9,6 +9,9 @@ import mod.steamnsteel.plumbing.Impl.Jobs.UnregisterTransportJob;
 import mod.steamnsteel.plumbing.SteamNSteelConfiguration;
 import mod.steamnsteel.utility.SteamNSteelException;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.CyclicBarrier;
@@ -25,7 +28,7 @@ public class SteamTransportStateMachine implements INotifyTransportJobComplete
 		private Map<ISteamTransport, SteamTransportTransientData> TransientData = Maps.newHashMap();
 		private CyclicBarrier barrier = new CyclicBarrier(2);
 		private SteamNSteelConfiguration _steamNSteelConfiguration;
-		private AtomicInteger expectedJobs;
+		private AtomicInteger expectedJobs = new AtomicInteger();
 		private boolean expectingJobs;
 		private int currentTick;
 
@@ -156,6 +159,16 @@ public class SteamTransportStateMachine implements INotifyTransportJobComplete
 		public int getCurrentTick()
 		{
 			return currentTick;
+		}
+
+		@SubscribeEvent
+		public void onWorldTick(TickEvent.ServerTickEvent event) {
+			if (event.phase == TickEvent.Phase.START)
+			{
+				this.onTick();
+			} else if (event.phase == TickEvent.Phase.END) {
+				this.postTick();
+			}
 		}
 	}
 

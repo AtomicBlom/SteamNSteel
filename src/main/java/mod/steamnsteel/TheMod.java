@@ -63,11 +63,11 @@ public class TheMod
     @Mod.Instance
     public static TheMod instance;
 
-    public static SteamTransportRegistry SteamTransportRegistry;
+    public static SteamTransportRegistry SteamTransportRegistry = new SteamTransportRegistry();
 
-    public static SteamTransportStateMachine SteamTransportStateMachine;
+    public static SteamTransportStateMachine SteamTransportStateMachine = new SteamTransportStateMachine();
 
-    public static JobManager JobManager;
+    public static JobManager JobManager = new JobManager();
 
     @Mod.EventHandler
     public void onFMLPreInitialization(FMLPreInitializationEvent event)
@@ -88,6 +88,8 @@ public class TheMod
 
         MinecraftForge.EVENT_BUS.register(ConfigurationHandler.INSTANCE);
         MinecraftForge.EVENT_BUS.register(ModCrafting.INSTANCE);
+        MinecraftForge.EVENT_BUS.register(JobManager);
+        MinecraftForge.EVENT_BUS.register(SteamTransportStateMachine);
 
         Recipes.init();
         WorldGen.init();
@@ -100,6 +102,8 @@ public class TheMod
     @Mod.EventHandler
     public void onFMLPostInitialization(FMLPostInitializationEvent event)
     {
+        JobManager.Start();
+
         SteamNSteelInitializedEvent initializedEvent = new SteamNSteelInitializedEvent(CraftingManager.INSTANCE);
         MinecraftForge.EVENT_BUS.post(initializedEvent);
     }
