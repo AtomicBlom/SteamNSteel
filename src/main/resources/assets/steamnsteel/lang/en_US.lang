@@ -36,6 +36,8 @@ tile.steamnsteel:blockConcrete.name=Concrete Block
 tile.steamnsteel:blockConcrete_item_wet.name=Wet Concrete Block
 tile.steamnsteel:blockConcrete_item_dry.name=Dried Concrete Block
 
+tile.steamnsteel:dummySteamTransport.name=Steam Transport (Debug)
+
 # Config file comments
 config.steamnsteel:genCopper=Should copper ore be generated in new chunks?
 config.steamnsteel:genNiter=Should niter ore be generated in new chunks?

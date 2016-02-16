@@ -17,6 +17,7 @@
 package mod.steamnsteel.library;
 
 import mod.steamnsteel.block.container.RemnantRuinChestBlock;
+import mod.steamnsteel.block.debug.DummySteamTransportBlock;
 import mod.steamnsteel.block.machine.*;
 import mod.steamnsteel.block.resource.structure.*;
 import mod.steamnsteel.item.resource.structure.ConcreteBlockItem;
@@ -26,6 +27,7 @@ import mod.steamnsteel.block.resource.structure.RemnantRuinPillarBlock;
 import mod.steamnsteel.block.resource.structure.RemnantRuinWallBlock;
 import mod.steamnsteel.block.utility.CraftingStationBlock;
 import mod.steamnsteel.item.resource.structure.RemnantRuinIronBarsBlockItem;
+import mod.steamnsteel.tileentity.debug.DummySteamTransportTE;
 import net.minecraftforge.fml.common.event.FMLMissingMappingsEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import mod.steamnsteel.TheMod;
@@ -56,6 +58,8 @@ public final class ModBlock
     public static final SteamNSteelBlock blockSteel = new SteamNSteelStorageBlock(SteamNSteelStorageBlock.STEEL_BLOCK);
     public static final SteamNSteelBlock blockTin = new SteamNSteelStorageBlock(SteamNSteelStorageBlock.TIN_BLOCK);
     public static final SteamNSteelBlock blockZinc = new SteamNSteelStorageBlock(SteamNSteelStorageBlock.ZINC_BLOCK);
+
+    public static final SteamNSteelBlock dummySteamTransport = new DummySteamTransportBlock();
 
     public static final SteamNSteelBlock cupola = new CupolaBlock();
     public static final SteamNSteelBlock fanLarge = new FanLargeBlock();
@@ -100,6 +104,8 @@ public final class ModBlock
         GameRegistry.registerTileEntity(PipeRedstoneValveTE.class, getTEName(PipeRedstoneValveBlock.NAME));
         GameRegistry.registerTileEntity(PipeJunctionTE.class, getTEName(PipeJunctionBlock.NAME));
         GameRegistry.registerTileEntity(RemnantRuinPillarTE.class, getTEName(RemnantRuinPillarBlock.NAME));
+        GameRegistry.registerTileEntity(DummySteamTransportTE.class, getTEName(DummySteamTransportBlock.NAME));
+
     }
 
     private static String getTEName(String name) { return "tile." + name;}
@@ -132,6 +138,8 @@ public final class ModBlock
         registerBlockAndOre(blockZinc, SteamNSteelStorageBlock.ZINC_BLOCK);
 
         GameRegistry.registerBlock(remnantRuinPillar, RemnantRuinPillarBlock.NAME);
+
+        GameRegistry.registerBlock(dummySteamTransport, DummySteamTransportBlock.NAME);
 
         GameRegistry.registerBlock(remnantRuinFloor, RemnantRuinFloorBlock.NAME);
         GameRegistry.registerBlock(remnantRuinWall, RemnantRuinWallBlock.NAME);

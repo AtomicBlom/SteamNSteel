@@ -18,6 +18,7 @@ package mod.steamnsteel.proxy;
 
 import mod.steamnsteel.TheMod;
 import mod.steamnsteel.block.resource.structure.RemnantRuinIronBarsBlock.IronBarsTextures;
+import mod.steamnsteel.client.model.debug.SteamTransportDebugModelLoader;
 import mod.steamnsteel.client.model.opengex.OpenGEXModelLoader;
 import mod.steamnsteel.client.model.pct.PCTModelLoader;
 import mod.steamnsteel.client.renderer.tileentity.LargeFanTESR;
@@ -54,6 +55,7 @@ public class ClientRenderProxy extends CommonRenderProxy
         B3DLoader.instance.addDomain(TheMod.MOD_ID);
         ModelLoaderRegistry.registerLoader(OpenGEXModelLoader.instance);
         ModelLoaderRegistry.registerLoader(PCTModelLoader.instance);
+        ModelLoaderRegistry.registerLoader(SteamTransportDebugModelLoader.instance);
     }
 
     private void registerConnectedTextures()
