@@ -1,6 +1,7 @@
 package mod.steamnsteel.client.model.debug;
 
 import com.google.common.collect.ImmutableList;
+import mod.steamnsteel.block.debug.DummySteamTransportBlock;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
@@ -32,10 +33,17 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
 {
     private final IModelState state;
     private final VertexFormat format;
+    private final IExtendedBlockState blockState;
 
     public SteamTransportDebugModelInstance(IModelState state, VertexFormat format) {
+        this(state, null, format);
+    }
+
+    public SteamTransportDebugModelInstance(IModelState state, IExtendedBlockState blockState, VertexFormat format)
+    {
         this.state = state;
         this.format = format;
+        this.blockState = blockState;
     }
 
     @Override
@@ -43,12 +51,18 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
     {
         final ImmutableList.Builder<BakedQuad> builder = ImmutableList.<BakedQuad>builder();
 
-        float height = 0.5f;
+        Float condensation = blockState.getValue(DummySteamTransportBlock.CondensationProperty);
+        condensation = condensation == null ? 0 : condensation;
+
+        Float steamDensity = blockState.getValue(DummySteamTransportBlock.SteamDensityProperty);
+        steamDensity = steamDensity == null ? 0 : steamDensity;
+
+        float height = condensation / 1000.0f;
 
         final Vector3f faceNormal = new Vector3f(side.getFrontOffsetX(), side.getFrontOffsetY(), side.getFrontOffsetZ());
 
         final float[] condensateColour = {0.0f, 0.0f, 1f, 0.9f};
-        final float[] steamColour = {1f, 1f, 1f, 1f};
+        final float[] steamColour = {1f, 1f, 1f, steamDensity};
         final float[] UVs = new float[0];
         UnpackedBakedQuad.Builder quadBuilder;
 
@@ -63,6 +77,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
                 {
                     quadBuilder = new UnpackedBakedQuad.Builder(format);
                     quadBuilder.setQuadColored();
+                    quadBuilder.setQuadOrientation(side);
                     putVertexData(quadBuilder, new Vector4f(0, height, 0, 1), faceNormal, null, UVs, condensateColour, null);
                     putVertexData(quadBuilder, new Vector4f(0, height, 1, 1), faceNormal, null, UVs, condensateColour, null);
                     putVertexData(quadBuilder, new Vector4f(1, height, 1, 1), faceNormal, null, UVs, condensateColour, null);
@@ -72,6 +87,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
 
                 quadBuilder = new UnpackedBakedQuad.Builder(format);
                 quadBuilder.setQuadColored();
+                quadBuilder.setQuadOrientation(side);
                 putVertexData(quadBuilder, new Vector4f(steamMin, steamMax, steamMin, 1), faceNormal, null, UVs, steamColour, null);
                 putVertexData(quadBuilder, new Vector4f(steamMin, steamMax, steamMax, 1), faceNormal, null, UVs, steamColour, null);
                 putVertexData(quadBuilder, new Vector4f(steamMax, steamMax, steamMax, 1), faceNormal, null, UVs, steamColour, null);
@@ -84,6 +100,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
                 {
                     quadBuilder = new UnpackedBakedQuad.Builder(format);
                     quadBuilder.setQuadColored();
+                    quadBuilder.setQuadOrientation(side);
                     putVertexData(quadBuilder, new Vector4f(1, 0, 0, 1), faceNormal, null, UVs, condensateColour, null);
                     putVertexData(quadBuilder, new Vector4f(1, 0, 1, 1), faceNormal, null, UVs, condensateColour, null);
                     putVertexData(quadBuilder, new Vector4f(0, 0, 1, 1), faceNormal, null, UVs, condensateColour, null);
@@ -93,6 +110,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
 
                 quadBuilder = new UnpackedBakedQuad.Builder(format);
                 quadBuilder.setQuadColored();
+                quadBuilder.setQuadOrientation(side);
                 putVertexData(quadBuilder, new Vector4f(steamMax, steamMin, steamMin, 1), faceNormal, null, UVs, steamColour, null);
                 putVertexData(quadBuilder, new Vector4f(steamMax, steamMin, steamMax, 1), faceNormal, null, UVs, steamColour, null);
                 putVertexData(quadBuilder, new Vector4f(steamMin, steamMin, steamMax, 1), faceNormal, null, UVs, steamColour, null);
@@ -104,6 +122,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
                 {
                     quadBuilder = new UnpackedBakedQuad.Builder(format);
                     quadBuilder.setQuadColored();
+                    quadBuilder.setQuadOrientation(side);
                     putVertexData(quadBuilder, new Vector4f(0, 0,      0, 1), faceNormal, null, UVs, condensateColour, null);
                     putVertexData(quadBuilder, new Vector4f(0, height, 0, 1), faceNormal, null, UVs, condensateColour, null);
                     putVertexData(quadBuilder, new Vector4f(1, height, 0, 1), faceNormal, null, UVs, condensateColour, null);
@@ -113,10 +132,11 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
 
                 quadBuilder = new UnpackedBakedQuad.Builder(format);
                 quadBuilder.setQuadColored();
-                putVertexData(quadBuilder, new Vector4f(steamMin, steamMin, steamMin, 1), faceNormal, null, UVs, steamColour, null);
+                quadBuilder.setQuadOrientation(side);
+                putVertexData(quadBuilder, new Vector4f(steamMin, height, steamMin, 1), faceNormal, null, UVs, steamColour, null);
                 putVertexData(quadBuilder, new Vector4f(steamMin, steamMax, steamMin, 1), faceNormal, null, UVs, steamColour, null);
                 putVertexData(quadBuilder, new Vector4f(steamMax, steamMax, steamMin, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMax, steamMin, steamMin, 1), faceNormal, null, UVs, steamColour, null);
+                putVertexData(quadBuilder, new Vector4f(steamMax, height, steamMin, 1), faceNormal, null, UVs, steamColour, null);
                 builder.add(quadBuilder.build());
                 break;
             case SOUTH:
@@ -124,6 +144,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
                 {
                     quadBuilder = new UnpackedBakedQuad.Builder(format);
                     quadBuilder.setQuadColored();
+                    quadBuilder.setQuadOrientation(side);
                     putVertexData(quadBuilder, new Vector4f(1, 0, 1, 1), faceNormal, null, UVs, condensateColour, null);
                     putVertexData(quadBuilder, new Vector4f(1, height, 1, 1), faceNormal, null, UVs, condensateColour, null);
                     putVertexData(quadBuilder, new Vector4f(0, height, 1, 1), faceNormal, null, UVs, condensateColour, null);
@@ -133,10 +154,11 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
 
                 quadBuilder = new UnpackedBakedQuad.Builder(format);
                 quadBuilder.setQuadColored();
-                putVertexData(quadBuilder, new Vector4f(steamMax, steamMin, steamMax, 1), faceNormal, null, UVs, steamColour, null);
+                quadBuilder.setQuadOrientation(side);
+                putVertexData(quadBuilder, new Vector4f(steamMax, height, steamMax, 1), faceNormal, null, UVs, steamColour, null);
                 putVertexData(quadBuilder, new Vector4f(steamMax, steamMax, steamMax, 1), faceNormal, null, UVs, steamColour, null);
                 putVertexData(quadBuilder, new Vector4f(steamMin, steamMax, steamMax, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMin, steamMin, steamMax, 1), faceNormal, null, UVs, steamColour, null);
+                putVertexData(quadBuilder, new Vector4f(steamMin, height, steamMax, 1), faceNormal, null, UVs, steamColour, null);
                 builder.add(quadBuilder.build());
                 break;
             case EAST:
@@ -144,6 +166,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
                 {
                     quadBuilder = new UnpackedBakedQuad.Builder(format);
                     quadBuilder.setQuadColored();
+                    quadBuilder.setQuadOrientation(side);
                     putVertexData(quadBuilder, new Vector4f(0, 0, 1, 1), faceNormal, null, UVs, condensateColour, null);
                     putVertexData(quadBuilder, new Vector4f(0, height, 1, 1), faceNormal, null, UVs, condensateColour, null);
                     putVertexData(quadBuilder, new Vector4f(0, height, 0, 1), faceNormal, null, UVs, condensateColour, null);
@@ -153,10 +176,11 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
 
                 quadBuilder = new UnpackedBakedQuad.Builder(format);
                 quadBuilder.setQuadColored();
-                putVertexData(quadBuilder, new Vector4f(steamMin, steamMin, steamMax, 1), faceNormal, null, UVs, steamColour, null);
+                quadBuilder.setQuadOrientation(side);
+                putVertexData(quadBuilder, new Vector4f(steamMin, height, steamMax, 1), faceNormal, null, UVs, steamColour, null);
                 putVertexData(quadBuilder, new Vector4f(steamMin, steamMax, steamMax, 1), faceNormal, null, UVs, steamColour, null);
                 putVertexData(quadBuilder, new Vector4f(steamMin, steamMax, steamMin, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMin, steamMin, steamMin, 1), faceNormal, null, UVs, steamColour, null);
+                putVertexData(quadBuilder, new Vector4f(steamMin, height, steamMin, 1), faceNormal, null, UVs, steamColour, null);
                 builder.add(quadBuilder.build());
                 break;
             case WEST:
@@ -164,6 +188,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
                 {
                     quadBuilder = new UnpackedBakedQuad.Builder(format);
                     quadBuilder.setQuadColored();
+                    quadBuilder.setQuadOrientation(side);
                     putVertexData(quadBuilder, new Vector4f(1, 0,      0, 1), faceNormal, null, UVs, condensateColour, null);
                     putVertexData(quadBuilder, new Vector4f(1, height, 0, 1), faceNormal, null, UVs, condensateColour, null);
                     putVertexData(quadBuilder, new Vector4f(1, height, 1, 1), faceNormal, null, UVs, condensateColour, null);
@@ -173,10 +198,11 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
 
                 quadBuilder = new UnpackedBakedQuad.Builder(format);
                 quadBuilder.setQuadColored();
-                putVertexData(quadBuilder, new Vector4f(steamMax, steamMin, steamMin, 1), faceNormal, null, UVs, steamColour, null);
+                quadBuilder.setQuadOrientation(side);
+                putVertexData(quadBuilder, new Vector4f(steamMax, height, steamMin, 1), faceNormal, null, UVs, steamColour, null);
                 putVertexData(quadBuilder, new Vector4f(steamMax, steamMax, steamMin, 1), faceNormal, null, UVs, steamColour, null);
                 putVertexData(quadBuilder, new Vector4f(steamMax, steamMax, steamMax, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMax, steamMin, steamMax, 1), faceNormal, null, UVs, steamColour, null);
+                putVertexData(quadBuilder, new Vector4f(steamMax, height, steamMax, 1), faceNormal, null, UVs, steamColour, null);
                 builder.add(quadBuilder.build());
                 break;
             default:
@@ -253,7 +279,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
     @Override
     public boolean isGui3d()
     {
-        return false;
+        return true;
     }
 
     @Override
@@ -289,20 +315,11 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
     @Override
     public IBakedModel handleBlockState(IBlockState state)
     {
-        if (state instanceof IExtendedBlockState)
-        {
-            IExtendedBlockState exState = (IExtendedBlockState) state;
-            if (exState.getUnlistedNames().contains(OpenGEXAnimationFrameProperty.instance))
-            {
-                SteamTransportDebugState s = exState.getValue(OpenGEXAnimationFrameProperty.instance);
-                if (s != null)
-                {
-                    //FIXME: Need to find a multi-animation-track ogex file to determine how this is going to work
-                    OgexAnimation animation = null;
-                    return new OpenGEXModelInstance(model, new OpenGEXState(animation, s.getTime(), this.state), format, textures, nodeMatrices);
-                }
-            }
+        if (state instanceof IExtendedBlockState) {
+            IExtendedBlockState extendedState = (IExtendedBlockState)state;
+            return new SteamTransportDebugModelInstance(this.state, extendedState, format);
         }
+
         return this;
     }
 }

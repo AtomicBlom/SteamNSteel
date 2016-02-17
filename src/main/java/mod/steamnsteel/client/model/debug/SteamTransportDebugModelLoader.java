@@ -16,10 +16,10 @@ public enum SteamTransportDebugModelLoader implements ICustomModelLoader
     @Override
     public boolean accepts(ResourceLocation modelLocation)
     {
-        final boolean equals = "steamnsteel".equals(modelLocation.getResourceDomain());
-        if (!equals) return false;
-        final boolean equals1 = "models/block/steamTransportDebug".equals(modelLocation.getResourcePath());
-        return equals1;
+        final boolean domainMatches = "steamnsteel".equals(modelLocation.getResourceDomain());
+        if (!domainMatches) return false;
+        final boolean resourceMatches = "models/block/steamTransportDebug".equals(modelLocation.getResourcePath());
+        return resourceMatches;
     }
 
     @Override

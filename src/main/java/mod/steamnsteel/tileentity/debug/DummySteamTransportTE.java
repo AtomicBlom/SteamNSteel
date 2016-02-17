@@ -7,4 +7,26 @@ import net.minecraft.tileentity.TileEntity;
  */
 public class DummySteamTransportTE extends TileEntity
 {
+    private float steamDensity;
+    private float condensation;
+
+    public float getSteamDensity()
+    {
+        return steamDensity;
+    }
+
+    public void setSteamDensity(float steamDensity)
+    {
+        this.steamDensity = steamDensity;
+    }
+
+    public float getCondensation()
+    {
+        return condensation;
+    }
+
+    public void setCondensation(float condensation)
+    {
+        this.condensation = condensation;
+    }
 }

@@ -16,6 +16,10 @@
 
 package mod.steamnsteel.block;
 
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import mod.steamnsteel.TheMod;
@@ -43,5 +47,26 @@ public abstract class SteamNSteelBlock extends Block
     {
         //noinspection StringConcatenationMissingWhitespace
         return "tile." + TheMod.RESOURCE_PREFIX + getUnwrappedUnlocalizedName(super.getUnlocalizedName());
+    }
+
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+    {
+        super.breakBlock(worldIn, pos, state);
+        if (hasTileEntity(state))
+        {
+            worldIn.removeTileEntity(pos);
+        }
+    }
+
+    @Override
+    public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam)
+    {
+        if (hasTileEntity(state))
+        {
+            TileEntity tileentity = worldIn.getTileEntity(pos);
+            return tileentity != null && tileentity.receiveClientEvent(eventID, eventParam);
+        }
+        return super.onBlockEventReceived(worldIn, pos, state, eventID, eventParam);
     }
 }
