@@ -53,11 +53,11 @@ public class DummySteamTransportBlock extends SteamNSteelBlock implements ITileE
                 final DummySteamTransportTE tileEntity = (DummySteamTransportTE) genericTileEntity;
                 if (player.isSneaking())
                 {
-                    final Float condensation = tileEntity.getCondensation();
-                    tileEntity.setCondensation(condensation + 100.0f);
+                    final double condensation = tileEntity.getCondensation();
+                    tileEntity.setCondensation(condensation + 100.0);
                 } else {
-                    final Float condensation = tileEntity.getSteamDensity();
-                    tileEntity.setSteamDensity(condensation + 0.1f);
+                    final double condensation = tileEntity.getSteamDensity();
+                    tileEntity.addSteam(condensation + 0.1);
                 }
                 world.markBlockRangeForRenderUpdate(pos, pos);
             }
@@ -74,14 +74,11 @@ public class DummySteamTransportBlock extends SteamNSteelBlock implements ITileE
             final DummySteamTransportTE tileEntity = (DummySteamTransportTE)genericTileEntity;
 
             return actualState
-                    .withProperty(SteamDensityProperty, tileEntity.getSteamDensity())
-                    .withProperty(CondensationProperty, tileEntity.getCondensation())
+                    .withProperty(SteamDensityProperty, (float) tileEntity.getSteamDensity())
+                    .withProperty(CondensationProperty, (float) tileEntity.getCondensation())
                     ;
         }
         return actualState;
-
-
-
     }
 
     @Override

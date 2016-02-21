@@ -18,6 +18,7 @@ import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.client.model.ISmartBlockModel;
 import net.minecraftforge.client.model.pipeline.LightUtil;
 import net.minecraftforge.client.model.pipeline.UnpackedBakedQuad;
+import net.minecraftforge.client.model.pipeline.UnpackedBakedQuad.Builder;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import org.apache.commons.lang3.tuple.Pair;
 import javax.vecmath.Matrix4f;
@@ -68,7 +69,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
                 0,
                 0
         };
-        UnpackedBakedQuad.Builder quadBuilder;
+        Builder quadBuilder;
 
         float margin = 1f / 16f;
 
@@ -79,7 +80,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
             case UP:
                 if (height > 0)
                 {
-                    quadBuilder = new UnpackedBakedQuad.Builder(format);
+                    quadBuilder = new Builder(format);
                     quadBuilder.setQuadColored();
                     quadBuilder.setQuadOrientation(side);
                     putVertexData(quadBuilder, new Vector4f(0, height, 0, 1), faceNormal, null, UVs, condensateColour, sprite);
@@ -89,7 +90,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
                     builder.add(quadBuilder.build());
                 }
 
-                quadBuilder = new UnpackedBakedQuad.Builder(format);
+                quadBuilder = new Builder(format);
                 quadBuilder.setQuadColored();
                 quadBuilder.setQuadOrientation(side);
                 putVertexData(quadBuilder, new Vector4f(steamMin, steamMax, steamMin, 1), faceNormal, null, UVs, steamColour, sprite);
@@ -102,7 +103,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
             case DOWN:
                 if (height > 0)
                 {
-                    quadBuilder = new UnpackedBakedQuad.Builder(format);
+                    quadBuilder = new Builder(format);
                     quadBuilder.setQuadColored();
                     quadBuilder.setQuadOrientation(side);
                     putVertexData(quadBuilder, new Vector4f(1, 0, 0, 1), faceNormal, null, UVs, condensateColour, sprite);
@@ -112,7 +113,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
                     builder.add(quadBuilder.build());
                 }
 
-                quadBuilder = new UnpackedBakedQuad.Builder(format);
+                quadBuilder = new Builder(format);
                 quadBuilder.setQuadColored();
                 quadBuilder.setQuadOrientation(side);
                 putVertexData(quadBuilder, new Vector4f(steamMax, steamMin, steamMin, 1), faceNormal, null, UVs, steamColour, sprite);
@@ -124,7 +125,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
             case NORTH:
                 if (height > 0)
                 {
-                    quadBuilder = new UnpackedBakedQuad.Builder(format);
+                    quadBuilder = new Builder(format);
                     quadBuilder.setQuadColored();
                     quadBuilder.setQuadOrientation(side);
                     putVertexData(quadBuilder, new Vector4f(0, 0,      0, 1), faceNormal, null, UVs, condensateColour, sprite);
@@ -134,7 +135,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
                     builder.add(quadBuilder.build());
                 }
 
-                quadBuilder = new UnpackedBakedQuad.Builder(format);
+                quadBuilder = new Builder(format);
                 quadBuilder.setQuadColored();
                 quadBuilder.setQuadOrientation(side);
                 putVertexData(quadBuilder, new Vector4f(steamMin, height, steamMin, 1), faceNormal, null, UVs, steamColour, sprite);
@@ -146,7 +147,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
             case SOUTH:
                 if (height > 0)
                 {
-                    quadBuilder = new UnpackedBakedQuad.Builder(format);
+                    quadBuilder = new Builder(format);
                     quadBuilder.setQuadColored();
                     quadBuilder.setQuadOrientation(side);
                     putVertexData(quadBuilder, new Vector4f(1, 0, 1, 1), faceNormal, null, UVs, condensateColour, sprite);
@@ -156,7 +157,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
                     builder.add(quadBuilder.build());
                 }
 
-                quadBuilder = new UnpackedBakedQuad.Builder(format);
+                quadBuilder = new Builder(format);
                 quadBuilder.setQuadColored();
                 quadBuilder.setQuadOrientation(side);
                 putVertexData(quadBuilder, new Vector4f(steamMax, height, steamMax, 1), faceNormal, null, UVs, steamColour, sprite);
@@ -168,7 +169,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
             case EAST:
                 if (height > 0)
                 {
-                    quadBuilder = new UnpackedBakedQuad.Builder(format);
+                    quadBuilder = new Builder(format);
                     quadBuilder.setQuadColored();
                     quadBuilder.setQuadOrientation(side);
                     putVertexData(quadBuilder, new Vector4f(0, 0, 1, 1), faceNormal, null, UVs, condensateColour, sprite);
@@ -178,7 +179,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
                     builder.add(quadBuilder.build());
                 }
 
-                quadBuilder = new UnpackedBakedQuad.Builder(format);
+                quadBuilder = new Builder(format);
                 quadBuilder.setQuadColored();
                 quadBuilder.setQuadOrientation(side);
                 putVertexData(quadBuilder, new Vector4f(steamMin, height, steamMax, 1), faceNormal, null, UVs, steamColour, sprite);
@@ -190,7 +191,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
             case WEST:
                 if (height > 0)
                 {
-                    quadBuilder = new UnpackedBakedQuad.Builder(format);
+                    quadBuilder = new Builder(format);
                     quadBuilder.setQuadColored();
                     quadBuilder.setQuadOrientation(side);
                     putVertexData(quadBuilder, new Vector4f(1, 0,      0, 1), faceNormal, null, UVs, condensateColour, sprite);
@@ -200,7 +201,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
                     builder.add(quadBuilder.build());
                 }
 
-                quadBuilder = new UnpackedBakedQuad.Builder(format);
+                quadBuilder = new Builder(format);
                 quadBuilder.setQuadColored();
                 quadBuilder.setQuadOrientation(side);
                 putVertexData(quadBuilder, new Vector4f(steamMax, height, steamMin, 1), faceNormal, null, UVs, steamColour, sprite);
@@ -215,7 +216,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
         return builder.build();
     }
 
-    private void putVertexData(UnpackedBakedQuad.Builder builder, Vector4f vertex, Vector3f faceNormal, Vector3f vertexNormal, float[] textureCoordinates, float[] color, TextureAtlasSprite sprite)
+    private void putVertexData(Builder builder, Vector4f vertex, Vector3f faceNormal, Vector3f vertexNormal, float[] textureCoordinates, float[] color, TextureAtlasSprite sprite)
     {
         // TODO handle everything not handled (texture transformations, bones, transformations, normals, e.t.c)
         for (int e = 0; e < format.getElementCount(); e++)

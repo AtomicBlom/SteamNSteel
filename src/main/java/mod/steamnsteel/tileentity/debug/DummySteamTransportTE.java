@@ -1,32 +1,50 @@
 package mod.steamnsteel.tileentity.debug;
 
+import mod.steamnsteel.TheMod;
+import mod.steamnsteel.api.plumbing.ISteamTransport;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 
-/**
- * Created by codew on 15/02/2016.
- */
-public class DummySteamTransportTE extends TileEntity
+public class DummySteamTransportTE extends TileEntity implements ITickable
 {
-    private float steamDensity;
-    private float condensation;
+    private ISteamTransport steamTransport;
 
-    public float getSteamDensity()
+    public double getSteamDensity()
     {
-        return steamDensity;
+        return steamTransport.getSteamDensity();
     }
 
-    public void setSteamDensity(float steamDensity)
+    public void addSteam(double amount)
     {
-        this.steamDensity = steamDensity;
+        steamTransport.addSteam(amount);
     }
 
-    public float getCondensation()
+    public double getCondensation()
     {
-        return condensation;
+        return steamTransport.getWaterStored();
     }
 
-    public void setCondensation(float condensation)
+    public void setCondensation(double amount)
     {
-        this.condensation = condensation;
+        steamTransport.addCondensate(amount);
+    }
+
+    @Override
+    public void onLoad()
+    {
+        steamTransport = TheMod.SteamTransportRegistry.registerSteamTransport(pos, worldObj, EnumFacing.VALUES);
+    }
+
+    @Override
+    public void onChunkUnload()
+    {
+        TheMod.SteamTransportRegistry.destroySteamTransport(pos, worldObj);
+    }
+
+    @Override
+    public void update()
+    {
+        markDirty();
     }
 }

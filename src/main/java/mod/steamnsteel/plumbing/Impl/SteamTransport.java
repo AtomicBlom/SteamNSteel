@@ -188,6 +188,12 @@ public class SteamTransport implements ISteamTransport
             return adjacentTransports[EnumFacing.EAST.ordinal()] != null;
         }
 
+        @Override
+        public double getSteamDensity()
+        {
+            return SteamMaths.calculateSteamDensity(steamStored, SteamMaths.calculateMaximumSteam(waterStored, maximumWater, maximumSteam));
+        }
+
         public SteamTransportLocation getTransportLocation()
         {
             return steamTransportLocation;

@@ -1,31 +1,35 @@
 package mod.steamnsteel.plumbing.Impl;
 
+import com.google.common.collect.Maps;
 import mod.steamnsteel.TheMod;
 import mod.steamnsteel.api.plumbing.ISteamTransport;
 import mod.steamnsteel.api.plumbing.ISteamTransportRegistry;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SteamTransportRegistry implements ISteamTransportRegistry
     {
-        private final ConcurrentHashMap<SteamTransportLocation, SteamTransport> _steamTransports = new ConcurrentHashMap<>();
+        private final Map<SteamTransportLocation, SteamTransport> _steamTransports = Maps.newConcurrentMap();
 
-        public ISteamTransport registerSteamTransport(int x, int y, int z, World world, EnumFacing[] initialAllowedDirections)
+        @Override
+		public ISteamTransport registerSteamTransport(BlockPos blockPos, World world, EnumFacing[] initialAllowedDirections)
         {
-			SteamTransportLocation steamTransportLocation = SteamTransportLocation.create(x, y, z, world.provider.getDimensionId());
-            SteamTransport result = _steamTransports.putIfAbsent(steamTransportLocation, new SteamTransport(steamTransportLocation));
+			final SteamTransportLocation steamTransportLocation = SteamTransportLocation.create(blockPos, world.provider.getDimensionId());
+			final SteamTransport result = _steamTransports.computeIfAbsent(steamTransportLocation, SteamTransport::new);
 
-			boolean[] allowedDirections = new boolean[6];
+			final boolean[] allowedDirections = new boolean[6];
 
-			for (EnumFacing initialAllowedDirection : initialAllowedDirections)
+			for (final EnumFacing initialAllowedDirection : initialAllowedDirections)
 			{
 				allowedDirections[initialAllowedDirection.ordinal()] = true;
 			}
 
-	        for (EnumFacing direction : EnumFacing.VALUES)
+	        for (final EnumFacing direction : EnumFacing.VALUES)
 	        {
-		        boolean canConnect = allowedDirections[direction.ordinal()];
+		        final boolean canConnect = allowedDirections[direction.ordinal()];
 		        result.setCanConnect(direction, canConnect);
 	        }
 
@@ -33,9 +37,10 @@ public class SteamTransportRegistry implements ISteamTransportRegistry
 			return result;
         }
 
-        public void destroySteamTransport(int x, int y, int z, World world)
+        @Override
+		public void destroySteamTransport(BlockPos pos, World world)
         {
-			SteamTransportLocation steamTransportLocation = SteamTransportLocation.create(x, y);
+			final SteamTransportLocation steamTransportLocation = SteamTransportLocation.create(pos, world.provider.getDimensionId());
 
 			final SteamTransport transport = _steamTransports.remove(steamTransportLocation);
 			TheMod.SteamTransportStateMachine.removeTransport(transport);
@@ -44,7 +49,6 @@ public class SteamTransportRegistry implements ISteamTransportRegistry
 
 		public ISteamTransport getSteamTransportAtLocation(SteamTransportLocation steamTransportLocation)
 		{
-			SteamTransport value =_steamTransports.getOrDefault(steamTransportLocation, null);
-			return value;
+			return _steamTransports.getOrDefault(steamTransportLocation, null);
 		}
 	}

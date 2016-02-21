@@ -1,6 +1,7 @@
 package mod.steamnsteel.plumbing.Impl.Jobs;
 
 import com.google.common.collect.Lists;
+import jline.internal.Log;
 import mod.steamnsteel.TheMod;
 import mod.steamnsteel.api.plumbing.ISteamTransport;
 import mod.steamnsteel.plumbing.Impl.*;
@@ -16,15 +17,15 @@ import java.util.Stack;
 
 public class ProcessTransportJob implements IJob
 {
-    public final SteamTransport transport;
+    private final SteamTransport transport;
     private final INotifyTransportJobComplete notificationRecipient;
     private final List<SteamTransportTransientData> eligibleTransportData = Lists.newArrayList();
     private final SteamNSteelConfiguration config;
-    private SteamTransportTransientData[] horizontalAdjacentTransports;
-    private SteamTransportTransientData[] allAdjacentTransports;
-    private SteamTransportTransientData transportData;
-    private SteamTransportTransientData transportAbove;
-    private SteamTransportTransientData transportBelow;
+    private SteamTransportTransientData[] horizontalAdjacentTransports = null;
+    private SteamTransportTransientData[] allAdjacentTransports = null;
+    private SteamTransportTransientData transportData = null;
+    private SteamTransportTransientData transportAbove = null;
+    private SteamTransportTransientData transportBelow = null;
 
     public ProcessTransportJob(SteamTransport transport, INotifyTransportJobComplete notificationRecipient, SteamNSteelConfiguration config)
     {
@@ -33,10 +34,13 @@ public class ProcessTransportJob implements IJob
         this.config = config;
     }
 
+    @Override
     public void execute()
     {
         try
         {
+            Log.info("Processing steamTransport at location " + transport.getTransportLocation());
+
             if (transportData == null || transport.StructureChanged)
             {
                 updateLocalData();
@@ -357,6 +361,11 @@ public class ProcessTransportJob implements IJob
 
         transportBelow.verifyTick();
         transportBelow.addCondensate(amountTransferred);
+    }
+
+    public SteamTransport getTransport()
+    {
+        return transport;
     }
 
     private class SearchData

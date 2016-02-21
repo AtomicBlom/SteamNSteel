@@ -32,4 +32,5 @@ public interface ISteamTransport
     boolean canTransportWest();
     boolean canTransportEast();
 
+    double getSteamDensity();
 }

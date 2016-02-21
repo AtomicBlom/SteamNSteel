@@ -9,7 +9,6 @@ import mod.steamnsteel.plumbing.Impl.Jobs.UnregisterTransportJob;
 import mod.steamnsteel.plumbing.SteamNSteelConfiguration;
 import mod.steamnsteel.utility.SteamNSteelException;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import java.util.Collection;
@@ -117,7 +116,7 @@ public class SteamTransportStateMachine implements INotifyTransportJobComplete
 					continue;
 				}
 
-				SteamTransport foundTransport = foundTransportJob.transport;
+				SteamTransport foundTransport = foundTransportJob.getTransport();
 				EnumFacing oppositeDirection = direction.getOpposite();
 				if (!foundTransport.canConnect(oppositeDirection)) continue;
 
