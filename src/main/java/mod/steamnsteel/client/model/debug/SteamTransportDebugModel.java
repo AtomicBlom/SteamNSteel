@@ -28,9 +28,9 @@ public class SteamTransportDebugModel implements IModel
     }
 
     @Override
-    public IFlexibleBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter)
+    public IFlexibleBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> textureResolver)
     {
-        return new SteamTransportDebugModelInstance(state, format);
+        return new SteamTransportDebugModelInstance(state, format, textureResolver);
     }
 
     @Override

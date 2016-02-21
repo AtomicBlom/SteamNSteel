@@ -1,5 +1,6 @@
 package mod.steamnsteel.client.model.debug;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import mod.steamnsteel.block.debug.DummySteamTransportBlock;
 import net.minecraft.block.state.IBlockState;
@@ -10,10 +11,10 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.IFlexibleBakedModel;
 import net.minecraftforge.client.model.IModelState;
 import net.minecraftforge.client.model.IPerspectiveAwareModel;
-import net.minecraftforge.client.model.IPerspectiveAwareModel.MapWrapper;
 import net.minecraftforge.client.model.ISmartBlockModel;
 import net.minecraftforge.client.model.pipeline.LightUtil;
 import net.minecraftforge.client.model.pipeline.UnpackedBakedQuad;
@@ -22,34 +23,34 @@ import org.apache.commons.lang3.tuple.Pair;
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
-import java.awt.*;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by codew on 15/02/2016.
- */
 public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, ISmartBlockModel, IPerspectiveAwareModel
 {
     private final IModelState state;
     private final VertexFormat format;
     private final IExtendedBlockState blockState;
+    private final Function<ResourceLocation, TextureAtlasSprite> textureResolver;
 
-    public SteamTransportDebugModelInstance(IModelState state, VertexFormat format) {
-        this(state, null, format);
+    public SteamTransportDebugModelInstance(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> textureResolver) {
+        this(state, null, format, textureResolver);
     }
 
-    public SteamTransportDebugModelInstance(IModelState state, IExtendedBlockState blockState, VertexFormat format)
+    public SteamTransportDebugModelInstance(IModelState state, IExtendedBlockState blockState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> textureResolver)
     {
         this.state = state;
         this.format = format;
         this.blockState = blockState;
+        this.textureResolver = textureResolver;
     }
 
     @Override
     public List<BakedQuad> getFaceQuads(EnumFacing side)
     {
         final ImmutableList.Builder<BakedQuad> builder = ImmutableList.<BakedQuad>builder();
+
+        final TextureAtlasSprite sprite = textureResolver.apply(new ResourceLocation("minecraft", "blocks/wool_colored_white"));
 
         Float condensation = blockState.getValue(DummySteamTransportBlock.CondensationProperty);
         condensation = condensation == null ? 0 : condensation;
@@ -63,7 +64,10 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
 
         final float[] condensateColour = {0.0f, 0.0f, 1f, 0.9f};
         final float[] steamColour = {1f, 1f, 1f, steamDensity};
-        final float[] UVs = new float[0];
+        final float[] UVs = {
+                0,
+                0
+        };
         UnpackedBakedQuad.Builder quadBuilder;
 
         float margin = 1f / 16f;
@@ -78,20 +82,20 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
                     quadBuilder = new UnpackedBakedQuad.Builder(format);
                     quadBuilder.setQuadColored();
                     quadBuilder.setQuadOrientation(side);
-                    putVertexData(quadBuilder, new Vector4f(0, height, 0, 1), faceNormal, null, UVs, condensateColour, null);
-                    putVertexData(quadBuilder, new Vector4f(0, height, 1, 1), faceNormal, null, UVs, condensateColour, null);
-                    putVertexData(quadBuilder, new Vector4f(1, height, 1, 1), faceNormal, null, UVs, condensateColour, null);
-                    putVertexData(quadBuilder, new Vector4f(1, height, 0, 1), faceNormal, null, UVs, condensateColour, null);
+                    putVertexData(quadBuilder, new Vector4f(0, height, 0, 1), faceNormal, null, UVs, condensateColour, sprite);
+                    putVertexData(quadBuilder, new Vector4f(0, height, 1, 1), faceNormal, null, UVs, condensateColour, sprite);
+                    putVertexData(quadBuilder, new Vector4f(1, height, 1, 1), faceNormal, null, UVs, condensateColour, sprite);
+                    putVertexData(quadBuilder, new Vector4f(1, height, 0, 1), faceNormal, null, UVs, condensateColour, sprite);
                     builder.add(quadBuilder.build());
                 }
 
                 quadBuilder = new UnpackedBakedQuad.Builder(format);
                 quadBuilder.setQuadColored();
                 quadBuilder.setQuadOrientation(side);
-                putVertexData(quadBuilder, new Vector4f(steamMin, steamMax, steamMin, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMin, steamMax, steamMax, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMax, steamMax, steamMax, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMax, steamMax, steamMin, 1), faceNormal, null, UVs, steamColour, null);
+                putVertexData(quadBuilder, new Vector4f(steamMin, steamMax, steamMin, 1), faceNormal, null, UVs, steamColour, sprite);
+                putVertexData(quadBuilder, new Vector4f(steamMin, steamMax, steamMax, 1), faceNormal, null, UVs, steamColour, sprite);
+                putVertexData(quadBuilder, new Vector4f(steamMax, steamMax, steamMax, 1), faceNormal, null, UVs, steamColour, sprite);
+                putVertexData(quadBuilder, new Vector4f(steamMax, steamMax, steamMin, 1), faceNormal, null, UVs, steamColour, sprite);
                 builder.add(quadBuilder.build());
 
                 break;
@@ -101,20 +105,20 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
                     quadBuilder = new UnpackedBakedQuad.Builder(format);
                     quadBuilder.setQuadColored();
                     quadBuilder.setQuadOrientation(side);
-                    putVertexData(quadBuilder, new Vector4f(1, 0, 0, 1), faceNormal, null, UVs, condensateColour, null);
-                    putVertexData(quadBuilder, new Vector4f(1, 0, 1, 1), faceNormal, null, UVs, condensateColour, null);
-                    putVertexData(quadBuilder, new Vector4f(0, 0, 1, 1), faceNormal, null, UVs, condensateColour, null);
-                    putVertexData(quadBuilder, new Vector4f(0, 0, 0, 1), faceNormal, null, UVs, condensateColour, null);
+                    putVertexData(quadBuilder, new Vector4f(1, 0, 0, 1), faceNormal, null, UVs, condensateColour, sprite);
+                    putVertexData(quadBuilder, new Vector4f(1, 0, 1, 1), faceNormal, null, UVs, condensateColour, sprite);
+                    putVertexData(quadBuilder, new Vector4f(0, 0, 1, 1), faceNormal, null, UVs, condensateColour, sprite);
+                    putVertexData(quadBuilder, new Vector4f(0, 0, 0, 1), faceNormal, null, UVs, condensateColour, sprite);
                     builder.add(quadBuilder.build());
                 }
 
                 quadBuilder = new UnpackedBakedQuad.Builder(format);
                 quadBuilder.setQuadColored();
                 quadBuilder.setQuadOrientation(side);
-                putVertexData(quadBuilder, new Vector4f(steamMax, steamMin, steamMin, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMax, steamMin, steamMax, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMin, steamMin, steamMax, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMin, steamMin, steamMin, 1), faceNormal, null, UVs, steamColour, null);
+                putVertexData(quadBuilder, new Vector4f(steamMax, steamMin, steamMin, 1), faceNormal, null, UVs, steamColour, sprite);
+                putVertexData(quadBuilder, new Vector4f(steamMax, steamMin, steamMax, 1), faceNormal, null, UVs, steamColour, sprite);
+                putVertexData(quadBuilder, new Vector4f(steamMin, steamMin, steamMax, 1), faceNormal, null, UVs, steamColour, sprite);
+                putVertexData(quadBuilder, new Vector4f(steamMin, steamMin, steamMin, 1), faceNormal, null, UVs, steamColour, sprite);
                 builder.add(quadBuilder.build());
                 break;
             case NORTH:
@@ -123,20 +127,20 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
                     quadBuilder = new UnpackedBakedQuad.Builder(format);
                     quadBuilder.setQuadColored();
                     quadBuilder.setQuadOrientation(side);
-                    putVertexData(quadBuilder, new Vector4f(0, 0,      0, 1), faceNormal, null, UVs, condensateColour, null);
-                    putVertexData(quadBuilder, new Vector4f(0, height, 0, 1), faceNormal, null, UVs, condensateColour, null);
-                    putVertexData(quadBuilder, new Vector4f(1, height, 0, 1), faceNormal, null, UVs, condensateColour, null);
-                    putVertexData(quadBuilder, new Vector4f(1, 0,      0, 1), faceNormal, null, UVs, condensateColour, null);
+                    putVertexData(quadBuilder, new Vector4f(0, 0,      0, 1), faceNormal, null, UVs, condensateColour, sprite);
+                    putVertexData(quadBuilder, new Vector4f(0, height, 0, 1), faceNormal, null, UVs, condensateColour, sprite);
+                    putVertexData(quadBuilder, new Vector4f(1, height, 0, 1), faceNormal, null, UVs, condensateColour, sprite);
+                    putVertexData(quadBuilder, new Vector4f(1, 0,      0, 1), faceNormal, null, UVs, condensateColour, sprite);
                     builder.add(quadBuilder.build());
                 }
 
                 quadBuilder = new UnpackedBakedQuad.Builder(format);
                 quadBuilder.setQuadColored();
                 quadBuilder.setQuadOrientation(side);
-                putVertexData(quadBuilder, new Vector4f(steamMin, height, steamMin, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMin, steamMax, steamMin, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMax, steamMax, steamMin, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMax, height, steamMin, 1), faceNormal, null, UVs, steamColour, null);
+                putVertexData(quadBuilder, new Vector4f(steamMin, height, steamMin, 1), faceNormal, null, UVs, steamColour, sprite);
+                putVertexData(quadBuilder, new Vector4f(steamMin, steamMax, steamMin, 1), faceNormal, null, UVs, steamColour, sprite);
+                putVertexData(quadBuilder, new Vector4f(steamMax, steamMax, steamMin, 1), faceNormal, null, UVs, steamColour, sprite);
+                putVertexData(quadBuilder, new Vector4f(steamMax, height, steamMin, 1), faceNormal, null, UVs, steamColour, sprite);
                 builder.add(quadBuilder.build());
                 break;
             case SOUTH:
@@ -145,20 +149,20 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
                     quadBuilder = new UnpackedBakedQuad.Builder(format);
                     quadBuilder.setQuadColored();
                     quadBuilder.setQuadOrientation(side);
-                    putVertexData(quadBuilder, new Vector4f(1, 0, 1, 1), faceNormal, null, UVs, condensateColour, null);
-                    putVertexData(quadBuilder, new Vector4f(1, height, 1, 1), faceNormal, null, UVs, condensateColour, null);
-                    putVertexData(quadBuilder, new Vector4f(0, height, 1, 1), faceNormal, null, UVs, condensateColour, null);
-                    putVertexData(quadBuilder, new Vector4f(0, 0, 1, 1), faceNormal, null, UVs, condensateColour, null);
+                    putVertexData(quadBuilder, new Vector4f(1, 0, 1, 1), faceNormal, null, UVs, condensateColour, sprite);
+                    putVertexData(quadBuilder, new Vector4f(1, height, 1, 1), faceNormal, null, UVs, condensateColour, sprite);
+                    putVertexData(quadBuilder, new Vector4f(0, height, 1, 1), faceNormal, null, UVs, condensateColour, sprite);
+                    putVertexData(quadBuilder, new Vector4f(0, 0, 1, 1), faceNormal, null, UVs, condensateColour, sprite);
                     builder.add(quadBuilder.build());
                 }
 
                 quadBuilder = new UnpackedBakedQuad.Builder(format);
                 quadBuilder.setQuadColored();
                 quadBuilder.setQuadOrientation(side);
-                putVertexData(quadBuilder, new Vector4f(steamMax, height, steamMax, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMax, steamMax, steamMax, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMin, steamMax, steamMax, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMin, height, steamMax, 1), faceNormal, null, UVs, steamColour, null);
+                putVertexData(quadBuilder, new Vector4f(steamMax, height, steamMax, 1), faceNormal, null, UVs, steamColour, sprite);
+                putVertexData(quadBuilder, new Vector4f(steamMax, steamMax, steamMax, 1), faceNormal, null, UVs, steamColour, sprite);
+                putVertexData(quadBuilder, new Vector4f(steamMin, steamMax, steamMax, 1), faceNormal, null, UVs, steamColour, sprite);
+                putVertexData(quadBuilder, new Vector4f(steamMin, height, steamMax, 1), faceNormal, null, UVs, steamColour, sprite);
                 builder.add(quadBuilder.build());
                 break;
             case EAST:
@@ -167,20 +171,20 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
                     quadBuilder = new UnpackedBakedQuad.Builder(format);
                     quadBuilder.setQuadColored();
                     quadBuilder.setQuadOrientation(side);
-                    putVertexData(quadBuilder, new Vector4f(0, 0, 1, 1), faceNormal, null, UVs, condensateColour, null);
-                    putVertexData(quadBuilder, new Vector4f(0, height, 1, 1), faceNormal, null, UVs, condensateColour, null);
-                    putVertexData(quadBuilder, new Vector4f(0, height, 0, 1), faceNormal, null, UVs, condensateColour, null);
-                    putVertexData(quadBuilder, new Vector4f(0, 0, 0, 1), faceNormal, null, UVs, condensateColour, null);
+                    putVertexData(quadBuilder, new Vector4f(0, 0, 1, 1), faceNormal, null, UVs, condensateColour, sprite);
+                    putVertexData(quadBuilder, new Vector4f(0, height, 1, 1), faceNormal, null, UVs, condensateColour, sprite);
+                    putVertexData(quadBuilder, new Vector4f(0, height, 0, 1), faceNormal, null, UVs, condensateColour, sprite);
+                    putVertexData(quadBuilder, new Vector4f(0, 0, 0, 1), faceNormal, null, UVs, condensateColour, sprite);
                     builder.add(quadBuilder.build());
                 }
 
                 quadBuilder = new UnpackedBakedQuad.Builder(format);
                 quadBuilder.setQuadColored();
                 quadBuilder.setQuadOrientation(side);
-                putVertexData(quadBuilder, new Vector4f(steamMin, height, steamMax, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMin, steamMax, steamMax, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMin, steamMax, steamMin, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMin, height, steamMin, 1), faceNormal, null, UVs, steamColour, null);
+                putVertexData(quadBuilder, new Vector4f(steamMin, height, steamMax, 1), faceNormal, null, UVs, steamColour, sprite);
+                putVertexData(quadBuilder, new Vector4f(steamMin, steamMax, steamMax, 1), faceNormal, null, UVs, steamColour, sprite);
+                putVertexData(quadBuilder, new Vector4f(steamMin, steamMax, steamMin, 1), faceNormal, null, UVs, steamColour, sprite);
+                putVertexData(quadBuilder, new Vector4f(steamMin, height, steamMin, 1), faceNormal, null, UVs, steamColour, sprite);
                 builder.add(quadBuilder.build());
                 break;
             case WEST:
@@ -189,20 +193,20 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
                     quadBuilder = new UnpackedBakedQuad.Builder(format);
                     quadBuilder.setQuadColored();
                     quadBuilder.setQuadOrientation(side);
-                    putVertexData(quadBuilder, new Vector4f(1, 0,      0, 1), faceNormal, null, UVs, condensateColour, null);
-                    putVertexData(quadBuilder, new Vector4f(1, height, 0, 1), faceNormal, null, UVs, condensateColour, null);
-                    putVertexData(quadBuilder, new Vector4f(1, height, 1, 1), faceNormal, null, UVs, condensateColour, null);
-                    putVertexData(quadBuilder, new Vector4f(1, 0,      1, 1), faceNormal, null, UVs, condensateColour, null);
+                    putVertexData(quadBuilder, new Vector4f(1, 0,      0, 1), faceNormal, null, UVs, condensateColour, sprite);
+                    putVertexData(quadBuilder, new Vector4f(1, height, 0, 1), faceNormal, null, UVs, condensateColour, sprite);
+                    putVertexData(quadBuilder, new Vector4f(1, height, 1, 1), faceNormal, null, UVs, condensateColour, sprite);
+                    putVertexData(quadBuilder, new Vector4f(1, 0,      1, 1), faceNormal, null, UVs, condensateColour, sprite);
                     builder.add(quadBuilder.build());
                 }
 
                 quadBuilder = new UnpackedBakedQuad.Builder(format);
                 quadBuilder.setQuadColored();
                 quadBuilder.setQuadOrientation(side);
-                putVertexData(quadBuilder, new Vector4f(steamMax, height, steamMin, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMax, steamMax, steamMin, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMax, steamMax, steamMax, 1), faceNormal, null, UVs, steamColour, null);
-                putVertexData(quadBuilder, new Vector4f(steamMax, height, steamMax, 1), faceNormal, null, UVs, steamColour, null);
+                putVertexData(quadBuilder, new Vector4f(steamMax, height, steamMin, 1), faceNormal, null, UVs, steamColour, sprite);
+                putVertexData(quadBuilder, new Vector4f(steamMax, steamMax, steamMin, 1), faceNormal, null, UVs, steamColour, sprite);
+                putVertexData(quadBuilder, new Vector4f(steamMax, steamMax, steamMax, 1), faceNormal, null, UVs, steamColour, sprite);
+                putVertexData(quadBuilder, new Vector4f(steamMax, height, steamMax, 1), faceNormal, null, UVs, steamColour, sprite);
                 builder.add(quadBuilder.build());
                 break;
             default:
@@ -317,7 +321,7 @@ public class SteamTransportDebugModelInstance implements IFlexibleBakedModel, IS
     {
         if (state instanceof IExtendedBlockState) {
             IExtendedBlockState extendedState = (IExtendedBlockState)state;
-            return new SteamTransportDebugModelInstance(this.state, extendedState, format);
+            return new SteamTransportDebugModelInstance(this.state, extendedState, format, textureResolver);
         }
 
         return this;
