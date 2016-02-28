@@ -21,12 +21,14 @@ import mod.steamnsteel.block.resource.structure.RemnantRuinIronBarsBlock.IronBar
 import mod.steamnsteel.client.model.debug.SteamTransportDebugModelLoader;
 import mod.steamnsteel.client.model.opengex.OpenGEXModelLoader;
 import mod.steamnsteel.client.model.pct.PCTModelLoader;
+import mod.steamnsteel.client.renderer.tileentity.DummySteamTransportTESR;
 import mod.steamnsteel.client.renderer.tileentity.LargeFanTESR;
 import mod.steamnsteel.library.ModBlock;
 import mod.steamnsteel.library.ModItem;
 import mod.steamnsteel.texturing.wall.RemnantRuinFloorSideTexture;
 import mod.steamnsteel.texturing.wall.RemnantRuinWallTexture;
 import mod.steamnsteel.tileentity.LargeFanTE;
+import mod.steamnsteel.tileentity.debug.DummySteamTransportTE;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -181,7 +183,9 @@ public class ClientRenderProxy extends CommonRenderProxy
 
     private void registerTESRs()
     {
+
         ClientRegistry.bindTileEntitySpecialRenderer(LargeFanTE.class, new LargeFanTESR());
+        ClientRegistry.bindTileEntitySpecialRenderer(DummySteamTransportTE.class, new DummySteamTransportTESR());
     }
 
     private void registerEventHandlers() {

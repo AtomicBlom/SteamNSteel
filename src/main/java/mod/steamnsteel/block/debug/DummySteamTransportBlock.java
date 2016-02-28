@@ -1,6 +1,7 @@
 package mod.steamnsteel.block.debug;
 
 import mod.steamnsteel.block.SteamNSteelBlock;
+import mod.steamnsteel.client.model.opengex.OpenGEXAnimationFrameProperty;
 import mod.steamnsteel.tileentity.debug.DummySteamTransportTE;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -38,7 +39,8 @@ public class DummySteamTransportBlock extends SteamNSteelBlock implements ITileE
     {
         return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[] {
                 SteamDensityProperty,
-                CondensationProperty
+                CondensationProperty,
+                OpenGEXAnimationFrameProperty.instance
         });
     }
 
@@ -84,7 +86,7 @@ public class DummySteamTransportBlock extends SteamNSteelBlock implements ITileE
     @Override
     public EnumWorldBlockLayer getBlockLayer()
     {
-        return EnumWorldBlockLayer.TRANSLUCENT;
+        return EnumWorldBlockLayer.SOLID;
     }
 
     @Override
@@ -126,6 +128,14 @@ public class DummySteamTransportBlock extends SteamNSteelBlock implements ITileE
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta)
     {
-        return new DummySteamTransportTE();
+
+        final DummySteamTransportTE dummySteamTransportTE = new DummySteamTransportTE();
+        return dummySteamTransportTE;
+    }
+
+    @Override
+    public int getRenderType()
+    {
+        return 2;
     }
 }

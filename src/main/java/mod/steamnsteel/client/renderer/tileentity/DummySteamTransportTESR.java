@@ -3,8 +3,7 @@ package mod.steamnsteel.client.renderer.tileentity;
 import mod.steamnsteel.block.machine.FanLargeBlock;
 import mod.steamnsteel.client.model.opengex.OpenGEXAnimationFrameProperty;
 import mod.steamnsteel.client.model.opengex.OpenGEXState;
-import mod.steamnsteel.tileentity.LargeFanTE;
-import net.minecraft.block.properties.PropertyBool;
+import mod.steamnsteel.tileentity.debug.DummySteamTransportTE;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
@@ -12,26 +11,24 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.client.model.ISmartBlockModel;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import org.lwjgl.opengl.GL11;
 
 /**
- * Created by codew on 5/11/2015.
+ * Created by codew on 24/02/2016.
  */
-public class LargeFanTESR extends TileEntitySpecialRenderer<LargeFanTE>
+public class DummySteamTransportTESR extends TileEntitySpecialRenderer<DummySteamTransportTE>
 {
     @Override
-    public void renderTileEntityAt(LargeFanTE te, double x, double y, double z, float partialTicks, int destroyStage)
+    public void renderTileEntityAt(DummySteamTransportTE te, double x, double y, double z, float partialTicks, int destroyStage)
     {
         final BlockRendererDispatcher blockRenderer = Minecraft.getMinecraft().getBlockRendererDispatcher();
         IBlockState blockState = te.getWorld().getBlockState(te.getPos());
         BlockPos blockpos = te.getPos();
         final OpenGEXState openGEXState = new OpenGEXState(null, getWorld().getTotalWorldTime() / 20.0f);
-        IBakedModel model = blockRenderer.getModelFromBlockState(blockState.withProperty(FanLargeBlock.RENDER_DYNAMIC, true), getWorld(), te.getPos());
+        IBakedModel model = blockRenderer.getModelFromBlockState(blockState, getWorld(), te.getPos());
         blockState = ((IExtendedBlockState)blockState).withProperty(OpenGEXAnimationFrameProperty.instance, openGEXState);
 
         Tessellator tessellator = Tessellator.getInstance();
@@ -63,8 +60,13 @@ public class LargeFanTESR extends TileEntitySpecialRenderer<LargeFanTE>
 
 
         tessellator.draw();
-
         RenderHelper.enableStandardItemLighting();
         worldRenderer.setTranslation(0.0D, 0.0D, 0.0D);
+    }
+
+    @Override
+    public boolean forceTileEntityRender()
+    {
+        return super.forceTileEntityRender();
     }
 }
