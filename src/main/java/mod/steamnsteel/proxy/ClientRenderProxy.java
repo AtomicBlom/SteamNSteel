@@ -16,28 +16,36 @@
 
 package mod.steamnsteel.proxy;
 
+import com.foudroyantfactotum.tool.structure.renderer.StructureTESR;
 import mod.steamnsteel.TheMod;
 import mod.steamnsteel.block.resource.structure.RemnantRuinIronBarsBlock.IronBarsTextures;
 import mod.steamnsteel.client.model.debug.SteamTransportDebugModelLoader;
+import mod.steamnsteel.client.codemodel.PipeModel;
 import mod.steamnsteel.client.model.opengex.OpenGEXModelLoader;
 import mod.steamnsteel.client.model.pct.PCTModelLoader;
 import mod.steamnsteel.client.renderer.tileentity.DummySteamTransportTESR;
 import mod.steamnsteel.client.renderer.tileentity.LargeFanTESR;
+import mod.steamnsteel.client.renderer.tileentity.OgexStructureTESR;
 import mod.steamnsteel.library.ModBlock;
 import mod.steamnsteel.library.ModItem;
 import mod.steamnsteel.texturing.wall.RemnantRuinFloorSideTexture;
 import mod.steamnsteel.texturing.wall.RemnantRuinWallTexture;
-import mod.steamnsteel.tileentity.LargeFanTE;
 import mod.steamnsteel.tileentity.debug.DummySteamTransportTE;
+import mod.steamnsteel.tileentity.structure.BallMillTE;
+import mod.steamnsteel.tileentity.structure.BlastFurnaceTE;
+import mod.steamnsteel.tileentity.structure.BoilerTE;
+import mod.steamnsteel.tileentity.structure.LargeFanTE;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.b3d.B3DLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @SuppressWarnings({"MethodMayBeStatic", "WeakerAccess"})
 public class ClientRenderProxy extends CommonRenderProxy
@@ -87,13 +95,25 @@ public class ClientRenderProxy extends CommonRenderProxy
         registerBlockItemModel(ModBlock.blockSteel);
         registerBlockItemModel(ModBlock.blockTin);
         registerBlockItemModel(ModBlock.blockZinc);
+        registerBlockItemModel(ModBlock.blockBrassStorage);
+        registerBlockItemModel(ModBlock.blockBronzeStorage);
+        registerBlockItemModel(ModBlock.blockCopperStorage);
+        registerBlockItemModel(ModBlock.blockPlotoniumStorage);
+        registerBlockItemModel(ModBlock.blockSteelStorage);
+        registerBlockItemModel(ModBlock.blockTinStorage);
+        registerBlockItemModel(ModBlock.blockZincStorage);
 
         registerBlockItemModel(ModBlock.cupola);
-        registerBlockItemModel(ModBlock.fanLarge);
         registerBlockItemModel(ModBlock.pipe);
         registerBlockItemModel(ModBlock.pipeValve);
         registerBlockItemModel(ModBlock.pipeValveRedstone);
         registerBlockItemModel(ModBlock.pipeJunction);
+
+        //Structure
+        registerBlockItemModel(ModBlock.fanLarge);
+        registerBlockItemModel(ModBlock.ssBoiler);
+        registerBlockItemModel(ModBlock.ssBallMill);
+        registerBlockItemModel(ModBlock.ssBlastFurnace);
 
         registerBlockItemModel(ModBlock.remnantRuinPillar);
         registerBlockItemModel(ModBlock.remnantRuinChest);
@@ -183,15 +203,25 @@ public class ClientRenderProxy extends CommonRenderProxy
 
     private void registerTESRs()
     {
+        ClientRegistry.bindTileEntitySpecialRenderer(DummySteamTransportTE.class, new DummySteamTransportTESR());
+        final StructureTESR STESR = new StructureTESR();
 
         ClientRegistry.bindTileEntitySpecialRenderer(LargeFanTE.class, new LargeFanTESR());
-        ClientRegistry.bindTileEntitySpecialRenderer(DummySteamTransportTE.class, new DummySteamTransportTESR());
+        ClientRegistry.bindTileEntitySpecialRenderer(BoilerTE.class, STESR);
+        ClientRegistry.bindTileEntitySpecialRenderer(BallMillTE.class, new OgexStructureTESR());
+        ClientRegistry.bindTileEntitySpecialRenderer(BlastFurnaceTE.class, STESR);
     }
 
     private void registerEventHandlers() {
         //FIXME: The Block Parts are not currently working.
         //MinecraftForge.EVENT_BUS.register(BlockHighlightEventListener.getInstance());
+        MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(PCTModelLoader.instance);
+    }
 
+    @SubscribeEvent
+    public void onModelLoad(ModelBakeEvent event)
+    {
+        new PipeModel().loadModel(event);
     }
 }

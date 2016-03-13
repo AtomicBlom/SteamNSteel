@@ -16,6 +16,7 @@
 
 package mod.steamnsteel;
 
+import com.foudroyantfactotum.tool.structure.StructureRegistry;
 import mod.steamnsteel.api.CraftingManager;
 import mod.steamnsteel.api.SteamNSteelInitializedEvent;
 import mod.steamnsteel.configuration.ConfigurationHandler;
@@ -74,6 +75,8 @@ public class TheMod
     {
         ConfigurationHandler.init(event.getSuggestedConfigurationFile());
 
+        StructureRegistry.setMOD_ID(TheMod.MOD_ID);
+
         ModItem.init();
         ModBlock.init();
         ModBlockParts.init();
@@ -90,6 +93,8 @@ public class TheMod
         MinecraftForge.EVENT_BUS.register(ModCrafting.INSTANCE);
         MinecraftForge.EVENT_BUS.register(JobManager);
         MinecraftForge.EVENT_BUS.register(SteamTransportStateMachine);
+
+        StructureRegistry.loadRegisteredPatterns();
 
         Recipes.init();
         WorldGen.init();
@@ -112,6 +117,7 @@ public class TheMod
     public void onServerStarting(FMLServerStartingEvent event) {
         event.registerServerCommand(new LoadSchematicFromResourceCommand());
         event.registerServerCommand(new LoadSchematicFromFileCommand());
+        event.registerServerCommand(new StructureRegistry.CommandReloadStructures());
     }
 
     @Mod.EventHandler

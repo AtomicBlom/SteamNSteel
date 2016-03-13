@@ -1,6 +1,5 @@
 package mod.steamnsteel.client.renderer.tileentity;
 
-import mod.steamnsteel.block.machine.FanLargeBlock;
 import mod.steamnsteel.client.model.opengex.OpenGEXAnimationFrameProperty;
 import mod.steamnsteel.client.model.opengex.OpenGEXState;
 import mod.steamnsteel.tileentity.debug.DummySteamTransportTE;

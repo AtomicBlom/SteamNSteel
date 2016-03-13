@@ -1,12 +1,24 @@
+/*
+ * Copyright (c) 2014 Rosie Alexander and Scott Killen.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 3 of the License, or (at your option) any
+ * later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, see <http://www.gnu.org/licenses>.
+ */
 package mod.steamnsteel.proxy;
 
-import mod.steamnsteel.TheMod;
+import com.foudroyantfactotum.tool.structure.net.StructurePacket;
 import mod.steamnsteel.networking.ProjectTableCraftPacket;
 import mod.steamnsteel.networking.ProjectTableCraftPacketMessageHandler;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
-import org.apache.logging.log4j.core.config.Order;
 
 /**
  * Created by codew on 17/01/2016.
@@ -17,6 +29,7 @@ public class ClientNetworkProxy extends CommonNetworkProxy
     public void init() {
         super.init();
         getNetwork().registerMessage(ProjectTableCraftPacketMessageHandler.class, ProjectTableCraftPacket.class, 0, Side.CLIENT);
+        getNetwork().registerMessage(StructurePacket.Handler.class, StructurePacket.class, 1, Side.CLIENT);
     }
 
 }
