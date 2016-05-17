@@ -25,18 +25,20 @@ public class ProjectTableRecipeControl extends ButtonControl implements IGuiTemp
 {
     private final GuiTexture craftableTexture;
     private final GuiTexture uncraftableTexture;
+    private final GuiTexture depressedTexture;
     private ProjectTableRecipeInstance recipeInstance = null;
 
-    public ProjectTableRecipeControl(GuiRenderer guiRenderer, GuiTexture craftableTexture, GuiTexture uncraftableTexture)
+    public ProjectTableRecipeControl(GuiRenderer guiRenderer, GuiTexture craftableTexture, GuiTexture uncraftableTexture, GuiTexture depressedSubtexture)
     {
         super(guiRenderer, new Rectangle(0, 0, craftableTexture.getBounds().getWidth(), craftableTexture.getBounds().getHeight()));
         this.craftableTexture = craftableTexture;
         this.uncraftableTexture = uncraftableTexture;
+        this.depressedTexture = depressedSubtexture;
 
         setDefaultTexture(craftableTexture);
         setDisabledTexture(uncraftableTexture);
         setHoverTexture(craftableTexture);
-        setPressedTexture(uncraftableTexture);
+        setPressedTexture(depressedSubtexture);
     }
 
     @Override
@@ -111,7 +113,7 @@ public class ProjectTableRecipeControl extends ButtonControl implements IGuiTemp
     @Override
     public ProjectTableRecipeControl construct()
     {
-        final ProjectTableRecipeControl concreteControl = new ProjectTableRecipeControl(getGuiRenderer(), craftableTexture, uncraftableTexture);
+        final ProjectTableRecipeControl concreteControl = new ProjectTableRecipeControl(getGuiRenderer(), craftableTexture, uncraftableTexture, depressedTexture);
 
         concreteControl.recipeCraftingEventListeners = recipeCraftingEventListeners;
 
