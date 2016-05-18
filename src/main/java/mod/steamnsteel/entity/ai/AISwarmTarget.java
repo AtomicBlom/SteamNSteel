@@ -22,6 +22,6 @@ public class AISwarmTarget<T extends EntityCreature & ISwarmer> extends AISwarmB
 
         return entitylivingbase != null && entitylivingbase.isEntityAlive() && entity.getDistanceSqToEntity(entitylivingbase) <= (range * range)
                 && entity.getEntitySenses().canSee(entitylivingbase) && (!(entitylivingbase instanceof EntityPlayerMP)
-                || !((EntityPlayerMP) entitylivingbase).theItemInWorldManager.isCreative());
+                || !((EntityPlayerMP) entitylivingbase).interactionManager.isCreative());
     }
 }

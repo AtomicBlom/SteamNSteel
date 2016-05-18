@@ -2,6 +2,8 @@ package mod.steamnsteel.client.fx;
 
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -27,12 +29,13 @@ public class SteamParticle extends EntityFX
         smokeParticleScale = this.particleScale;
         particleMaxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D));
         particleMaxAge = (int)((float)this.particleMaxAge * scale);
-        noClip = false;
+        //TODO: noClip = false; ?
     }
 
-    public void renderParticle(Tessellator p_70539_1_, float p_70539_2_, float p_70539_3_, float p_70539_4_, float p_70539_5_, float p_70539_6_, float p_70539_7_)
+    @Override
+    public void renderParticle(VertexBuffer worldRendererIn, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ)
     {
-        float f6 = ((float)this.particleAge + p_70539_2_) / (float)this.particleMaxAge * 64.0F;
+        float f6 = ((float)this.particleAge + partialTicks) / (float)this.particleMaxAge * 64.0F;
 
         if (f6 < 0.0F)
         {
@@ -45,7 +48,7 @@ public class SteamParticle extends EntityFX
         }
 
         this.particleScale = this.smokeParticleScale * f6;
-        super.renderParticle(p_70539_1_.getBuffer(), this, p_70539_2_, p_70539_3_, p_70539_4_, p_70539_5_, p_70539_6_, p_70539_7_);
+        super.renderParticle(worldRendererIn, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
     }
 
     /**
@@ -76,10 +79,11 @@ public class SteamParticle extends EntityFX
         this.motionY *= 0.9599999785423279D;
         this.motionZ *= 0.9599999785423279D;
 
-        if (this.onGround)
+        //FIXME: Do we need this?
+        /*if (this.onGround)
         {
             this.motionX *= 0.699999988079071D;
             this.motionZ *= 0.699999988079071D;
-        }
+        }*/
     }
 }

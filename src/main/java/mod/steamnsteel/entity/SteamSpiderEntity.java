@@ -12,6 +12,9 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -22,6 +25,7 @@ public class SteamSpiderEntity extends EntityMob implements ISwarmer, IRangedAtt
 
     public static final String SWARM_HOME = "swarmHome";
 
+    private static final DataParameter<Byte> IS_HOSTILE = EntityDataManager.<Byte>createKey(SteamSpiderEntity.class, DataSerializers.BYTE);
 
     private Swarm swarm;
 
@@ -31,17 +35,17 @@ public class SteamSpiderEntity extends EntityMob implements ISwarmer, IRangedAtt
         //TODO Proper AI tasks
         tasks.addTask(0, new EntityAISwimming(this));
         tasks.addTask(1, new EntityAILeapAtTarget(this, 0.5F));
-        tasks.addTask(1, new AISwarmReturnHome<SteamSpiderEntity>(this, 256, 1.2F, true));
-        tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
-        tasks.addTask(2, new AIRangeBurstAttack<SteamSpiderEntity>(this, 1.2D, 4F, 40, 1200));
-        tasks.addTask(4, new AISwarmWander<SteamSpiderEntity>(this, 60, 1.0F));
+        tasks.addTask(1, new AISwarmReturnHome<>(this, 256, 1.2F, true));
+        //tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
+        tasks.addTask(2, new AIRangeBurstAttack<>(this, 1.2D, 4F, 40, 1200));
+        tasks.addTask(4, new AISwarmWander<>(this, 60, 1.0F));
         //tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         //tasks.addTask(8, new EntityAILookIdle(this));
-        tasks.addTask(8, new AISwarmSeek<SteamSpiderEntity>(this, 0, 500, 100, 3, 1200, false)); //This should be removed if we want spiders to become "dumb" when their host is killed
-        targetTasks.addTask(1, new AISwarmOnHurt<SteamSpiderEntity>(this));
-        targetTasks.addTask(2, new AISwarmDefendHome<SteamSpiderEntity>(this, 16));
+        tasks.addTask(8, new AISwarmSeek<>(this, 0, 500, 100, 3, 1200, false)); //This should be removed if we want spiders to become "dumb" when their host is killed
+        targetTasks.addTask(1, new AISwarmOnHurt<>(this));
+        targetTasks.addTask(2, new AISwarmDefendHome<>(this, 16));
         setSize(0.35F, 0.8F);
-        renderDistanceWeight = 128F;
+        setRenderDistanceWeight(128F);
     }
 
     @Override
@@ -59,7 +63,8 @@ public class SteamSpiderEntity extends EntityMob implements ISwarmer, IRangedAtt
     protected void entityInit()
     {
         super.entityInit();
-        this.getDataManager().<Byte>set(12, (byte) 0); //Hostile status
+
+        this.getDataManager().set(IS_HOSTILE, (byte) 0); //Hostile status
     }
 
     @Override
