@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;
-import net.minecraft.command.server.CommandBlockLogic;
+import net.minecraft.tileentity.CommandBlockBaseLogic;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,9 +12,10 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityCommandBlock;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.RegistryNamespacedDefaultedByKey;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -29,7 +30,7 @@ import java.util.*;
 
 public class SchematicLoader
 {
-    private static final FMLControlledNamespacedRegistry<Block> BLOCK_REGISTRY = GameData.getBlockRegistry();
+    private static final RegistryNamespacedDefaultedByKey<ResourceLocation, Block> BLOCK_REGISTRY = Block.REGISTRY;
     private static Logger _logger = LogManager.getLogger("SchematicLoader");
     private Map<ResourceLocation, SchematicWorld> loadedSchematics = new HashMap<ResourceLocation, SchematicWorld>();
     private List<ITileEntityLoadedEvent> tileEntityLoadedEventListeners = new LinkedList<ITileEntityLoadedEvent>();
@@ -42,23 +43,23 @@ public class SchematicLoader
             if (tileEntity instanceof TileEntityCommandBlock)
             {
                 _logger.info("Activating command Block");
-
-                final GameRules gameRules = MinecraftServer.getServer().worldServers[0].getGameRules();
-                Boolean commandBlockOutputSetting = gameRules.getBoolean("commandBlockOutput");
-                gameRules.setOrCreateGameRule("commandBlockOutput", "false");
-
                 final World world = tileEntity.getWorld();
 
                 TileEntityCommandBlock commandBlock = (TileEntityCommandBlock) tileEntity;
                 final BlockPos pos = tileEntity.getPos();
                 IBlockState block = world.getBlockState(pos);
-                CommandBlockLogic commandblocklogic = commandBlock.getCommandBlockLogic();
+                CommandBlockBaseLogic commandblocklogic = commandBlock.getCommandBlockLogic();
+
+                final GameRules gameRules = commandblocklogic.getServer().worldServers[0].getGameRules();
+                Boolean commandBlockOutputSetting = gameRules.getBoolean("commandBlockOutput");
+                gameRules.setOrCreateGameRule("commandBlockOutput", "false");
+
                 commandblocklogic.trigger(world);
                 world.updateComparatorOutputLevel(pos, block.getBlock());
 
                 if (world.getTileEntity(pos) instanceof TileEntityCommandBlock)
                 {
-                    world.setBlockState(pos, Blocks.air.getDefaultState(), 3);
+                    world.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
                 }
                 gameRules.setOrCreateGameRule("commandBlockOutput", commandBlockOutputSetting.toString());
                 return true;
@@ -173,7 +174,7 @@ public class SchematicLoader
         Chunk c = world.getChunkFromChunkCoords(chunkX, chunkZ);
 
         int blockCount = 0;
-        Block ignore = Blocks.air;
+        Block ignore = Blocks.AIR;
 
         LinkedList<TileEntity> createdTileEntities = new LinkedList<TileEntity>();
 
@@ -207,12 +208,14 @@ public class SchematicLoader
 
                         if (event.shouldSetBlock() && event.blockState != null && c.setBlockState(worldCoord, event.blockState) != null)
                         {
-                            world.markBlockForUpdate(new BlockPos(x, y, z));
+                            //TODO: Is this still needed?
+                            //world.markBlockForUpdate(new BlockPos(x, y, z));
                             final NBTTagCompound tileEntityData = schematic.getTileEntity(schematicCoord);
                             final Block block = event.blockState.getBlock();
                             if (block.hasTileEntity(event.blockState) && tileEntityData != null)
                             {
-                                TileEntity tileEntity = TileEntity.createAndLoadEntity(tileEntityData);
+                                MinecraftServer unused = null;
+                                TileEntity tileEntity = TileEntity.createTileEntity(unused, tileEntityData);
 
                                 c.addTileEntity(new BlockPos(chunkLocalX, y, chunkLocalZ), tileEntity);
                                 tileEntity.getBlockType();
@@ -298,7 +301,7 @@ public class SchematicLoader
                         final BlockPos worldCoord = pos.add(schematicX, schematicY, schematicZ);
 
                         IBlockState blockState = schematic.getBlockState(worldCoord);
-                        if (blockState.getBlock() != Blocks.air)
+                        if (blockState.getBlock() != Blocks.AIR)
                         {
                             BlockPos schematicCoord = new BlockPos(schematicX, schematicY, schematicZ);
                             PreSetBlockEvent event = new PreSetBlockEvent(schematic, world, worldCoord, schematicCoord);
@@ -320,7 +323,8 @@ public class SchematicLoader
             _logger.info(String.format("%s - Creating Tile Entities", System.currentTimeMillis()));
             for (NBTTagCompound entity : schematic.getTileEntityData())
             {
-                TileEntity tileEntity = TileEntity.createAndLoadEntity(entity);
+                MinecraftServer unused = null;
+                TileEntity tileEntity = TileEntity.createTileEntity(unused, entity);
                 world.setTileEntity(tileEntity.getPos().add(pos), tileEntity);
                 tileEntity.getBlockType();
                 try
@@ -411,9 +415,10 @@ public class SchematicLoader
             {
                 ResourceLocation resourceLocation = new ResourceLocation(name);
 
-                if (GameData.getBlockRegistry().containsKey(resourceLocation))
+                final Block block = Block.REGISTRY.getObjectBypass(resourceLocation);
+                if (block != null)
                 {
-                    final short id1 = (short) GameData.getBlockRegistry().getId(resourceLocation);
+                    final short id1 = (short) Block.REGISTRY.getIDForObjectBypass(block);
                     oldToNew.put(mapping.getShort(name), id1);
                 } else
                 {
@@ -568,7 +573,7 @@ public class SchematicLoader
             int metadata = this.metadata[index];
             final short blockId = this.blocks[index];
 
-            Block block = BLOCK_REGISTRY.getRaw(blockId);
+            Block block = BLOCK_REGISTRY.getObjectByIdBypass(blockId);
             if (block == null)
             {
                 return null;
@@ -578,8 +583,8 @@ public class SchematicLoader
 
         public boolean isAirBlock(BlockPos pos)
         {
-            IBlockState block = getBlockState(pos);
-            return block == null || block.getBlock().isAir(null, pos);
+            IBlockState blockState = getBlockState(pos);
+            return blockState == null || blockState.getBlock().isAir(blockState, null, pos);
         }
 
         @Override

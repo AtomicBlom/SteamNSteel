@@ -7,19 +7,15 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.ITickable;
 import net.minecraft.world.World;
 
 public class PipeJunctionBlock extends SteamNSteelBlock implements ITileEntityProvider
 {
-    public static final String NAME = "pipeJunction";
-    private static int RenderId;
-
     public PipeJunctionBlock()
     {
-        super(Material.circuits, true);
-        setUnlocalizedName(NAME);
+        super(Material.CIRCUITS, true);
     }
 
 
@@ -30,7 +26,7 @@ public class PipeJunctionBlock extends SteamNSteelBlock implements ITileEntityPr
     }
 
     @Override
-    public boolean isOpaqueCube()
+    public boolean isOpaqueCube(IBlockState state)
     {
         return false;
     }

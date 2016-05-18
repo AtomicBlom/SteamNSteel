@@ -22,36 +22,33 @@ import com.google.common.collect.ImmutableMap;
 import mod.steamnsteel.block.SteamNSteelStructureBlock;
 import mod.steamnsteel.tileentity.structure.BoilerTE;
 import mod.steamnsteel.utility.log.Logger;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
-import static net.minecraft.block.BlockDirectional.FACING;
+import static com.foudroyantfactotum.tool.structure.block.StructureShapeBlock.DIRECTION;
 
 public class SSBoilerStructure extends SteamNSteelStructureBlock
 {
-    public static final String NAME = "ssBoiler";
-
     public SSBoilerStructure()
     {
         super(true, true);
-        setUnlocalizedName(NAME);
         setDefaultState(
                 this.blockState
                         .getBaseState()
-                        .withProperty(FACING, EnumFacing.NORTH)
+                        .withProperty(DIRECTION, EnumFacing.NORTH)
                         .withProperty(MIRROR, false)
         );
     }
 
     @Override
-    protected BlockState createBlockState()
+    protected BlockStateContainer createBlockState()
     {
-        return new BlockState(this, FACING, MIRROR);
+        return new BlockStateContainer(this, DIRECTION, MIRROR);
     }
 
     @Override
@@ -69,7 +66,7 @@ public class SSBoilerStructure extends SteamNSteelStructureBlock
     @Override
     public TileEntity createTileEntity(World world, IBlockState state)
     {
-        return new BoilerTE(getPattern(), state.getValue(FACING), state.getValue(MIRROR));
+        return new BoilerTE(getPattern(), state.getValue(DIRECTION), state.getValue(MIRROR));
     }
 
     @Override

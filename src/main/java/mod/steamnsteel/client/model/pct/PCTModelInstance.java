@@ -4,49 +4,52 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.Maps;
-import mod.steamnsteel.TheMod;
 import mod.steamnsteel.library.ModProperties;
+import mod.steamnsteel.library.Reference;
 import mod.steamnsteel.texturing.api.ProceduralConnectedTexture;
 import mod.steamnsteel.utility.log.Logger;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
+import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.util.BlockPos;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.*;
+import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.property.IExtendedBlockState;
-import java.io.IOException;
+import org.apache.commons.lang3.tuple.Pair;
+import javax.vecmath.Matrix4f;
 import java.util.List;
 import java.util.Map;
 
-public class PCTModelInstance implements IFlexibleBakedModel, ISmartBlockModel
+public class PCTModelInstance implements IPerspectiveAwareModel
 {
     private final IModelState state;
     private final VertexFormat format;
     private final Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter;
     private final ProceduralConnectedTexture proceduralConnectedTexture;
-    private final Map<Integer, IFlexibleBakedModel> cache = Maps.newHashMap();
-    private IFlexibleBakedModel bakedModel = null;
+    private final Map<Integer, IBakedModel> cache = Maps.newHashMap();
+    private IBakedModel bakedModel = null;
     private IModel baseModel = null;
 
     public PCTModelInstance(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter, ProceduralConnectedTexture pct)
     {
         this(state, format, bakedTextureGetter, pct, getBaseModel());
-        CalculateSides(null, null);
+        //CalculateSides(null, null);
     }
 
     private static IModel getBaseModel()
     {
         try
         {
-            return ModelLoaderRegistry.getModel(new ResourceLocation(TheMod.MOD_ID, "block/cube_mirrored_bottom"));
-        } catch (IOException e)
+            return ModelLoaderRegistry.getModel(new ResourceLocation(Reference.MOD_ID, "block/cube_mirrored_bottom"));
+        } catch (Exception e)
         {
             e.printStackTrace();
             return null;
@@ -66,10 +69,10 @@ public class PCTModelInstance implements IFlexibleBakedModel, ISmartBlockModel
     public PCTModelInstance(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter, ProceduralConnectedTexture pct, BlockPos blockPos, IBlockAccess blockAccess, IModel baseModel)
     {
         this(state, format, bakedTextureGetter, pct, baseModel);
-        CalculateSides(blockPos, blockAccess);
+        //CalculateSides(blockPos, blockAccess);
     }
 
-    private void CalculateSides(BlockPos blockPos, IBlockAccess blockAccess)
+    private IBakedModel calculateSides(BlockPos blockPos, IBlockAccess blockAccess)
     {
         final Builder<String, String> textures = ImmutableMap.builder();
 
@@ -78,21 +81,26 @@ public class PCTModelInstance implements IFlexibleBakedModel, ISmartBlockModel
         for (final EnumFacing side : EnumFacing.VALUES)
         {
 
+            /*if (side != EnumFacing.UP) {
+                continue;
+            }*/
+
             final String key = side.toString().toLowerCase();
             TextureAtlasSprite sprite = proceduralConnectedTexture.getDefaultTextureForSide(side);
             if (blockAccess != null)
             {
-                final Block block = blockAccess.getBlockState(blockPos).getBlock();
+                final BlockPos immutableBlockPos = blockPos.toImmutable();
+                final IBlockState blockState = blockAccess.getBlockState(immutableBlockPos);
 
-                if (block.shouldSideBeRendered(blockAccess, blockPos.offset(side), side))
+                if (blockState.shouldSideBeRendered(blockAccess, immutableBlockPos, side))
                 {
                     try
                     {
-                        sprite = proceduralConnectedTexture.getSpriteForSide(blockAccess, blockPos, side);
+                        sprite = proceduralConnectedTexture.getSpriteForSide(blockAccess, immutableBlockPos, side);
                     } catch (final Exception e)
                     {
                         Logger.info("blockPos: %s, side: %s", blockPos, side);
-                        sprite = proceduralConnectedTexture.getSpriteForSide(blockAccess, blockPos, side);
+                        sprite = proceduralConnectedTexture.getSpriteForSide(blockAccess, immutableBlockPos, side);
                     }
                 }
             }
@@ -122,18 +130,26 @@ public class PCTModelInstance implements IFlexibleBakedModel, ISmartBlockModel
             bakedModel = newModel.bake(state, format, bakedTextureGetter);
             cache.put(identifier, bakedModel);
         }
+        return bakedModel;
     }
 
     @Override
-    public List<BakedQuad> getFaceQuads(EnumFacing side)
+    public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand)
     {
-        return bakedModel.getFaceQuads(side);
-    }
+        if (state instanceof IExtendedBlockState) {
+            final IExtendedBlockState extendedBlockState = (IExtendedBlockState) state;
+            if (extendedBlockState.getUnlistedProperties().containsKey(ModProperties.PROPERTY_BLOCK_POS) &&
+                    extendedBlockState.getUnlistedProperties().containsKey(ModProperties.PROPERTY_BLOCK_ACCESS)) {
 
-    @Override
-    public List<BakedQuad> getGeneralQuads()
-    {
-        return bakedModel.getGeneralQuads();
+                final BlockPos blockPos = extendedBlockState.getValue(ModProperties.PROPERTY_BLOCK_POS);
+                final IBlockAccess blockAccess = extendedBlockState.getValue(ModProperties.PROPERTY_BLOCK_ACCESS);
+
+                //return new PCTModelInstance(state, format, bakedTextureGetter, proceduralConnectedTexture, blockPos, blockAccess, baseModel);
+                return calculateSides(blockPos, blockAccess).getQuads(state, side, rand);
+            }
+        }
+
+        return bakedModel.getQuads(state, side, rand);
     }
 
     @Override
@@ -166,12 +182,7 @@ public class PCTModelInstance implements IFlexibleBakedModel, ISmartBlockModel
         return bakedModel.getItemCameraTransforms();
     }
 
-    @Override
-    public VertexFormat getFormat()
-    {
-        return bakedModel.getFormat();
-    }
-
+    /*
     @Override
     public IBakedModel handleBlockState(IBlockState blockState)
     {
@@ -189,8 +200,21 @@ public class PCTModelInstance implements IFlexibleBakedModel, ISmartBlockModel
 
         return this;
     }
+    */
+
+    @Override
+    public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType)
+    {
+        return IPerspectiveAwareModel.MapWrapper.handlePerspective(this, state, cameraTransformType);
+    }
 
     public ProceduralConnectedTexture getProceduralConnectedTexture() {
         return proceduralConnectedTexture;
+    }
+
+    public ItemOverrideList getOverrides()
+    {
+        // TODO handle items
+        return ItemOverrideList.NONE;
     }
 }

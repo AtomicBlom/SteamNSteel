@@ -18,7 +18,14 @@ package mod.steamnsteel.tileentity;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Optional;
+import mod.steamnsteel.library.Reference;
+import mod.steamnsteel.library.Reference.BlockNames;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.*;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import mod.steamnsteel.api.crafting.IAlloyResult;
@@ -31,7 +38,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 
 @SuppressWarnings("ClassWithTooManyMethods")
@@ -132,11 +138,11 @@ public class CupolaTE extends SteamNSteelTE implements ISidedInventory, ITickabl
     {
         final NBTTagCompound nbt = new NBTTagCompound();
         writeToNBT(nbt);
-        return new S35PacketUpdateTileEntity(getPos(), 1, nbt);
+        return new SPacketUpdateTileEntity(getPos(), 1, nbt);
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet)
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet)
     {
         readFromNBT(packet.getNbtCompound());
     }
@@ -234,7 +240,7 @@ public class CupolaTE extends SteamNSteelTE implements ISidedInventory, ITickabl
 
     @Override
     public String getName() {
-        return containerName(CupolaBlock.NAME);
+        return Reference.containerName(BlockNames.CUPOLA);
     }
 
     @Override
@@ -243,8 +249,8 @@ public class CupolaTE extends SteamNSteelTE implements ISidedInventory, ITickabl
         return false;
     }
 
-    public IChatComponent getDisplayName() {
-        return new ChatComponentText(getName());
+    public ITextComponent getDisplayName() {
+        return new TextComponentString(getName());
     }
 
     @Override
@@ -487,7 +493,7 @@ public class CupolaTE extends SteamNSteelTE implements ISidedInventory, ITickabl
             if (!renderBounds.isPresent())
             {
                 final BlockPos pos = getPos();
-                renderBounds = Optional.of(AxisAlignedBB.fromBounds(
+                renderBounds = Optional.of(new AxisAlignedBB(
                         pos.getX() - 1,
                         pos.getY(),
                         pos.getZ() - 1,

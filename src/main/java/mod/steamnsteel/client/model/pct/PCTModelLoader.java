@@ -2,16 +2,14 @@ package mod.steamnsteel.client.model.pct;
 
 import com.google.common.collect.Maps;
 import mod.steamnsteel.TheMod;
+import mod.steamnsteel.library.Reference;
 import mod.steamnsteel.texturing.api.ProceduralConnectedTexture;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockModelRenderer;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.util.BlockPos;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -40,7 +38,7 @@ public enum PCTModelLoader implements ICustomModelLoader
         final boolean isValidPath = resourcePath.startsWith(modelIndicator) ||
                 resourcePath.startsWith("models/block/advancedConnectedTexture/") ||
                 resourcePath.startsWith("models/item/advancedConnectedTexture/");
-        if (!resourceDomain.equals(TheMod.MOD_ID)) {
+        if (!resourceDomain.equals(Reference.MOD_ID)) {
             return false;
         }
         return isValidPath;
@@ -62,7 +60,7 @@ public enum PCTModelLoader implements ICustomModelLoader
     public void onPreTextureStitch(TextureStitchEvent.Pre event) {
         for (final ProceduralConnectedTexture proceduralConnectedTexture : textures.values())
         {
-            proceduralConnectedTexture.registerSprites(event.map);
+            proceduralConnectedTexture.registerSprites(event.getMap());
         }
     }
 
@@ -77,7 +75,7 @@ public enum PCTModelLoader implements ICustomModelLoader
     public static String describeTextureAt(World worldIn, BlockPos pos, EnumFacing side) {
         final IBlockState state = worldIn.getBlockState(pos);
         final BlockRendererDispatcher rendererDispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
-        final IBakedModel model = rendererDispatcher.getModelFromBlockState(state, worldIn, pos);
+        final IBakedModel model = rendererDispatcher.getModelForState(state);
         if (model instanceof PCTModelInstance) {
             final ProceduralConnectedTexture proceduralConnectedTexture = ((PCTModelInstance) model).getProceduralConnectedTexture();
             return proceduralConnectedTexture.describeTextureAt(worldIn, pos, side);

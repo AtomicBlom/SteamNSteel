@@ -18,29 +18,20 @@ package mod.steamnsteel.block.resource.structure;
 
 import mod.steamnsteel.block.*;
 import mod.steamnsteel.tileentity.RemnantRuinPillarTE;
-import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class RemnantRuinPillarBlock extends SteamNSteelDirectionalBlock
 {
-    public static final String NAME = "remnantRuinPillar";
-    private static int renderId;
-
     public RemnantRuinPillarBlock()
     {
-        super(Material.rock);
-        setUnlocalizedName(NAME);
+        super(Material.ROCK);
     }
 
     @Override
-    public boolean isOpaqueCube()
+    public boolean isOpaqueCube(IBlockState state)
     {
         return false;
     }

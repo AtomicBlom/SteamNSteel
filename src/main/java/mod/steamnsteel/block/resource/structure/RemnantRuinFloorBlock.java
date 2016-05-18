@@ -19,17 +19,17 @@ package mod.steamnsteel.block.resource.structure;
 import mod.steamnsteel.block.SteamNSteelBlock;
 import mod.steamnsteel.client.model.pct.PCTModelLoader;
 import mod.steamnsteel.library.ModProperties;
-import mod.steamnsteel.texturing.api.ProceduralConnectedTexture;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.BlockPos.MutableBlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
@@ -38,16 +38,13 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 
 public class RemnantRuinFloorBlock extends SteamNSteelBlock
 {
-    public static final String NAME = "remnantRuinFloor";
-
     public RemnantRuinFloorBlock()
     {
-        super(Material.rock);
-        setUnlocalizedName(NAME);
+        super(Material.ROCK);
     }
 
     @Override
-    protected BlockState createBlockState()
+    protected BlockStateContainer createBlockState()
     {
         return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[] {
                 ModProperties.PROPERTY_BLOCK_POS,
@@ -56,13 +53,13 @@ public class RemnantRuinFloorBlock extends SteamNSteelBlock
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        /*if (worldIn.isRemote) {
+        if (worldIn.isRemote) {
             String description = PCTModelLoader.describeTextureAt(worldIn, pos, side);
-            playerIn.addChatComponentMessage(new ChatComponentText(description));
-        }*/
-        return super.onBlockActivated(worldIn, pos, state, playerIn, side, hitX, hitY, hitZ);
+            playerIn.addChatComponentMessage(new TextComponentString(description));
+        }
+        return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
     }
 
     @Override

@@ -95,9 +95,9 @@ public enum WorldGen
         schematicLoader = new SchematicLoader();
         schematicLoader.addSetBlockEventListener(event -> {
             final IBlockState schematicBlock = event.getBlockState();
-            if (schematicBlock.getBlock() == Blocks.vine) {
+            if (schematicBlock.getBlock() == Blocks.VINE) {
                 final IBlockState worldBlock = event.world.getBlockState(event.worldCoord);
-                if (!worldBlock.getBlock().isAir(event.world, event.schematicCoord)) {
+                if (!worldBlock.getBlock().isAir(worldBlock, event.world, event.schematicCoord)) {
                     event.cancelSetBlock();
                 }
             }
@@ -113,17 +113,17 @@ public enum WorldGen
     public void OnPostOreGenerated(OreGenEvent.Post event)
     {
         for (final OreGenerator oreGen : oreGens)
-            if (TerrainGen.generateOre(event.world, event.rand, oreGen, event.pos, CUSTOM))
-                oreGen.generate(event.world, event.rand, event.pos);
+            if (TerrainGen.generateOre(event.getWorld(), event.getRand(), oreGen, event.getPos(), CUSTOM))
+                oreGen.generate(event.getWorld(), event.getRand(), event.getPos());
     }
 
     @SubscribeEvent
     public void OnPostPopulateChunkEvent(PopulateChunkEvent.Post event) {
-        if (event.hasVillageGenerated) {
+        if (event.isHasVillageGenerated()) {
             return;
         }
         for (final StructureGenerator structureGen : structureGens) {
-            StructureChunkGenerator structureToGenerate = structureGen.getStructureChunkToGenerate(event.world, event.chunkX, event.chunkZ);
+            StructureChunkGenerator structureToGenerate = structureGen.getStructureChunkToGenerate(event.getWorld(), event.getChunkX(), event.getChunkZ());
             if (structureToGenerate != null) {
                 structureToGenerate.generate();
             }

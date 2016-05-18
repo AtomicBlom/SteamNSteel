@@ -17,24 +17,16 @@
 package mod.steamnsteel.block;
 
 import mod.steamnsteel.block.SteamNSteelBlock;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 
 public class SteamNSteelStorageBlock extends SteamNSteelBlock
 {
-    public static final String BRASS_BLOCK = "blockBrass";
-    public static final String BRONZE_BLOCK = "blockBronze";
-    public static final String COPPER_BLOCK = "blockCopper";
-    public static final String PLOTONIUM_BLOCK = "blockPlotonium";
-    public static final String STEEL_BLOCK = "blockSteel";
-    public static final String TIN_BLOCK = "blockTin";
-    public static final String ZINC_BLOCK = "blockZinc";
-
-    public SteamNSteelStorageBlock(String name)
+    public SteamNSteelStorageBlock()
     {
-        super(Material.iron);
-        setUnlocalizedName(name);
+        super(Material.IRON);
         setHardness(5.0f);
         setResistance(10.0f);
-        setStepSound(soundTypeMetal);
+        setSoundType(SoundType.METAL);
     }
 }

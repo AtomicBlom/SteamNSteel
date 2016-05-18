@@ -21,13 +21,11 @@ import com.google.common.collect.ImmutableSet;
 import mod.steamnsteel.library.ModBlock;
 import mod.steamnsteel.utility.position.ChunkCoord;
 import mod.steamnsteel.world.ore.OreGenerator;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraft.util.EnumFacing;
 import java.util.Arrays;
@@ -46,10 +44,10 @@ public class NiterVeinGeneratorStateMachine
 
     private static final ImmutableSet<IBlockState> TARGET_BLOCKS =
             ImmutableSet.of(
-                    Blocks.stone.getDefaultState(),
-                    Blocks.dirt.getDefaultState(),
-                    Blocks.sand.getDefaultState(),
-                    Blocks.sandstone.getDefaultState()
+                    Blocks.STONE.getDefaultState(),
+                    Blocks.DIRT.getDefaultState(),
+                    Blocks.SAND.getDefaultState(),
+                    Blocks.SANDSTONE.getDefaultState()
             );
 
     private static final ImmutableSet<BiomeDictionary.Type> PREFERRED_BIOME_TYPES = ImmutableSet.copyOf(EnumSet.of(DRY, HOT));
@@ -128,7 +126,7 @@ public class NiterVeinGeneratorStateMachine
                 final BlockPos crustTarget = target.offset(offset);
 
                 if (ChunkCoord.of(crustTarget).exists(world) && OreGenerator.isBlockReplaceable(world, crustTarget, TARGET_BLOCKS)) {
-                    world.setBlockState(crustTarget, Blocks.sandstone.getDefaultState(), 2);
+                    world.setBlockState(crustTarget, Blocks.SANDSTONE.getDefaultState(), 2);
                 }
             }
             paddingChancePercent *= 0.75f;
@@ -142,7 +140,8 @@ public class NiterVeinGeneratorStateMachine
             final BlockPos target = coord.offset(offset);
 
             if (ChunkCoord.of(target).exists(world)) {
-                if (world.getBlockState(target).getBlock().getMaterial().isLiquid()) {
+                final IBlockState blockState = world.getBlockState(target);
+                if (blockState.getMaterial().isLiquid()) {
                     return true;
                 }
             }

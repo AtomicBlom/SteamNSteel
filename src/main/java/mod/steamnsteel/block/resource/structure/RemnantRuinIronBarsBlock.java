@@ -6,9 +6,10 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import mod.steamnsteel.TheMod;
 import net.minecraft.block.BlockPane;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -23,16 +24,14 @@ import java.util.List;
 
 public class RemnantRuinIronBarsBlock extends BlockPane
 {
-    public static final String NAME = "remnantRuinIronBars";
     public static final PropertyIronBarTextures IronBarsType = PropertyIronBarTextures.create("type", Arrays.asList(IronBarsTextures.VALUES));
 
     public RemnantRuinIronBarsBlock()
     {
-        super(Material.iron, true);
+        super(Material.IRON, true);
         setHardness(5.0F);
         setResistance(10.0F);
-        setStepSound(soundTypeMetal);
-        setUnlocalizedName(NAME);
+        setSoundType(SoundType.METAL);
         setCreativeTab(TheMod.CREATIVE_TAB);
 
         setDefaultState(
@@ -55,21 +54,15 @@ public class RemnantRuinIronBarsBlock extends BlockPane
     }
 
     @Override
-    protected BlockState createBlockState()
+    protected BlockStateContainer createBlockState()
     {
-        return new BlockState(this, NORTH, EAST, WEST, SOUTH, IronBarsType);
-    }
-
-    @SuppressWarnings("WeakerAccess")
-    protected static String getUnwrappedUnlocalizedName(String unlocalizedName)
-    {
-        return unlocalizedName.substring(unlocalizedName.indexOf('.') + 1);
+        return new BlockStateContainer(this, NORTH, EAST, WEST, SOUTH, IronBarsType);
     }
 
     @Override
     public String getUnlocalizedName()
     {
-        return "tile." + TheMod.RESOURCE_PREFIX + getUnwrappedUnlocalizedName(super.getUnlocalizedName());
+        return "tile." + getRegistryName();
     }
 
     @Override
@@ -93,9 +86,9 @@ public class RemnantRuinIronBarsBlock extends BlockPane
 
     public enum IronBarsTextures implements IStringSerializable
     {
-        RUSTED("Rusted"),
-        MOSSY("Mossy"),
-        RUSTED_MOSSY("RustedMossy");
+        RUSTED("rusted"),
+        MOSSY("mossy"),
+        RUSTED_MOSSY("rustedmossy");
 
         public static final IronBarsTextures[] VALUES = {
                 RUSTED,

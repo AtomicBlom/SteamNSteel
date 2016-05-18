@@ -7,10 +7,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.world.chunk.Chunk;
 
 import java.util.EnumSet;
 import java.util.Random;
@@ -70,8 +69,8 @@ public class SulfurOreGenerator extends OreGenerator
     private static final int NUM_BLOCKS_IN_VEIN_VARIATION = NUM_BLOCKS_IN_VEIN / 2;
 
     private static final ImmutableSet<IBlockState> TARGET_BLOCKS = ImmutableSet.of(
-            Blocks.stone.getDefaultState(),
-            Blocks.dirt.getDefaultState());
+            Blocks.STONE.getDefaultState(),
+            Blocks.DIRT.getDefaultState());
 
     private static final ImmutableSet<EnumFacing> BRANCH_DIRECTIONS = ImmutableSet.copyOf(EnumSet.of(
             EnumFacing.UP,
@@ -105,8 +104,8 @@ public class SulfurOreGenerator extends OreGenerator
         {
             if (target.getY() >= 0)
             {
-                final Block block = world.getBlockState(coord).getBlock();
-                if (block.getMaterial().equals(Material.lava))
+                final IBlockState blockState = world.getBlockState(coord);
+                if (blockState.getMaterial().equals(Material.LAVA))
                     return true;
 
                 if (!world.isAirBlock(coord))
@@ -129,7 +128,7 @@ public class SulfurOreGenerator extends OreGenerator
 
             if (ChunkCoord.of(target).exists(world))
 
-                if (world.getBlockState(target).getBlock().getMaterial().equals(Material.lava))
+                if (world.getBlockState(target).getMaterial().equals(Material.LAVA))
                     return true;
         }
         return false;

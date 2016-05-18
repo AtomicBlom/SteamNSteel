@@ -23,21 +23,19 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import mod.steamnsteel.block.SteamNSteelStructureBlock;
 import mod.steamnsteel.tileentity.structure.BlastFurnaceTE;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import static net.minecraft.block.BlockDirectional.FACING;
+import static com.foudroyantfactotum.tool.structure.block.StructureShapeBlock.DIRECTION;
 
 public class SSBlastFurnaceStructure extends SteamNSteelStructureBlock
 {
-    public static final String NAME = "ssBlastFurnace";
-
     @SideOnly(Side.CLIENT)
     private static float rndRC()
     {
@@ -47,19 +45,18 @@ public class SSBlastFurnaceStructure extends SteamNSteelStructureBlock
     public SSBlastFurnaceStructure()
     {
         super(true, true);
-        setUnlocalizedName(NAME);
         setDefaultState(
                 this.blockState
                         .getBaseState()
-                        .withProperty(FACING, EnumFacing.NORTH)
+                        .withProperty(DIRECTION, EnumFacing.NORTH)
                         .withProperty(MIRROR, false)
         );
     }
 
     @Override
-    protected BlockState createBlockState()
+    protected BlockStateContainer createBlockState()
     {
-        return new BlockState(this, FACING, MIRROR);
+        return new BlockStateContainer(this, DIRECTION, MIRROR);
     }
 
     @Override
@@ -84,7 +81,7 @@ public class SSBlastFurnaceStructure extends SteamNSteelStructureBlock
     @Override
     public TileEntity createTileEntity(World world, IBlockState state)
     {
-        return new BlastFurnaceTE(getPattern(), state.getValue(FACING), state.getValue(MIRROR));
+        return new BlastFurnaceTE(getPattern(), state.getValue(DIRECTION), state.getValue(MIRROR));
     }
 
     @Override
