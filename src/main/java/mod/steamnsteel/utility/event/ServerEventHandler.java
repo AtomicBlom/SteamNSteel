@@ -12,32 +12,32 @@ public class ServerEventHandler
     @SubscribeEvent
     public void onWorldLoad(WorldEvent.Load event)
     {
-        if (!event.world.isRemote)
+        if (!event.getWorld().isRemote)
         {
-            SwarmManager swarmManager = (SwarmManager) event.world.getPerWorldStorage().loadData(SwarmManager.class, SWARM);
+            SwarmManager swarmManager = (SwarmManager) event.getWorld().getPerWorldStorage().loadData(SwarmManager.class, SWARM);
 
             if (swarmManager == null)
             {
-                swarmManager = new SwarmManager(event.world);
-                event.world.getPerWorldStorage().setData(SWARM, swarmManager);
+                swarmManager = new SwarmManager(event.getWorld());
+                event.getWorld().getPerWorldStorage().setData(SWARM, swarmManager);
             }
             else
             {
-                swarmManager.setWorld(event.world);
+                swarmManager.setWorld(event.getWorld());
             }
 
-            SwarmManager.swarmManagers.put(event.world, swarmManager);
+            SwarmManager.swarmManagers.put(event.getWorld(), swarmManager);
         }
     }
 
     @SubscribeEvent
     public void onWorldUnload(WorldEvent.Unload event)
     {
-        if (!event.world.isRemote)
+        if (!event.getWorld().isRemote)
         {
-            SwarmManager sm = SwarmManager.swarmManagers.remove(event.world);
+            SwarmManager sm = SwarmManager.swarmManagers.remove(event.getWorld());
 
-            event.world.getPerWorldStorage().setData(SWARM, sm);
+            event.getWorld().getPerWorldStorage().setData(SWARM, sm);
         }
     }
 

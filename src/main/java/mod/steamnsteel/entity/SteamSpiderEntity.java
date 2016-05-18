@@ -7,14 +7,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class SteamSpiderEntity extends EntityMob implements ISwarmer, IRangedAttackMob
@@ -50,8 +49,8 @@ public class SteamSpiderEntity extends EntityMob implements ISwarmer, IRangedAtt
     {
         //TODO attributes
         super.applyEntityAttributes();
-        getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(10.0D);
-        getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.35D); //Same speed as player walking
+        getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
+        getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.35D); //Same speed as player walking
         //getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue();
         //getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(3.0D);
     }
@@ -60,7 +59,7 @@ public class SteamSpiderEntity extends EntityMob implements ISwarmer, IRangedAtt
     protected void entityInit()
     {
         super.entityInit();
-        this.getDataWatcher().addObject(12, (byte) 0); //Hostile status
+        this.getDataManager().<Byte>set(12, (byte) 0); //Hostile status
     }
 
     @Override

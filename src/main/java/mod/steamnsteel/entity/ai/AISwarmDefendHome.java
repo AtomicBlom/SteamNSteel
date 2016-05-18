@@ -4,7 +4,7 @@ import mod.steamnsteel.entity.ISwarmer;
 import mod.steamnsteel.utility.position.ChunkCoord;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 

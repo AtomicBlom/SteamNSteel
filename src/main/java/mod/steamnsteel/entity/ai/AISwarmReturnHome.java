@@ -3,8 +3,8 @@ package mod.steamnsteel.entity.ai;
 import mod.steamnsteel.entity.ISwarmer;
 import mod.steamnsteel.utility.position.ChunkCoord;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 
 public class AISwarmReturnHome<T extends EntityLiving & ISwarmer> extends AISwarmBase<T>
 {

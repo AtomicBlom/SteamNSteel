@@ -22,9 +22,9 @@ public class SpiderFactoryEntity extends EntityMob {
     {
         //TODO attributes
         super.applyEntityAttributes();
-        getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(10.0D);
-        getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0D);
-        getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(10000000D);
+        getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
+        getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0D);
+        getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(10000000D);
     }
 
     @Override

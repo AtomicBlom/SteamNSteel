@@ -6,10 +6,9 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
-import net.minecraftforge.client.model.IFlexibleBakedModel;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
@@ -24,8 +23,8 @@ import java.io.IOException;
 public class SteamSpiderModel extends SteamNSteelEntityModel
 {
     private static final ResourceLocation MODEL = getResourceLocation(SteamSpiderEntity.NAME);
-    private static final Vec3 rightLegsRotVec = new Vec3(0.15, -1.25, 0);
-    private static final Vec3 leftLegsRotVec = new Vec3(-0.15, -1.25, 0);
+    private static final Vec3d rightLegsRotVec = new Vec3d(0.15, -1.25, 0);
+    private static final Vec3d leftLegsRotVec = new Vec3d(-0.15, -1.25, 0);
     private IFlexibleBakedModel model;
     private float jumpLegAngle;
 
@@ -33,11 +32,11 @@ public class SteamSpiderModel extends SteamNSteelEntityModel
     {
         try
         {
-            final IModel nbm = OBJLoader.instance.loadModel(MODEL);
+            final IModel nbm = OBJLoader.INSTANCE.loadModel(MODEL);
 
             model = nbm.bake(nbm.getDefaultState(), DefaultVertexFormats.ITEM, ModelLoader.defaultTextureGetter());
 
-        } catch (IOException e)
+        } catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -52,11 +51,11 @@ public class SteamSpiderModel extends SteamNSteelEntityModel
 
         final Tessellator tessellator = Tessellator.getInstance();
 
-        tessellator.getWorldRenderer().begin(GL11.GL_TRIANGLES, model.getFormat());
+        tessellator.getBuffer().begin(GL11.GL_TRIANGLES, model.getFormat());
 
         for (final BakedQuad q : model.getGeneralQuads())
         {
-            tessellator.getWorldRenderer().addVertexData(q.getVertexData());
+            tessellator.getBuffer().addVertexData(q.getVertexData());
         }
         //Disable colour if taking damage to allow it to properly show damage effect
        /* if (((EntityLivingBase) entity).hurtTime > 0 || ((EntityLivingBase) entity).deathTime > 0) tessellator.disableColor();

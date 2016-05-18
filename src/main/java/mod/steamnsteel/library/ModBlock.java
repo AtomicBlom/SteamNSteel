@@ -55,59 +55,6 @@ public final class ModBlock
     // * NOTE: @GameRegistry.ObjectHolder requires these fields to have the same name as the unlocalized name of the
     // *       object.
     // *
-<<<<<<< HEAD
-    //TODO: Resurrect Blocks
-
-    public static final SteamNSteelBlock blockBrass = new SteamNSteelStorageBlock(SteamNSteelStorageBlock.BRASS_BLOCK);
-    public static final SteamNSteelBlock blockBronze = new SteamNSteelStorageBlock(SteamNSteelStorageBlock.BRONZE_BLOCK);
-    public static final SteamNSteelBlock blockCopper = new SteamNSteelStorageBlock(SteamNSteelStorageBlock.COPPER_BLOCK);
-    public static final SteamNSteelBlock blockPlotonium = new SteamNSteelStorageBlock(SteamNSteelStorageBlock.PLOTONIUM_BLOCK);
-    public static final SteamNSteelBlock blockSteel = new SteamNSteelStorageBlock(SteamNSteelStorageBlock.STEEL_BLOCK);
-    public static final SteamNSteelBlock blockTin = new SteamNSteelStorageBlock(SteamNSteelStorageBlock.TIN_BLOCK);
-    public static final SteamNSteelBlock blockZinc = new SteamNSteelStorageBlock(SteamNSteelStorageBlock.ZINC_BLOCK);
-    public static final SteamNSteelBlock blockBrassStorage = new SteamNSteelDirectionalStorageBlock(SteamNSteelDirectionalStorageBlock.STORAGE_BRASS_BLOCK);
-    public static final SteamNSteelBlock blockBronzeStorage = new SteamNSteelDirectionalStorageBlock(SteamNSteelDirectionalStorageBlock.STORAGE_BRONZE_BLOCK);
-    public static final SteamNSteelBlock blockCopperStorage = new SteamNSteelDirectionalStorageBlock(SteamNSteelDirectionalStorageBlock.STORAGE_COPPER_BLOCK);
-    public static final SteamNSteelBlock blockPlotoniumStorage = new SteamNSteelDirectionalStorageBlock(SteamNSteelDirectionalStorageBlock.STORAGE_PLOTONIUM_BLOCK);
-    public static final SteamNSteelBlock blockSteelStorage = new SteamNSteelDirectionalStorageBlock(SteamNSteelDirectionalStorageBlock.STORAGE_STEEL_BLOCK);
-    public static final SteamNSteelBlock blockTinStorage = new SteamNSteelDirectionalStorageBlock(SteamNSteelDirectionalStorageBlock.STORAGE_TIN_BLOCK);
-    public static final SteamNSteelBlock blockZincStorage = new SteamNSteelDirectionalStorageBlock(SteamNSteelDirectionalStorageBlock.STORAGE_ZINC_BLOCK);
-
-    public static final SteamNSteelBlock cupola = new CupolaBlock();
-
-    public static final SteamNSteelStructureShapeBlock structureShape = new SteamNSteelStructureShapeBlock();
-    public static final SteamNSteelStructureShapeBlock shapeLI = new ShapeLIBlock();
-    public static final SteamNSteelStructureBlock ssBallMill = new SSBallMillStructure();
-    public static final SteamNSteelStructureBlock ssBlastFurnace = new SSBlastFurnaceStructure();
-    public static final SteamNSteelStructureBlock ssBoiler = new SSBoilerStructure();
-    public static final SteamNSteelStructureBlock fanLarge = new FanLargeStructure();
-    public static final SteamNSteelStructureBlock spiderFactory = new SpiderFactoryStructure();
-
-    public static final SteamNSteelBlock pipe = new PipeBlock();
-    public static final SteamNSteelBlock pipeValve = new PipeValveBlock();
-    public static final SteamNSteelBlock pipeValveRedstone = new PipeRedstoneValveBlock();
-    public static final SteamNSteelBlock pipeJunction = new PipeJunctionBlock();
-
-    public static final SteamNSteelBlock remnantRuinChest = new RemnantRuinChestBlock();
-    public static final SteamNSteelBlock craftingStation = new CraftingStationBlock();
-    public static final SteamNSteelBlock remnantRuinPillar = new RemnantRuinPillarBlock();
-
-    public static final SteamNSteelOreBlock oreNiter = new NiterOre();
-    public static final SteamNSteelOreBlock oreCopper = new CopperOre();
-    public static final SteamNSteelOreBlock oreSulfur = new SulfurOre();
-    public static final SteamNSteelOreBlock oreTin = new TinOre();
-    public static final SteamNSteelOreBlock oreZinc = new ZincOre();
-
-    public static final SteamNSteelBlock blockConcrete = new ConcreteBlock();
-
-    public static final SteamNSteelBlock remnantRuinFloor = new RemnantRuinFloorBlock();
-    public static final SteamNSteelBlock remnantRuinWall = new RemnantRuinWallBlock();
-    public static final RemnantRuinIronBarsBlock remnantRuinIronBars = new RemnantRuinIronBarsBlock();
-    /*
-    public static final SteamNSteelPaneBlock remnantRuinIronBars = new RemnantRuinIronBarsBlock();
-    */
-=======
-
     public static Block blockBrass;
     public static Block blockBronze;
     public static Block blockCopper;
@@ -131,6 +78,7 @@ public final class ModBlock
     public static SteamNSteelStructureBlock ssBlastFurnace;
     public static SteamNSteelStructureBlock ssBoiler;
     public static SteamNSteelStructureBlock fanLarge;
+    public static final SteamNSteelStructureBlock spiderFactory = new SpiderFactoryStructure();
 
     public static Block pipe;
     public static Block pipeValve;
@@ -153,7 +101,6 @@ public final class ModBlock
     public static Block remnantRuinFloor;
     public static Block remnantRuinWall;
     public static Block remnantRuinIronBars;
->>>>>>> feature/1.9-Upgrade
 
     private ModBlock()
     {
@@ -210,23 +157,7 @@ public final class ModBlock
     
     public static void registerTileEntities()
     {
-<<<<<<< HEAD
-        GameRegistry.registerTileEntity(RemnantRuinChestTE.class, getTEName(RemnantRuinChestBlock.NAME));
-        GameRegistry.registerTileEntity(CupolaTE.class, getTEName(CupolaBlock.NAME));
-        GameRegistry.registerTileEntity(SteamNSteelStructureShapeTE.class, getTEName(SteamNSteelStructureShapeBlock.NAME));
-        GameRegistry.registerTileEntity(ShapeLITE.class, getTEName(ShapeLIBlock.NAME));
-        GameRegistry.registerTileEntity(BallMillTE.class, getTEName(SSBallMillStructure.NAME));
-        GameRegistry.registerTileEntity(LargeFanTE.class, getTEName(FanLargeStructure.NAME));
-        GameRegistry.registerTileEntity(BlastFurnaceTE.class, getTEName(SSBlastFurnaceStructure.NAME));
-        GameRegistry.registerTileEntity(BoilerTE.class, getTEName(SSBoilerStructure.NAME));
-        GameRegistry.registerTileEntity(PipeTE.class, getTEName(PipeBlock.NAME));
-        GameRegistry.registerTileEntity(PipeValveTE.class, getTEName(PipeValveBlock.NAME));
-        GameRegistry.registerTileEntity(PipeRedstoneValveTE.class, getTEName(PipeRedstoneValveBlock.NAME));
-        GameRegistry.registerTileEntity(PipeJunctionTE.class, getTEName(PipeJunctionBlock.NAME));
-        GameRegistry.registerTileEntity(RemnantRuinPillarTE.class, getTEName(RemnantRuinPillarBlock.NAME));
-
         GameRegistry.registerTileEntity(SpiderFactoryTE.class, getTEName(SpiderFactoryStructure.NAME));
-=======
         GameRegistry.registerTileEntity(RemnantRuinChestTE.class, getTEName(BlockNames.REMNANT_RUIN_CHEST));
         GameRegistry.registerTileEntity(CupolaTE.class, getTEName(BlockNames.CUPOLA));
         GameRegistry.registerTileEntity(SteamNSteelStructureShapeTE.class, getTEName(BlockNames.STRUCTURE_SHAPE));
@@ -240,63 +171,12 @@ public final class ModBlock
         GameRegistry.registerTileEntity(PipeRedstoneValveTE.class, getTEName(BlockNames.PIPE_VALVE_REDSTONE));
         GameRegistry.registerTileEntity(PipeJunctionTE.class, getTEName(BlockNames.PIPE_JUNCTION));
         GameRegistry.registerTileEntity(RemnantRuinPillarTE.class, getTEName(BlockNames.REMNANT_RUIN_PILLAR));
->>>>>>> feature/1.9-Upgrade
     }
 
     private static String getTEName(String name) { return "tile." + name;}
 
     public static void init()
     {
-<<<<<<< HEAD
-        GameRegistry.registerBlock(remnantRuinChest, RemnantRuinChestBlock.NAME);
-        GameRegistry.registerBlock(craftingStation, CraftingStationBlock.NAME);
-
-        GameRegistry.registerBlock(cupola, CupolaBlock.NAME);
-
-        GameRegistry.registerBlock(structureShape, SteamNSteelStructureShapeBlock.NAME);
-        GameRegistry.registerBlock(shapeLI, ShapeLIBlock.NAME);
-        registerStructure(ssBallMill, shapeLI, SSBallMillStructure.NAME);
-        registerStructure(ssBlastFurnace, shapeLI, SSBlastFurnaceStructure.NAME);
-        registerStructure(ssBoiler, shapeLI, SSBoilerStructure.NAME);
-        registerStructure(fanLarge, structureShape, FanLargeStructure.NAME);
-        registerStructure(spiderFactory, structureShape, SpiderFactoryStructure.NAME);
-
-        GameRegistry.registerBlock(pipe, PipeBlock.NAME);
-        GameRegistry.registerBlock(pipeValve, PipeValveBlock.NAME);
-        GameRegistry.registerBlock(pipeValveRedstone, PipeRedstoneValveBlock.NAME);
-        GameRegistry.registerBlock(pipeJunction, PipeJunctionBlock.NAME);
-
-        registerBlockAndOre(oreNiter, NiterOre.NAME);
-        registerBlockAndOre(oreCopper, CopperOre.NAME);
-        registerBlockAndOre(oreSulfur, SulfurOre.NAME);
-        registerBlockAndOre(oreTin, TinOre.NAME);
-        registerBlockAndOre(oreZinc, ZincOre.NAME);
-
-        registerBlockAndOre(blockBrass, SteamNSteelStorageBlock.BRASS_BLOCK);
-        registerBlockAndOre(blockBronze, SteamNSteelStorageBlock.BRONZE_BLOCK);
-        registerBlockAndOre(blockCopper, SteamNSteelStorageBlock.COPPER_BLOCK);
-        registerBlockAndOre(blockPlotonium, SteamNSteelStorageBlock.PLOTONIUM_BLOCK);
-        registerBlockAndOre(blockSteel, SteamNSteelStorageBlock.STEEL_BLOCK);
-        registerBlockAndOre(blockTin, SteamNSteelStorageBlock.TIN_BLOCK);
-        registerBlockAndOre(blockZinc, SteamNSteelStorageBlock.ZINC_BLOCK);
-        registerBlockAndOre(blockBrassStorage, SteamNSteelDirectionalStorageBlock.STORAGE_BRASS_BLOCK);
-        registerBlockAndOre(blockBronzeStorage, SteamNSteelDirectionalStorageBlock.STORAGE_BRONZE_BLOCK);
-        registerBlockAndOre(blockCopperStorage, SteamNSteelDirectionalStorageBlock.STORAGE_COPPER_BLOCK);
-        registerBlockAndOre(blockPlotoniumStorage, SteamNSteelDirectionalStorageBlock.STORAGE_PLOTONIUM_BLOCK);
-        registerBlockAndOre(blockSteelStorage, SteamNSteelDirectionalStorageBlock.STORAGE_STEEL_BLOCK);
-        registerBlockAndOre(blockTinStorage, SteamNSteelDirectionalStorageBlock.STORAGE_TIN_BLOCK);
-        registerBlockAndOre(blockZincStorage, SteamNSteelDirectionalStorageBlock.STORAGE_ZINC_BLOCK);
-
-        GameRegistry.registerBlock(remnantRuinPillar, RemnantRuinPillarBlock.NAME);
-
-        GameRegistry.registerBlock(remnantRuinFloor, RemnantRuinFloorBlock.NAME);
-        GameRegistry.registerBlock(remnantRuinWall, RemnantRuinWallBlock.NAME);
-        GameRegistry.registerBlock(remnantRuinIronBars, RemnantRuinIronBarsBlockItem.class, RemnantRuinIronBarsBlock.NAME);
-        GameRegistry.registerBlock(blockConcrete, ConcreteBlockItem.class, ConcreteBlock.NAME);
-
-
-        //Compat
-=======
         createBlocks();
 
         registerBlockAndItem(remnantRuinChest);
@@ -310,6 +190,7 @@ public final class ModBlock
         registerStructure(ssBlastFurnace, shapeLI, BlockNames.BLAST_FURNACE);
         registerStructure(ssBoiler, shapeLI, BlockNames.BOILER);
         registerStructure(fanLarge, structureShape, BlockNames.FAN_LARGE);
+        registerStructure(spiderFactory, structureShape, SpiderFactoryStructure.NAME);
 
         registerBlockAndItem(pipe);
         registerBlockAndItem(pipeValve);
@@ -346,7 +227,8 @@ public final class ModBlock
         registerBlock(blockConcrete);
         registerItem(new ConcreteBlockItem(blockConcrete).setRegistryName(BlockNames.CONCRETE));
 
->>>>>>> feature/1.9-Upgrade
+
+
         TileEntity.addMapping(RemnantRuinChestTE.class, "tile.chestPlotonium");
     }
 

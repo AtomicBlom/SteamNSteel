@@ -2,7 +2,7 @@ package mod.steamnsteel.client.fx;
 
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -45,7 +45,7 @@ public class SteamParticle extends EntityFX
         }
 
         this.particleScale = this.smokeParticleScale * f6;
-        super.renderParticle(p_70539_1_.getWorldRenderer(), this, p_70539_2_, p_70539_3_, p_70539_4_, p_70539_5_, p_70539_6_, p_70539_7_);
+        super.renderParticle(p_70539_1_.getBuffer(), this, p_70539_2_, p_70539_3_, p_70539_4_, p_70539_5_, p_70539_6_, p_70539_7_);
     }
 
     /**
@@ -59,7 +59,7 @@ public class SteamParticle extends EntityFX
 
         if (this.particleAge++ >= this.particleMaxAge)
         {
-            this.setDead();
+            this.setExpired();;
         }
 
         this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);

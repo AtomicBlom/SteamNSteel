@@ -28,7 +28,6 @@ import mod.steamnsteel.gui.GuiHandler;
 import mod.steamnsteel.library.*;
 import mod.steamnsteel.proxy.Proxies;
 import mod.steamnsteel.utility.event.ServerEventHandler;
-import mod.steamnsteel.world.ChunkWorldType;
 import mod.steamnsteel.world.LoadSchematicFromFileCommand;
 import mod.steamnsteel.world.LoadSchematicFromResourceCommand;
 import mod.steamnsteel.world.WorldGen;
@@ -88,7 +87,7 @@ public class TheMod
         MinecraftForge.EVENT_BUS.register(ConfigurationHandler.INSTANCE);
         MinecraftForge.EVENT_BUS.register(ModCrafting.INSTANCE);
         MinecraftForge.EVENT_BUS.register(new ServerEventHandler());
-        new ChunkWorldType(); //todo remove
+        //new ChunkWorldType(); //todo remove
 
         StructureRegistry.loadRegisteredPatterns();
 

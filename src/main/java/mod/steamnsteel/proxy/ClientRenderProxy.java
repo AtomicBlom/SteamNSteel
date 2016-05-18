@@ -39,13 +39,9 @@ import mod.steamnsteel.tileentity.structure.BlastFurnaceTE;
 import mod.steamnsteel.tileentity.structure.BoilerTE;
 import mod.steamnsteel.tileentity.structure.LargeFanTE;
 import net.minecraft.block.Block;
-<<<<<<< HEAD
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-=======
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
->>>>>>> feature/1.9-Upgrade
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelBakeEvent;
@@ -71,17 +67,11 @@ public class ClientRenderProxy extends CommonRenderProxy
 
         registerEventHandlers();
 
-<<<<<<< HEAD
         registerEntityRenderers();
 
-        OpenGEXModelLoader.instance.addDomain(TheMod.MOD_ID);
-        OBJLoader.instance.addDomain(TheMod.MOD_ID);
-        B3DLoader.instance.addDomain(TheMod.MOD_ID);
-=======
         OpenGEXModelLoader.instance.addDomain(Reference.MOD_ID);
         OBJLoader.INSTANCE.addDomain(Reference.MOD_ID);
         B3DLoader.INSTANCE.addDomain(Reference.MOD_ID);
->>>>>>> feature/1.9-Upgrade
         ModelLoaderRegistry.registerLoader(OpenGEXModelLoader.instance);
         ModelLoaderRegistry.registerLoader(PCTModelLoader.instance);
     }
@@ -177,14 +167,7 @@ public class ClientRenderProxy extends CommonRenderProxy
         }
     }
 
-<<<<<<< HEAD
-    private void registerMetadataBlockModel(Block block, int meta, String discriminator, String discriminatorValue)
-    {
-        final String resourceName = block.getUnlocalizedName().substring(5);
-
-=======
     private void registerMetadataBlockModel(Block block, int meta, String discriminator, String discriminatorValue) {
->>>>>>> feature/1.9-Upgrade
         ModelLoader.setCustomModelResourceLocation(
                 Item.getItemFromBlock(block),
                 meta,
@@ -192,13 +175,7 @@ public class ClientRenderProxy extends CommonRenderProxy
         );
     }
 
-<<<<<<< HEAD
-    private void registerBlockItemModel(Block block)
-    {
-        final String resourceName = block.getUnlocalizedName().substring(5);
-=======
     private void registerBlockItemModel(Block block) {
->>>>>>> feature/1.9-Upgrade
         ModelLoader.setCustomModelResourceLocation(
                 Item.getItemFromBlock(block),
                 0,
@@ -206,13 +183,7 @@ public class ClientRenderProxy extends CommonRenderProxy
         );
     }
 
-<<<<<<< HEAD
-    private void registerItemModel(Item item)
-    {
-        final String resourceName = item.getUnlocalizedName().substring(5);
-=======
     private void registerItemModel(Item item) {
->>>>>>> feature/1.9-Upgrade
         ModelLoader.setCustomModelResourceLocation(
                 item,
                 0,

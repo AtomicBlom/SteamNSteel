@@ -3,8 +3,8 @@ package mod.steamnsteel.entity.ai;
 import mod.steamnsteel.entity.ISwarmer;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.RandomPositionGenerator;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 
 public class AISwarmWander<T extends EntityCreature & ISwarmer> extends AISwarmBase<T>
 {
@@ -42,7 +42,7 @@ public class AISwarmWander<T extends EntityCreature & ISwarmer> extends AISwarmB
 
         if (entity.getNavigator().noPath() && entity.getRNG().nextInt(chance) == 0)
         {
-            Vec3 target = findRandomTarget();
+            Vec3d target = findRandomTarget();
             if (target != null)
             {
                 xPos = target.xCoord;
@@ -66,7 +66,7 @@ public class AISwarmWander<T extends EntityCreature & ISwarmer> extends AISwarmB
         entity.getNavigator().tryMoveToXYZ(xPos, yPos, zPos, speed);
     }
 
-    private Vec3 findRandomTarget()
+    private Vec3d findRandomTarget()
     {
         if (entity.getSwarm() != null)
         {
@@ -74,7 +74,7 @@ public class AISwarmWander<T extends EntityCreature & ISwarmer> extends AISwarmB
             double z = (entity.getSwarm().getHomeChunkCoord().getZ() * 16) + entity.getRNG().nextInt(16);
             double y = entity.getSwarm().getHomeBlockCoord().getY() + MathHelper.getRandomDoubleInRange(entity.getRNG(), -3, 3);
 
-            return new Vec3(x, y, z);
+            return new Vec3d(x, y, z);
         }
         else
         {

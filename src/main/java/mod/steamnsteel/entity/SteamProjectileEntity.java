@@ -5,8 +5,8 @@ import mod.steamnsteel.proxy.Proxies;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
@@ -63,11 +63,11 @@ public class SteamProjectileEntity extends EntityThrowable implements IEntityAdd
     }
 
     @Override
-    protected void onImpact(MovingObjectPosition mop)
+    protected void onImpact(RayTraceResult mop)
     {
         if (mop.entityHit != getThrower())
         {
-            if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY)
+            if (mop.typeOfHit == RayTraceResult.Type.ENTITY)
             {
                 mop.entityHit.attackEntityFrom(STEAM_DAMAGE, ((maxAge - ticksExisted) / (float) maxAge) * 1.5F);
             }
